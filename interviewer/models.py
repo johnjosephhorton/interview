@@ -22,8 +22,8 @@ class Message(BaseModel):
 
 class AgentConfig(BaseModel):
     system_prompt: str
-    model: str = "gpt-4o-mini"
-    temperature: float = 0.7
+    model: str = "gpt-5-mini"
+    temperature: float = 1.0
     max_tokens: int = 200
 
     @classmethod

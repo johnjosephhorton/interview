@@ -34,6 +34,7 @@ class GameSession(BaseModel):
     status: Literal["created", "active", "ended"] = "created"
     realized_params: dict[str, Any] = Field(default_factory=dict)
     game_name: str | None = None
+    human_instructions: str = ""
 
 
 # In-memory stores
@@ -46,6 +47,7 @@ def create_game_session(
     player_config: AgentConfig | None = None,
     realized_params: dict[str, Any] | None = None,
     game_name: str | None = None,
+    human_instructions: str = "",
 ) -> GameSession:
     session = GameSession()
     if manager_config:
@@ -56,6 +58,8 @@ def create_game_session(
         session.realized_params = realized_params
     if game_name:
         session.game_name = game_name
+    if human_instructions:
+        session.human_instructions = human_instructions
     _game_sessions[session.id] = session
     _game_orchestrators[session.id] = GameOrchestrator()
     return session

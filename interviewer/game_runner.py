@@ -47,6 +47,7 @@ class RealizedGame(BaseModel):
     manager_config: AgentConfig
     player_config: AgentConfig
     realized_params: dict[str, Any] = Field(default_factory=dict)
+    human_instructions: str = ""
 
 
 class GameRunner:
@@ -85,6 +86,12 @@ class GameRunner:
         manager_template = GameRunner._find_template("manager.md", game_dir, resolved)
         player_template = GameRunner._find_template("player.md", game_dir, resolved)
 
+        # Human instructions are optional
+        try:
+            human_template = GameRunner._find_template("human.md", game_dir, resolved)
+        except FileNotFoundError:
+            human_template = None
+
         # Sample parameters
         realized_params: dict[str, Any] = {}
         for name, param_def in config.parameters.items():
@@ -99,6 +106,7 @@ class GameRunner:
         # Render templates
         manager_prompt = manager_template.format(**realized_params)
         player_prompt = player_template.format(**realized_params)
+        human_instructions = human_template.format(**realized_params) if human_template else ""
 
         return RealizedGame(
             name=config.name,
@@ -106,6 +114,7 @@ class GameRunner:
             manager_config=AgentConfig(system_prompt=manager_prompt),
             player_config=AgentConfig(system_prompt=player_prompt),
             realized_params=realized_params,
+            human_instructions=human_instructions,
         )
 
     @staticmethod

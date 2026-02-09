@@ -42,6 +42,7 @@ export interface GameSession {
   status: "created" | "active" | "ended";
   realized_params: Record<string, unknown>;
   game_name: string | null;
+  human_instructions: string;
 }
 
 export interface GameDefaults {

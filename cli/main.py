@@ -12,6 +12,7 @@ from rich.text import Text
 
 from interviewer import (
     DEFAULT_GAME_MODEL,
+    DEFAULT_GAME_PLAYER_MODEL,
     DEFAULT_INTERVIEWER_SYSTEM_PROMPT,
     DEFAULT_MODEL,
     DEFAULT_RESPONDENT_SYSTEM_PROMPT,
@@ -40,7 +41,7 @@ def chat(
         help="Interviewer system prompt (inline text or path to .md file)",
     ),
     model: str = typer.Option(DEFAULT_MODEL, "--model", "-m", help="OpenAI model"),
-    temperature: float = typer.Option(0.7, "--temperature", "-t", help="Sampling temperature"),
+    temperature: float = typer.Option(1.0, "--temperature", "-t", help="Sampling temperature"),
     max_tokens: int = typer.Option(200, "--max-tokens", help="Max tokens per response"),
     save: Optional[str] = typer.Option(None, "--save", help="Save transcript to file (json/csv)"),
 ):
@@ -168,7 +169,7 @@ def simulate(
         help="Respondent system prompt (inline text or path to .md file)",
     ),
     model: str = typer.Option(DEFAULT_MODEL, "--model", "-m", help="OpenAI model"),
-    temperature: float = typer.Option(0.7, "--temperature", "-t"),
+    temperature: float = typer.Option(1.0, "--temperature", "-t"),
     max_tokens: int = typer.Option(200, "--max-tokens"),
     max_turns: int = typer.Option(5, "--max-turns", help="Number of conversation turns"),
     num_simulations: int = typer.Option(1, "--num-simulations", "-n", help="Number of simulations to run in parallel"),
@@ -339,20 +340,23 @@ def game(
         "-G",
         help="Path to game folder (containing game.yaml, manager.md, player.md)",
     ),
-    model: str = typer.Option(DEFAULT_GAME_MODEL, "--model", "-m", help="OpenAI model"),
-    temperature: float = typer.Option(0.7, "--temperature", "-t", help="Sampling temperature"),
+    model: str = typer.Option(DEFAULT_GAME_MODEL, "--model", "-m", help="OpenAI model for manager"),
+    player_model: str = typer.Option(
+        DEFAULT_GAME_PLAYER_MODEL, "--player-model", help="OpenAI model for player"
+    ),
+    temperature: float = typer.Option(1.0, "--temperature", "-t", help="Sampling temperature"),
     manager_max_tokens: int = typer.Option(
-        500, "--manager-max-tokens", help="Max tokens for manager responses"
+        2048, "--manager-max-tokens", help="Max tokens for manager responses"
     ),
     player_max_tokens: int = typer.Option(
-        100, "--player-max-tokens", help="Max tokens for player responses"
+        256, "--player-max-tokens", help="Max tokens for player responses"
     ),
     save: Optional[str] = typer.Option(None, "--save", help="Save transcript to file (json/csv)"),
 ):
     """Interactive game — you are the human player."""
     asyncio.run(
         _game(
-            game_path, model, temperature,
+            game_path, model, player_model, temperature,
             manager_max_tokens, player_max_tokens, save,
         )
     )
@@ -361,6 +365,7 @@ def game(
 async def _game(
     game_path: str,
     model: str,
+    player_model: str,
     temperature: float,
     manager_max_tokens: int,
     player_max_tokens: int,
@@ -379,7 +384,7 @@ async def _game(
     )
     player_config = AgentConfig(
         system_prompt=realized.player_config.system_prompt,
-        model=model,
+        model=player_model,
         temperature=temperature,
         max_tokens=player_max_tokens,
     )
@@ -393,22 +398,25 @@ async def _game(
         game_name=realized.name,
     )
 
-    # Display game info and realized parameters
-    param_lines = "\n".join(
-        f"  {k}: {v}" for k, v in realized.realized_params.items()
-    )
-    console.print(
-        Panel(
-            f"[bold]{realized.name}[/bold] — Type your moves.\n"
-            f"  /end  — end the game\n\n"
-            f"[dim]Realized parameters:[/dim]\n{param_lines}"
+    # Display human instructions (private briefing)
+    if realized.human_instructions:
+        console.print(
+            Panel(
+                realized.human_instructions,
+                title=f"[bold]{realized.name}[/bold] — Your Private Instructions",
+                border_style="green",
+            )
         )
-    )
+    else:
+        console.print(
+            Panel(f"[bold]{realized.name}[/bold] — Type your moves.\n  /end  — end the game")
+        )
+    console.print("[dim]Type /end to quit.[/dim]\n")
 
     def _print_game(text: str):
         console.print()
         console.print(Text("Game Manager: ", style="bold cyan"), end="")
-        console.print(text)
+        console.print(Text(text))
 
     def _track_calls(llm_calls):
         for call in llm_calls:
@@ -417,7 +425,8 @@ async def _game(
             transcript.total_output_tokens += call.output_tokens
 
     # Opening
-    new_msgs, llm_calls = await orchestrator.process_opening(manager_config, player_config)
+    with console.status("[bold cyan]Game Manager is starting the game..."):
+        new_msgs, llm_calls = await orchestrator.process_opening(manager_config, player_config)
     messages.extend(new_msgs)
     transcript.messages.extend(new_msgs)
     _track_calls(llm_calls)
@@ -436,9 +445,10 @@ async def _game(
         if user_input.lower() == "/end":
             break
 
-        new_msgs, llm_calls = await orchestrator.process_human_input(
-            user_input, messages, manager_config, player_config
-        )
+        with console.status("[bold cyan]Game Manager is thinking..."):
+            new_msgs, llm_calls = await orchestrator.process_human_input(
+                user_input, messages, manager_config, player_config
+            )
         messages.extend(new_msgs)
         transcript.messages.extend(new_msgs)
         _track_calls(llm_calls)

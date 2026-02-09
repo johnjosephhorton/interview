@@ -26,7 +26,7 @@ class GameManager:
 
     The manager controls game flow, validates inputs, tracks state, and
     formats display output. It communicates with the framework via
-    [PLAYER_TURN] and [PLAYER_DECISION] protocol tags.
+    [PLAYER_TURN] blocks and {PLAYER_DECISION} placeholders.
     """
 
     def __init__(self, api_key: str | None = None):
@@ -175,12 +175,11 @@ class PlayerAgent:
 class GameOrchestrator:
     """Orchestrates the Manager-Player-Human game loop.
 
-    Handles the [PLAYER_TURN]/[PLAYER_DECISION] protocol:
-    1. Manager generates output
-    2. If output contains [PLAYER_TURN]...[/PLAYER_TURN], extract context
-    3. Call Player with that context (accumulated history)
-    4. Feed player decision back to Manager as [PLAYER_DECISION]...[/PLAYER_DECISION]
-    5. Manager produces final output for the human
+    Uses a 2-call protocol (manager + player) instead of 3 calls:
+    1. Manager generates output with [PLAYER_TURN] block(s) and {PLAYER_DECISION}
+       placeholder(s) in the visible text
+    2. Framework calls Player for each [PLAYER_TURN] block
+    3. Framework substitutes each {PLAYER_DECISION} with the player's response
     """
 
     def __init__(self, api_key: str | None = None):
@@ -201,22 +200,60 @@ class GameOrchestrator:
         """Remove [PLAYER_TURN]...[/PLAYER_TURN] blocks from text shown to human."""
         return PLAYER_TURN_PATTERN.sub("", text).strip()
 
-    async def _maybe_call_player(
+    async def _resolve_player_turns(
         self,
         manager_text: str,
         player_config: AgentConfig,
-    ) -> tuple[str | None, AgentResponse | None]:
-        """Check if manager output contains a [PLAYER_TURN] block and call player if so."""
-        match = PLAYER_TURN_PATTERN.search(manager_text)
-        if not match:
-            return None, None
+    ) -> tuple[str, list[LLMCallInfo], bool]:
+        """Resolve all [PLAYER_TURN] blocks and {PLAYER_DECISION} placeholders.
 
-        player_context = match.group(1).strip()
-        self._init_player_messages(player_config)
-        player_resp = await self._player.generate_response(
-            self._player_messages, player_context, player_config
-        )
-        return player_resp.text, player_resp
+        Iterates over paired [PLAYER_TURN] blocks and {PLAYER_DECISION} placeholders
+        in the manager's output. For each pair, calls the player agent and substitutes
+        the result. Handles the "bundling" case where a single manager message contains
+        multiple player turns (e.g., ultimatum even-round resolution + next odd-round).
+
+        Args:
+            manager_text: Raw manager output potentially containing protocol tags.
+            player_config: Player agent configuration.
+
+        Returns:
+            (visible_text, llm_calls, had_player_turn):
+                visible_text: Final text for the human with all substitutions done.
+                llm_calls: LLM call info for each player call made.
+                had_player_turn: True if at least one [PLAYER_TURN] was processed.
+        """
+        llm_calls: list[LLMCallInfo] = []
+        had_player_turn = False
+        text = manager_text
+
+        while True:
+            match = PLAYER_TURN_PATTERN.search(text)
+            if not match:
+                break
+
+            had_player_turn = True
+            player_context = match.group(1).strip()
+
+            # Call the player
+            self._init_player_messages(player_config)
+            player_resp = await self._player.generate_response(
+                self._player_messages, player_context, player_config
+            )
+            if player_resp.llm_call_info:
+                llm_calls.append(player_resp.llm_call_info)
+
+            # Remove the [PLAYER_TURN] block
+            text = text[:match.start()] + text[match.end():]
+
+            # Substitute the first {PLAYER_DECISION} placeholder with player's response
+            text = text.replace("{PLAYER_DECISION}", player_resp.text, 1)
+
+        # Clean up any remaining whitespace from tag removal
+        visible_text = text.strip()
+        # Collapse runs of 3+ newlines to 2
+        visible_text = re.sub(r"\n{3,}", "\n\n", visible_text)
+
+        return visible_text, llm_calls, had_player_turn
 
     async def process_opening(
         self,
@@ -238,41 +275,14 @@ class GameOrchestrator:
         if manager_resp.llm_call_info:
             llm_calls.append(manager_resp.llm_call_info)
 
-        # Step 2: Check for player turn in opening
-        player_decision, player_resp = await self._maybe_call_player(
+        # Step 2: Resolve any player turns via string substitution
+        visible_text, player_llm_calls, _ = await self._resolve_player_turns(
             manager_resp.text, player_config
         )
+        llm_calls.extend(player_llm_calls)
 
-        if player_decision is not None:
-            # Manager needs a player decision for the opening (e.g., AI makes first offer)
-            raw_manager_msg = GameMessage(
-                role="manager", text=manager_resp.text, visible=False
-            )
-            messages.append(raw_manager_msg)
-
-            player_decision_text = f"[PLAYER_DECISION]{player_decision}[/PLAYER_DECISION]"
-            player_msg = GameMessage(
-                role="player", text=player_decision_text, visible=False
-            )
-            messages.append(player_msg)
-            if player_resp and player_resp.llm_call_info:
-                llm_calls.append(player_resp.llm_call_info)
-
-            # Step 3: Manager formats final output incorporating player decision
-            final_resp = await self._manager.generate_response(messages, manager_config)
-            if final_resp.llm_call_info:
-                llm_calls.append(final_resp.llm_call_info)
-
-            final_msg = GameMessage(role="manager", text=final_resp.text, visible=True)
-            messages.append(final_msg)
-        else:
-            # No player turn needed — manager output goes directly to human
-            final_msg = GameMessage(
-                role="manager",
-                text=self._strip_protocol_tags(manager_resp.text),
-                visible=True,
-            )
-            messages.append(final_msg)
+        final_msg = GameMessage(role="manager", text=visible_text, visible=True)
+        messages.append(final_msg)
 
         return messages, llm_calls
 
@@ -309,44 +319,13 @@ class GameOrchestrator:
         if manager_resp.llm_call_info:
             llm_calls.append(manager_resp.llm_call_info)
 
-        # Step 2: Check for player turn
-        player_decision, player_resp = await self._maybe_call_player(
+        # Step 2: Resolve any player turns via string substitution
+        visible_text, player_llm_calls, _ = await self._resolve_player_turns(
             manager_resp.text, player_config
         )
+        llm_calls.extend(player_llm_calls)
 
-        if player_decision is not None:
-            # Record raw manager output (internal, has protocol tags)
-            raw_manager_msg = GameMessage(
-                role="manager", text=manager_resp.text, visible=False
-            )
-            new_messages.append(raw_manager_msg)
-
-            # Record player decision (internal)
-            player_decision_text = f"[PLAYER_DECISION]{player_decision}[/PLAYER_DECISION]"
-            player_msg = GameMessage(
-                role="player", text=player_decision_text, visible=False
-            )
-            new_messages.append(player_msg)
-            if player_resp and player_resp.llm_call_info:
-                llm_calls.append(player_resp.llm_call_info)
-
-            # Step 3: Manager formats final output
-            all_messages_with_player = existing_messages + new_messages
-            final_resp = await self._manager.generate_response(
-                all_messages_with_player, manager_config
-            )
-            if final_resp.llm_call_info:
-                llm_calls.append(final_resp.llm_call_info)
-
-            final_msg = GameMessage(role="manager", text=final_resp.text, visible=True)
-            new_messages.append(final_msg)
-        else:
-            # No player turn — manager response goes straight to human
-            final_msg = GameMessage(
-                role="manager",
-                text=self._strip_protocol_tags(manager_resp.text),
-                visible=True,
-            )
-            new_messages.append(final_msg)
+        final_msg = GameMessage(role="manager", text=visible_text, visible=True)
+        new_messages.append(final_msg)
 
         return new_messages, llm_calls

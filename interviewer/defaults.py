@@ -10,8 +10,8 @@ DEFAULT_RESPONDENT_SYSTEM_PROMPT = (
     "You are a research participant being interviewed. Answer naturally and conversationally."
 )
 
-DEFAULT_MODEL = "gpt-4o-mini"
-DEFAULT_TEMPERATURE = 0.7
+DEFAULT_MODEL = "gpt-5-mini"
+DEFAULT_TEMPERATURE = 1.0
 DEFAULT_MAX_TOKENS = 200
 DEFAULT_OPENING_MAX_TOKENS = 150
 

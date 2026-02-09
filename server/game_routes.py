@@ -67,6 +67,7 @@ async def api_create_game_session(req: CreateGameSessionRequest | None = None):
             player_config=realized.player_config,
             realized_params=realized.realized_params,
             game_name=realized.name,
+            human_instructions=realized.human_instructions,
         )
     elif req:
         session = create_game_session(req.manager_config, req.player_config)

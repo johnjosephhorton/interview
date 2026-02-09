@@ -3,12 +3,13 @@
 from __future__ import annotations
 
 import os
+from unittest.mock import AsyncMock, patch
 
 import pytest
 
 from interviewer.game import GameManager, GameOrchestrator, PlayerAgent, PLAYER_TURN_PATTERN
 from interviewer.game_models import GameMessage, GameTranscript
-from interviewer.models import AgentConfig
+from interviewer.models import AgentConfig, AgentResponse, LLMCallInfo
 
 
 # --- Fixtures ---
@@ -150,14 +151,9 @@ Your turn!"""
 
 def test_manager_format_messages(manager, manager_config):
     messages = [
-        GameMessage(role="manager", text="Welcome!"),
-        GameMessage(role="human", text="I offer $50"),
-        GameMessage(
-            role="player",
-            text="[PLAYER_DECISION]OFFER $60[/PLAYER_DECISION]",
-            visible=False,
-        ),
-        GameMessage(role="manager", text="AI offers $60"),
+        GameMessage(role="manager", text="Welcome! The AI offers you $40."),
+        GameMessage(role="human", text="I accept"),
+        GameMessage(role="manager", text="You accepted. Round 2: Your turn to propose."),
     ]
     api_messages = manager._format_messages(messages, manager_config)
 
@@ -165,14 +161,91 @@ def test_manager_format_messages(manager, manager_config):
     assert api_messages[0]["content"] == manager_config.system_prompt
     assert api_messages[1]["role"] == "assistant"  # manager -> assistant
     assert api_messages[2]["role"] == "user"  # human -> user
-    assert api_messages[3]["role"] == "user"  # player -> user
-    assert api_messages[4]["role"] == "assistant"  # manager -> assistant
+    assert api_messages[3]["role"] == "assistant"  # manager -> assistant
 
 
 def test_manager_format_messages_empty(manager, manager_config):
     api_messages = manager._format_messages([], manager_config)
     assert len(api_messages) == 1
     assert api_messages[0]["role"] == "system"
+
+
+# --- {PLAYER_DECISION} substitution tests ---
+
+
+async def test_resolve_player_turns_no_tags(orchestrator, player_config):
+    """Text with no [PLAYER_TURN] blocks passes through unchanged."""
+    text = "No player turn here, just plain text."
+    result, llm_calls, had_turn = await orchestrator._resolve_player_turns(text, player_config)
+    assert result == text
+    assert llm_calls == []
+    assert had_turn is False
+
+
+async def test_resolve_player_turns_single_substitution(orchestrator, player_config):
+    """Single [PLAYER_TURN] + {PLAYER_DECISION} gets resolved."""
+    manager_text = (
+        "Round 1: The AI Player is the Proposer.\n\n"
+        "[PLAYER_TURN]\nPROPOSER_TURN\nOFFER <number>\n[/PLAYER_TURN]\n\n"
+        "The AI Player offers you ${PLAYER_DECISION} out of $100. Do you accept or reject?"
+    )
+
+    mock_llm_info = LLMCallInfo(
+        model="test", messages=[], params={}, input_tokens=10, output_tokens=5
+    )
+    mock_resp = AgentResponse(text="OFFER 40", llm_call_info=mock_llm_info)
+
+    with patch.object(orchestrator._player, "generate_response", new_callable=AsyncMock) as mock:
+        mock.return_value = mock_resp
+        result, llm_calls, had_turn = await orchestrator._resolve_player_turns(
+            manager_text, player_config
+        )
+
+    assert had_turn is True
+    assert len(llm_calls) == 1
+    assert "[PLAYER_TURN]" not in result
+    assert "{PLAYER_DECISION}" not in result
+    assert "OFFER 40" in result
+    assert "The AI Player offers you $OFFER 40 out of $100" in result
+
+
+async def test_resolve_player_turns_bundled_two_turns(orchestrator, player_config):
+    """Bundled message with two [PLAYER_TURN] blocks and two {PLAYER_DECISION} placeholders."""
+    manager_text = (
+        "You offered $30.\n\n"
+        "[PLAYER_TURN]\nRESPONDER_TURN\nACCEPT or REJECT\n[/PLAYER_TURN]\n\n"
+        "The AI Player {PLAYER_DECISION}.\n\n"
+        "Score: Human $30 | AI $70\n\n"
+        "Round 3:\n\n"
+        "[PLAYER_TURN]\nPROPOSER_TURN\nOFFER <number>\n[/PLAYER_TURN]\n\n"
+        "The AI Player offers you ${PLAYER_DECISION} out of $100. Do you accept?"
+    )
+
+    mock_llm_info = LLMCallInfo(
+        model="test", messages=[], params={}, input_tokens=10, output_tokens=5
+    )
+    call_count = 0
+
+    async def fake_generate(messages, context, config):
+        nonlocal call_count
+        call_count += 1
+        if call_count == 1:
+            return AgentResponse(text="ACCEPT", llm_call_info=mock_llm_info)
+        else:
+            return AgentResponse(text="OFFER 45", llm_call_info=mock_llm_info)
+
+    with patch.object(orchestrator._player, "generate_response", side_effect=fake_generate):
+        result, llm_calls, had_turn = await orchestrator._resolve_player_turns(
+            manager_text, player_config
+        )
+
+    assert had_turn is True
+    assert call_count == 2
+    assert len(llm_calls) == 2
+    assert "[PLAYER_TURN]" not in result
+    assert "{PLAYER_DECISION}" not in result
+    assert "The AI Player ACCEPT." in result
+    assert "OFFER 45" in result
 
 
 # --- API key tests ---
