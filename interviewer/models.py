@@ -34,7 +34,7 @@ class AgentConfig(BaseModel):
 
 class LLMCallInfo(BaseModel):
     model: str
-    messages: list[dict[str, Any]]
+    messages: list[dict[str, Any]] = Field(default_factory=list)
     params: dict[str, Any]
     input_tokens: int = Field(description="Number of input tokens used")
     output_tokens: int = Field(description="Number of output tokens used")

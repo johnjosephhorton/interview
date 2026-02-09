@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import asyncio
+import csv
+from pathlib import Path
 from typing import Optional
 
 import typer
@@ -16,6 +18,7 @@ from interviewer import (
     Interviewer,
     Message,
     Simulation,
+    Transcript,
     load_prompt,
     save_transcript,
 )
@@ -164,13 +167,30 @@ def simulate(
     temperature: float = typer.Option(0.7, "--temperature", "-t"),
     max_tokens: int = typer.Option(200, "--max-tokens"),
     max_turns: int = typer.Option(5, "--max-turns", help="Number of conversation turns"),
-    save: Optional[str] = typer.Option(None, "--save", help="Save transcript to file"),
+    num_simulations: int = typer.Option(1, "--num-simulations", "-n", help="Number of simulations to run in parallel"),
+    save: str = typer.Option(..., "--save", "-o", help="Output CSV file path"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Print conversation to terminal"),
 ):
     """Fully automated simulation — both sides are AI."""
     asyncio.run(
         _simulate(
-            interviewer_prompt, respondent_prompt, model, temperature, max_tokens, max_turns, save
+            interviewer_prompt, respondent_prompt, model, temperature, max_tokens,
+            max_turns, num_simulations, save, verbose,
         )
+    )
+
+
+async def _run_one_simulation(
+    sim_id: int,
+    interviewer_config: AgentConfig,
+    respondent_config: AgentConfig,
+    max_turns: int,
+    on_message: callable | None = None,
+) -> Transcript:
+    """Run a single simulation and return its transcript."""
+    sim = Simulation()
+    return await sim.run(
+        interviewer_config, respondent_config, max_turns=max_turns, on_message=on_message
     )
 
 
@@ -181,7 +201,9 @@ async def _simulate(
     temperature: float,
     max_tokens: int,
     max_turns: int,
-    save_path: str | None,
+    num_simulations: int,
+    save_path: str,
+    verbose: bool,
 ):
     resolved_interviewer = load_prompt(interviewer_prompt)
     resolved_respondent = load_prompt(respondent_prompt)
@@ -199,30 +221,108 @@ async def _simulate(
         max_tokens=max_tokens,
     )
 
-    console.print(
-        Panel(f"[bold]Simulated Interview[/bold] — {max_turns} turns, model: {model}")
-    )
+    on_message = None
+    if verbose and num_simulations == 1:
+        console.print(
+            Panel(f"[bold]Simulated Interview[/bold] — {max_turns} turns, model: {model}")
+        )
 
-    def on_message(msg: Message):
+        def on_message(msg: Message):
+            console.print()
+            if msg.role == "interviewer":
+                console.print(Text("Interviewer: ", style="bold blue"), end="")
+            else:
+                console.print(Text("Respondent: ", style="bold green"), end="")
+            console.print(msg.text)
+
+    # Run simulations in parallel
+    tasks = [
+        _run_one_simulation(i, interviewer_config, respondent_config, max_turns, on_message)
+        for i in range(num_simulations)
+    ]
+    transcripts = await asyncio.gather(*tasks)
+
+    # Write results to CSV: each row is the JSON of one conversation
+    path = Path(save_path)
+    with open(path, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["simulation_id", "transcript"])
+        for i, transcript in enumerate(transcripts):
+            transcript_json = transcript.model_dump_json(
+                exclude={"llm_calls": {"__all__": {"messages"}}}
+            )
+            writer.writerow([i + 1, transcript_json])
+
+    if verbose:
+        total_input = sum(t.total_input_tokens for t in transcripts)
+        total_output = sum(t.total_output_tokens for t in transcripts)
+        console.print(f"\n{num_simulations} simulation(s) saved to {save_path}")
+        console.print(f"Total tokens: {total_input} input, {total_output} output")
+
+
+@app.command()
+def show(
+    csv_file: str = typer.Argument(..., help="Path to simulation results CSV file"),
+):
+    """Browse simulated interviews from a CSV results file."""
+    import json as json_mod
+
+    path = Path(csv_file)
+    if not path.exists():
+        console.print(f"[red]File not found: {csv_file}[/red]")
+        raise typer.Exit(1)
+
+    # Read transcripts from CSV
+    transcripts: list[tuple[int, Transcript]] = []
+    with open(path, newline="") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            sim_id = int(row["simulation_id"])
+            data = json_mod.loads(row["transcript"])
+            transcripts.append((sim_id, Transcript(**data)))
+
+    if not transcripts:
+        console.print("[yellow]No simulations found in file.[/yellow]")
+        raise typer.Exit(0)
+
+    # Display list of simulations
+    console.print(Panel(f"[bold]{len(transcripts)} simulated interview(s)[/bold] in {csv_file}"))
+    console.print()
+    for sim_id, t in transcripts:
+        n_messages = len(t.messages)
+        first_msg = t.messages[0].text[:80] + "..." if t.messages and len(t.messages[0].text) > 80 else (t.messages[0].text if t.messages else "")
+        console.print(f"  [bold]{sim_id}[/bold]. {n_messages} messages — {first_msg}")
+    console.print()
+
+    # Let user select one
+    while True:
+        choice = console.input(
+            f"[bold]Select interview (1-{len(transcripts)}), or q to quit: [/bold]"
+        ).strip()
+        if choice.lower() == "q":
+            return
+        try:
+            idx = int(choice)
+            if 1 <= idx <= len(transcripts):
+                break
+        except ValueError:
+            pass
+        console.print("[red]Invalid selection.[/red]")
+
+    # Display the selected interview
+    _, transcript = transcripts[idx - 1]
+    console.print()
+    console.print(Panel(f"[bold]Interview {idx}[/bold]"))
+    for msg in transcript.messages:
         console.print()
         if msg.role == "interviewer":
             console.print(Text("Interviewer: ", style="bold blue"), end="")
         else:
             console.print(Text("Respondent: ", style="bold green"), end="")
         console.print(msg.text)
-
-    sim = Simulation()
-    transcript = await sim.run(
-        interviewer_config, respondent_config, max_turns=max_turns, on_message=on_message
-    )
-
-    if save_path:
-        fmt = "csv" if save_path.endswith(".csv") else "json"
-        save_transcript(transcript, save_path, format=fmt)
-        console.print(f"\nTranscript saved to {save_path}")
-
+    console.print()
     console.print(
-        f"\nTokens used: {transcript.total_input_tokens} input, "
+        f"Tokens: {transcript.total_input_tokens} input, "
         f"{transcript.total_output_tokens} output"
     )
 
