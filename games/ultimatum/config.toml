@@ -1,0 +1,14 @@
+name = "Ultimatum"
+description = "A 4-round repeated ultimatum game over $100"
+
+[canned]
+opening_instruction = """Rules summary: explain the game such that a person who had no idea what it was could understand the rules. This includes fully describing what the game is, the number of rounds, the possible actions (accept and reject), the outcomes when different actions are taken, and the full roles one could take. For example, if someone rejects, what happens?
+Starting scoreboard (Human: $0 | AI: $0).
+"Round 1: The AI is the Proposer. The AI offers you $[X] out of $100 (the AI keeps $[100−X]). Do you accept or reject?"
+
+Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start."""
+last_question = "This is the final round. Make your decision."
+end_of_session = "The interview is complete. You do not need to do anything else. Thank you for participating!"
+
+[settings]
+opening_max_tokens = 800
