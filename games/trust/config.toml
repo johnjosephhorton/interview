@@ -1,0 +1,13 @@
+name = "Trust Game"
+description = "A trust/investment game with a tripling multiplier"
+
+[canned]
+opening_instruction = """Explain the game rules clearly so someone with no prior knowledge could understand. Include: what the game is, the two roles (Sender and Receiver), the endowment, how sent money is tripled, and how the Receiver can return any amount. Make clear this is a one-shot game (no repeated rounds).
+"You are the Sender. You have $10.00. How much do you want to send to the AI? (Enter any amount from $0.00 to $10.00.)"
+
+Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start."""
+last_question = "The AI has made its decision."
+end_of_session = "The game is complete. You do not need to do anything else. Thank you for participating!"
+
+[settings]
+opening_max_tokens = 600

@@ -1,0 +1,14 @@
+name = "Public Goods"
+description = "A 5-round two-player public goods contribution game"
+
+[canned]
+opening_instruction = """Explain the game rules clearly so someone with no prior knowledge could understand. Include: what the game is, the endowment per round, how the public pool works (contributions are doubled and split evenly), the number of rounds, and how earnings are computed.
+Starting scoreboard (Human: $0 | AI: $0).
+"Round 1 of 5: You have $10.00. How much do you contribute to the public pool? (Enter any amount from $0.00 to $10.00.)"
+
+Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start."""
+last_question = "This is the final round. Enter your contribution."
+end_of_session = "The game is complete. You do not need to do anything else. Thank you for participating!"
+
+[settings]
+opening_max_tokens = 600

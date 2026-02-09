@@ -1,0 +1,13 @@
+name = "Sealed-Bid Auction"
+description = "A first-price sealed-bid auction over 3 rounds with private valuations"
+
+[canned]
+opening_instruction = """Explain the game rules clearly so someone with no prior knowledge could understand. Include: what the game is, how sealed-bid first-price auctions work, the number of rounds, how valuations are assigned, and how earnings are computed. Tell the human their valuation for Round 1.
+"Round 1 of 3: Your valuation for this item is $[V]. Enter your bid (any amount from $0.00 to $10.00)."
+
+Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start."""
+last_question = "This is the final auction round. Submit your bid."
+end_of_session = "The game is complete. You do not need to do anything else. Thank you for participating!"
+
+[settings]
+opening_max_tokens = 700

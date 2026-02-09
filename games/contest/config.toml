@@ -1,0 +1,14 @@
+name = "Contest"
+description = "A 3-round all-pay contest for a prize"
+
+[canned]
+opening_instruction = """Explain the game rules clearly so someone with no prior knowledge could understand. Include: what the game is, how all-pay contests work (both players spend their effort regardless of who wins), the prize amount, the number of rounds, and how the winner is determined.
+Starting scoreboard (Human: $0 | AI: $0).
+"Round 1 of 3: The prize is $10.00. How much do you want to invest? (Enter any amount from $0.00 to $10.00.)"
+
+Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start."""
+last_question = "This is the final round. Submit your investment."
+end_of_session = "The game is complete. You do not need to do anything else. Thank you for participating!"
+
+[settings]
+opening_max_tokens = 600

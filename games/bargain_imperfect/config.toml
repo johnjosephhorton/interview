@@ -1,0 +1,10 @@
+name = "Bargainer (Imperfect Information)"
+description = "A multi-round price negotiation over a mug — human knows the AI's value range"
+
+[canned]
+opening_instruction = "Begin the game. Explain the rules briefly (5-6 sentences) and present Round 1 with the AI's opening offer."
+last_question = "This is the final round. Make your last decision."
+end_of_session = "The bargaining session has ended. Thank you for participating."
+
+[settings]
+opening_max_tokens = 500
