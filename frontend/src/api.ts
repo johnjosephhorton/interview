@@ -110,12 +110,16 @@ export async function getDefaults(): Promise<Defaults> {
 // --- Game API ---
 
 export async function createGameSession(
+  gamePath?: string,
+  paramOverrides?: Record<string, unknown>,
   managerConfig?: AgentConfig,
   playerConfig?: AgentConfig
 ): Promise<GameSession> {
   return request("/games/sessions", {
     method: "POST",
     body: JSON.stringify({
+      game_path: gamePath,
+      param_overrides: paramOverrides,
       manager_config: managerConfig,
       player_config: playerConfig,
     }),

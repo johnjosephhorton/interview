@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -27,3 +27,5 @@ class GameTranscript(BaseModel):
     total_input_tokens: int = 0
     total_output_tokens: int = 0
     llm_calls: list[LLMCallInfo] = Field(default_factory=list)
+    realized_params: dict[str, Any] = Field(default_factory=dict)
+    game_name: str | None = None

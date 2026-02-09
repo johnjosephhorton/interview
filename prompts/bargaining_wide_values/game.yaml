@@ -1,0 +1,9 @@
+extends: bargaining
+
+parameters:
+  seller_value:
+    draw: { distribution: uniform, min: 1, max: 12, precision: 2 }
+  buyer_value:
+    draw: { distribution: uniform, min: 8, max: 20, precision: 2 }
+  price_max:
+    value: 25.00

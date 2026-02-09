@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from typing import Literal
+from typing import Any, Literal
 
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 
-from interviewer import AgentConfig
+from interviewer import AgentConfig, GameRunner
 from interviewer.game_defaults import (
     DEFAULT_GAME_MANAGER_SYSTEM_PROMPT,
     DEFAULT_GAME_MAX_TOKENS,
@@ -37,6 +37,8 @@ def _get_game_session_or_404(session_id: str) -> GameSession:
 
 
 class CreateGameSessionRequest(BaseModel):
+    game_path: str | None = None
+    param_overrides: dict[str, Any] | None = None
     manager_config: AgentConfig | None = None
     player_config: AgentConfig | None = None
 
@@ -55,7 +57,18 @@ class SendGameMoveRequest(BaseModel):
 
 @game_router.post("/sessions")
 async def api_create_game_session(req: CreateGameSessionRequest | None = None):
-    if req:
+    if req and req.game_path:
+        try:
+            realized = GameRunner.load_game(req.game_path, req.param_overrides)
+        except FileNotFoundError as e:
+            raise HTTPException(status_code=404, detail=str(e))
+        session = create_game_session(
+            manager_config=realized.manager_config,
+            player_config=realized.player_config,
+            realized_params=realized.realized_params,
+            game_name=realized.name,
+        )
+    elif req:
         session = create_game_session(req.manager_config, req.player_config)
     else:
         session = create_game_session()
@@ -139,6 +152,8 @@ async def api_get_game_transcript(
         messages=session.messages,
         manager_config=session.manager_config,
         player_config=session.player_config,
+        realized_params=session.realized_params,
+        game_name=session.game_name,
     )
 
     if format == "csv":
@@ -172,3 +187,9 @@ async def api_get_game_defaults():
         "manager_max_tokens": DEFAULT_GAME_MAX_TOKENS,
         "player_max_tokens": DEFAULT_GAME_PLAYER_MAX_TOKENS,
     }
+
+
+@game_router.get("/available")
+async def api_list_available_games():
+    """List all available game definitions."""
+    return GameRunner.list_games("prompts")

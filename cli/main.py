@@ -11,14 +11,13 @@ from rich.panel import Panel
 from rich.text import Text
 
 from interviewer import (
-    DEFAULT_GAME_MANAGER_SYSTEM_PROMPT,
     DEFAULT_GAME_MODEL,
-    DEFAULT_GAME_PLAYER_SYSTEM_PROMPT,
     DEFAULT_INTERVIEWER_SYSTEM_PROMPT,
     DEFAULT_MODEL,
     DEFAULT_RESPONDENT_SYSTEM_PROMPT,
     AgentConfig,
     GameOrchestrator,
+    GameRunner,
     Interviewer,
     Message,
     Simulation,
@@ -334,17 +333,11 @@ def show(
 
 @app.command()
 def game(
-    manager_prompt: str = typer.Option(
-        DEFAULT_GAME_MANAGER_SYSTEM_PROMPT,
-        "--manager-prompt",
-        "-M",
-        help="Manager system prompt (inline text or path to .md file)",
-    ),
-    player_prompt: str = typer.Option(
-        DEFAULT_GAME_PLAYER_SYSTEM_PROMPT,
-        "--player-prompt",
-        "-P",
-        help="Player system prompt (inline text or path to .md file)",
+    game_path: str = typer.Option(
+        ...,
+        "--game",
+        "-G",
+        help="Path to game folder (containing game.yaml, manager.md, player.md)",
     ),
     model: str = typer.Option(DEFAULT_GAME_MODEL, "--model", "-m", help="OpenAI model"),
     temperature: float = typer.Option(0.7, "--temperature", "-t", help="Sampling temperature"),
@@ -359,15 +352,14 @@ def game(
     """Interactive game — you are the human player."""
     asyncio.run(
         _game(
-            manager_prompt, player_prompt, model, temperature,
+            game_path, model, temperature,
             manager_max_tokens, player_max_tokens, save,
         )
     )
 
 
 async def _game(
-    manager_prompt: str,
-    player_prompt: str,
+    game_path: str,
     model: str,
     temperature: float,
     manager_max_tokens: int,
@@ -376,17 +368,17 @@ async def _game(
 ):
     from interviewer.game_models import GameMessage, GameTranscript
 
-    resolved_manager = load_prompt(manager_prompt)
-    resolved_player = load_prompt(player_prompt)
+    realized = GameRunner.load_game(game_path)
 
+    # Apply CLI overrides to configs from the game definition
     manager_config = AgentConfig(
-        system_prompt=resolved_manager,
+        system_prompt=realized.manager_config.system_prompt,
         model=model,
         temperature=temperature,
         max_tokens=manager_max_tokens,
     )
     player_config = AgentConfig(
-        system_prompt=resolved_player,
+        system_prompt=realized.player_config.system_prompt,
         model=model,
         temperature=temperature,
         max_tokens=player_max_tokens,
@@ -394,18 +386,28 @@ async def _game(
 
     orchestrator = GameOrchestrator()
     messages: list[GameMessage] = []
-    transcript = GameTranscript(manager_config=manager_config, player_config=player_config)
+    transcript = GameTranscript(
+        manager_config=manager_config,
+        player_config=player_config,
+        realized_params=realized.realized_params,
+        game_name=realized.name,
+    )
 
+    # Display game info and realized parameters
+    param_lines = "\n".join(
+        f"  {k}: {v}" for k, v in realized.realized_params.items()
+    )
     console.print(
         Panel(
-            "[bold]Game Mode[/bold] — Type your moves.\n"
-            "  /end  — end the game"
+            f"[bold]{realized.name}[/bold] — Type your moves.\n"
+            f"  /end  — end the game\n\n"
+            f"[dim]Realized parameters:[/dim]\n{param_lines}"
         )
     )
 
     def _print_game(text: str):
         console.print()
-        console.print(Text("Game: ", style="bold cyan"), end="")
+        console.print(Text("Game Manager: ", style="bold cyan"), end="")
         console.print(text)
 
     def _track_calls(llm_calls):

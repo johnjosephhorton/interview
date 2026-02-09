@@ -1,0 +1,40 @@
+name: "Bargaining Game"
+description: "Alternating-offer bargaining over an object"
+
+parameters:
+  seller_value:
+    description: "AI's private valuation of the object"
+    type: float
+    draw:
+      distribution: uniform
+      min: 2
+      max: 8
+      precision: 2
+  buyer_value:
+    description: "Human's private valuation of the object"
+    type: float
+    draw:
+      distribution: uniform
+      min: 5
+      max: 10
+      precision: 2
+  num_rounds:
+    description: "Total number of rounds"
+    type: int
+    value: 6
+  price_max:
+    description: "Maximum valid price"
+    type: float
+    value: 15.00
+  object_name:
+    description: "The object being traded"
+    type: str
+    value: "mug"
+  half_rounds:
+    description: "Number of offers per player (num_rounds / 2)"
+    type: int
+    value: 3
+  second_to_last_ai_round:
+    description: "Round number of AI's last offer (num_rounds - 1)"
+    type: int
+    value: 5

@@ -207,7 +207,12 @@ export default function App() {
     if (!managerConfig || !playerConfig) return;
     setGameLoading(true);
     try {
-      const session = await api.createGameSession(managerConfig, playerConfig);
+      const session = await api.createGameSession(
+        undefined,
+        undefined,
+        managerConfig,
+        playerConfig
+      );
       setGameSessionId(session.id);
       setGameMessages([]);
       setGameStatus("created");

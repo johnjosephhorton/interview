@@ -40,6 +40,8 @@ export interface GameSession {
   player_config: AgentConfig;
   messages: GameMessage[];
   status: "created" | "active" | "ended";
+  realized_params: Record<string, unknown>;
+  game_name: string | null;
 }
 
 export interface GameDefaults {

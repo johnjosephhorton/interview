@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import uuid
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -32,6 +32,8 @@ class GameSession(BaseModel):
     )
     messages: list[GameMessage] = Field(default_factory=list)
     status: Literal["created", "active", "ended"] = "created"
+    realized_params: dict[str, Any] = Field(default_factory=dict)
+    game_name: str | None = None
 
 
 # In-memory stores
@@ -42,12 +44,18 @@ _game_orchestrators: dict[str, GameOrchestrator] = {}
 def create_game_session(
     manager_config: AgentConfig | None = None,
     player_config: AgentConfig | None = None,
+    realized_params: dict[str, Any] | None = None,
+    game_name: str | None = None,
 ) -> GameSession:
     session = GameSession()
     if manager_config:
         session.manager_config = manager_config
     if player_config:
         session.player_config = player_config
+    if realized_params:
+        session.realized_params = realized_params
+    if game_name:
+        session.game_name = game_name
     _game_sessions[session.id] = session
     _game_orchestrators[session.id] = GameOrchestrator()
     return session

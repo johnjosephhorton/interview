@@ -19,6 +19,7 @@ from .game_defaults import (
 )
 from .game_logging import save_game_transcript
 from .game_models import GameMessage, GameTranscript
+from .game_runner import GameConfig, GameRunner, RealizedGame
 from .logging import save_transcript
 from .models import AgentConfig, AgentResponse, LLMCallInfo, Message, Transcript, load_prompt
 from .respondent import SimulatedRespondent
@@ -38,10 +39,13 @@ __all__ = [
     "DEFAULT_MODEL",
     "DEFAULT_RESPONDENT_SYSTEM_PROMPT",
     "DEFAULT_TEMPERATURE",
+    "GameConfig",
     "GameManager",
     "GameMessage",
     "GameOrchestrator",
+    "GameRunner",
     "GameTranscript",
+    "RealizedGame",
     "Interviewer",
     "LLMCallInfo",
     "Message",
