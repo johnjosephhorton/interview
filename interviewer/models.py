@@ -76,27 +76,37 @@ class GameConfig(BaseModel):
 def load_game(name: str) -> GameConfig:
     """Load a game definition from games/{name}/ folder.
 
-    Reads config.toml, interviewer.md, and respondent.md.
+    Reads config.toml, respondent.md, and either manager.md + player.md
+    (preferred) or interviewer.md (fallback) for the interviewer prompt.
     """
     game_dir = _GAMES_DIR / name
     if not game_dir.is_dir():
         raise ValueError(f"Game not found: '{name}'. Available: {[g['name'] for g in list_games()]}")
 
     config_path = game_dir / "config.toml"
+    manager_path = game_dir / "manager.md"
+    player_path = game_dir / "player.md"
     interviewer_path = game_dir / "interviewer.md"
     respondent_path = game_dir / "respondent.md"
 
     if not config_path.exists():
         raise ValueError(f"Missing config.toml in games/{name}/")
-    if not interviewer_path.exists():
-        raise ValueError(f"Missing interviewer.md in games/{name}/")
     if not respondent_path.exists():
         raise ValueError(f"Missing respondent.md in games/{name}/")
+
+    # Prefer manager.md + player.md split; fall back to interviewer.md
+    if manager_path.exists() and player_path.exists():
+        interviewer_prompt = (
+            manager_path.read_text().strip() + "\n\n" + player_path.read_text().strip()
+        )
+    elif interviewer_path.exists():
+        interviewer_prompt = interviewer_path.read_text().strip()
+    else:
+        raise ValueError(f"Missing manager.md + player.md (or interviewer.md) in games/{name}/")
 
     with open(config_path, "rb") as f:
         cfg = tomllib.load(f)
 
-    interviewer_prompt = interviewer_path.read_text().strip()
     respondent_prompt = respondent_path.read_text().strip()
 
     canned = cfg.get("canned", {})
