@@ -25,3 +25,8 @@ export interface Defaults {
   temperature: number;
   max_tokens: number;
 }
+
+export interface Game {
+  name: string;
+  description: string;
+}

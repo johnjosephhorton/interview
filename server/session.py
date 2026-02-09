@@ -9,6 +9,7 @@ from interviewer import (
     DEFAULT_INTERVIEWER_SYSTEM_PROMPT,
     DEFAULT_RESPONDENT_SYSTEM_PROMPT,
     AgentConfig,
+    GameConfig,
     Message,
 )
 
@@ -23,6 +24,8 @@ class Session(BaseModel):
     )
     messages: list[Message] = Field(default_factory=list)
     status: Literal["created", "active", "ended"] = "created"
+    game_name: str | None = None
+    game_config: GameConfig | None = None
 
 
 # In-memory session store
@@ -32,8 +35,19 @@ _sessions: dict[str, Session] = {}
 def create_session(
     interviewer_config: AgentConfig | None = None,
     respondent_config: AgentConfig | None = None,
+    game_name: str | None = None,
+    game_config: GameConfig | None = None,
 ) -> Session:
     session = Session()
+    if game_config:
+        session.game_name = game_name
+        session.game_config = game_config
+        session.interviewer_config = AgentConfig(
+            system_prompt=game_config.interviewer_system_prompt
+        )
+        session.respondent_config = AgentConfig(
+            system_prompt=game_config.respondent_system_prompt
+        )
     if interviewer_config:
         session.interviewer_config = interviewer_config
     if respondent_config:

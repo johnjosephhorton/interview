@@ -14,7 +14,17 @@ from interviewer.defaults import (
     LAST_QUESTION_RESPONSE,
     OPENING_INSTRUCTION,
 )
-from interviewer.models import AgentConfig, AgentResponse, LLMCallInfo, Message, Transcript, load_prompt
+from interviewer.models import (
+    AgentConfig,
+    AgentResponse,
+    GameConfig,
+    LLMCallInfo,
+    Message,
+    Transcript,
+    list_games,
+    load_game,
+    load_prompt,
+)
 
 
 def test_defaults():
@@ -124,3 +134,41 @@ def test_transcript():
     msg = Message(role="interviewer", text="Hi")
     t.messages.append(msg)
     assert len(t.messages) == 1
+
+
+def test_load_game_bargainer():
+    gc = load_game("bargainer")
+    assert gc.name == "Bargainer"
+    assert gc.description == "A multi-round price negotiation over a mug"
+    assert "game manager" in gc.interviewer_system_prompt.lower()
+    assert "buyer" in gc.respondent_system_prompt.lower()
+    assert gc.opening_max_tokens == 500
+    assert gc.last_question_response != ""
+    assert gc.end_of_session_response != ""
+    assert gc.opening_instruction != ""
+
+
+def test_load_game_not_found():
+    import pytest
+    with pytest.raises(ValueError, match="Game not found"):
+        load_game("nonexistent_game_xyz")
+
+
+def test_list_games():
+    games = list_games()
+    assert isinstance(games, list)
+    names = [g["name"] for g in games]
+    assert "bargainer" in names
+
+
+def test_game_config_model():
+    gc = GameConfig(
+        name="Test",
+        interviewer_system_prompt="test prompt",
+        respondent_system_prompt="test respondent",
+        opening_instruction="begin",
+        last_question_response="last?",
+        end_of_session_response="done",
+    )
+    assert gc.name == "Test"
+    assert gc.opening_max_tokens == 150  # default

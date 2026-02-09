@@ -1,4 +1,4 @@
-import type { AgentConfig, Defaults, Session } from "./types";
+import type { AgentConfig, Defaults, Game, Session } from "./types";
 
 const BASE = "/api";
 
@@ -16,13 +16,15 @@ async function request<T>(path: string, opts?: RequestInit): Promise<T> {
 
 export async function createSession(
   interviewerConfig?: AgentConfig,
-  respondentConfig?: AgentConfig
+  respondentConfig?: AgentConfig,
+  game?: string
 ): Promise<Session> {
   return request("/sessions", {
     method: "POST",
     body: JSON.stringify({
       interviewer_config: interviewerConfig,
       respondent_config: respondentConfig,
+      game,
     }),
   });
 }
@@ -98,4 +100,8 @@ export async function getTranscript(
 
 export async function getDefaults(): Promise<Defaults> {
   return request("/config/defaults");
+}
+
+export async function getGames(): Promise<Game[]> {
+  return request("/games");
 }

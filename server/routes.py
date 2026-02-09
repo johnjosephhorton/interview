@@ -15,6 +15,8 @@ from interviewer import (
     Interviewer,
     Message,
     Simulation,
+    list_games,
+    load_game,
     save_transcript,
 )
 from interviewer.respondent import SimulatedRespondent
@@ -37,6 +39,7 @@ def _get_session_or_404(session_id: str) -> Session:
 class CreateSessionRequest(BaseModel):
     interviewer_config: AgentConfig | None = None
     respondent_config: AgentConfig | None = None
+    game: str | None = None
 
 
 class UpdateConfigRequest(BaseModel):
@@ -63,8 +66,16 @@ class InterviewerResponse(BaseModel):
 
 @router.post("/sessions")
 async def api_create_session(req: CreateSessionRequest | None = None):
+    game_config = None
+    game_name = None
+    if req and req.game:
+        game_config = load_game(req.game)
+        game_name = req.game
     if req:
-        session = create_session(req.interviewer_config, req.respondent_config)
+        session = create_session(
+            req.interviewer_config, req.respondent_config,
+            game_name=game_name, game_config=game_config,
+        )
     else:
         session = create_session()
     return session.model_dump()
@@ -98,7 +109,8 @@ async def api_start_session(session_id: str):
     session = _get_session_or_404(session_id)
     interviewer = Interviewer()
     response = await interviewer.generate_response(
-        session.messages, session.interviewer_config, message_type="opening_message"
+        session.messages, session.interviewer_config, message_type="opening_message",
+        game_config=session.game_config,
     )
     msg = Message(role="interviewer", text=response.text)
     session.messages.append(msg)
@@ -117,7 +129,8 @@ async def api_send_message(session_id: str, req: SendMessageRequest):
     # Generate interviewer response
     interviewer = Interviewer()
     response = await interviewer.generate_response(
-        session.messages, session.interviewer_config, message_type="next_message"
+        session.messages, session.interviewer_config, message_type="next_message",
+        game_config=session.game_config,
     )
     interviewer_msg = Message(role="interviewer", text=response.text)
     session.messages.append(interviewer_msg)
@@ -141,7 +154,8 @@ async def api_simulate_turn(session_id: str):
 
     interviewer = Interviewer()
     follow_up = await interviewer.generate_response(
-        session.messages, session.interviewer_config, message_type="next_message"
+        session.messages, session.interviewer_config, message_type="next_message",
+        game_config=session.game_config,
     )
     interviewer_msg = Message(role="interviewer", text=follow_up.text)
     session.messages.append(interviewer_msg)
@@ -163,7 +177,8 @@ async def api_simulate_all(session_id: str, max_turns: int = Query(default=5)):
     # If no messages yet, generate opening
     if not session.messages:
         opening = await interviewer.generate_response(
-            session.messages, session.interviewer_config, message_type="opening_message"
+            session.messages, session.interviewer_config, message_type="opening_message",
+            game_config=session.game_config,
         )
         session.messages.append(Message(role="interviewer", text=opening.text))
 
@@ -175,7 +190,8 @@ async def api_simulate_all(session_id: str, max_turns: int = Query(default=5)):
         new_messages.append(resp_msg)
 
         follow_up = await interviewer.generate_response(
-            session.messages, session.interviewer_config, message_type="next_message"
+            session.messages, session.interviewer_config, message_type="next_message",
+            game_config=session.game_config,
         )
         int_msg = Message(role="interviewer", text=follow_up.text)
         session.messages.append(int_msg)
@@ -183,7 +199,8 @@ async def api_simulate_all(session_id: str, max_turns: int = Query(default=5)):
 
     # Last question + response + end
     last_q = await interviewer.generate_response(
-        session.messages, session.interviewer_config, message_type="last_question"
+        session.messages, session.interviewer_config, message_type="last_question",
+        game_config=session.game_config,
     )
     lq_msg = Message(role="interviewer", text=last_q.text)
     session.messages.append(lq_msg)
@@ -195,7 +212,8 @@ async def api_simulate_all(session_id: str, max_turns: int = Query(default=5)):
     new_messages.append(resp_msg)
 
     end = await interviewer.generate_response(
-        session.messages, session.interviewer_config, message_type="end_of_interview"
+        session.messages, session.interviewer_config, message_type="end_of_interview",
+        game_config=session.game_config,
     )
     end_msg = Message(role="interviewer", text=end.text)
     session.messages.append(end_msg)
@@ -252,3 +270,8 @@ async def api_get_defaults():
         "temperature": DEFAULT_TEMPERATURE,
         "max_tokens": DEFAULT_MAX_TOKENS,
     }
+
+
+@router.get("/games")
+async def api_list_games():
+    return list_games()

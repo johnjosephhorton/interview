@@ -1,11 +1,14 @@
 import { useState } from "react";
-import type { AgentConfig } from "../types";
+import type { AgentConfig, Game } from "../types";
 import PromptPreview from "./PromptPreview";
 
 interface Props {
   interviewerConfig: AgentConfig;
   respondentConfig: AgentConfig;
   onConfigChange: (type: "interviewer" | "respondent", config: AgentConfig) => void;
+  games: Game[];
+  selectedGame: string | null;
+  onGameChange: (game: string | null) => void;
 }
 
 type Tab = "interviewer" | "respondent" | "model";
@@ -14,6 +17,9 @@ export default function ConfigPanel({
   interviewerConfig,
   respondentConfig,
   onConfigChange,
+  games,
+  selectedGame,
+  onGameChange,
 }: Props) {
   const [tab, setTab] = useState<Tab>("interviewer");
   const [previewPrompt, setPreviewPrompt] = useState<string | null>(null);
@@ -40,6 +46,26 @@ export default function ConfigPanel({
 
   return (
     <div className="flex flex-col h-full bg-white">
+      {/* Game Selector */}
+      {games.length > 0 && (
+        <div className="px-4 py-3 border-b shrink-0">
+          <label className="text-sm font-medium text-gray-700 block mb-1">
+            Game
+          </label>
+          <select
+            value={selectedGame ?? ""}
+            onChange={(e) => onGameChange(e.target.value || null)}
+            className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            {games.map((g) => (
+              <option key={g.name} value={g.name}>
+                {g.name}{g.description ? ` — ${g.description}` : ""}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
       {/* Tabs */}
       <div className="flex border-b shrink-0">
         {tabs.map((t) => (

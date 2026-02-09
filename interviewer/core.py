@@ -15,7 +15,7 @@ from .defaults import (
     LAST_QUESTION_RESPONSE,
     OPENING_INSTRUCTION,
 )
-from .models import AgentConfig, AgentResponse, LLMCallInfo, Message
+from .models import AgentConfig, AgentResponse, GameConfig, LLMCallInfo, Message
 
 
 class Interviewer:
@@ -50,22 +50,27 @@ class Interviewer:
         message_type: Literal[
             "opening_message", "next_message", "last_question", "end_of_interview"
         ] = "next_message",
+        game_config: GameConfig | None = None,
     ) -> AgentResponse:
         """Generate next interviewer response."""
         # Hardcoded responses that don't need an LLM call
         if message_type == "last_question":
-            return AgentResponse(text=LAST_QUESTION_RESPONSE)
+            text = game_config.last_question_response if game_config else LAST_QUESTION_RESPONSE
+            return AgentResponse(text=text)
         if message_type == "end_of_interview":
-            return AgentResponse(text=END_OF_INTERVIEW_RESPONSE)
+            text = game_config.end_of_session_response if game_config else END_OF_INTERVIEW_RESPONSE
+            return AgentResponse(text=text)
 
         client = self._get_client()
 
         if message_type == "opening_message":
+            instruction = game_config.opening_instruction if game_config else OPENING_INSTRUCTION
+            max_tok = game_config.opening_max_tokens if game_config else DEFAULT_OPENING_MAX_TOKENS
             api_messages = [
                 {"role": "system", "content": config.system_prompt},
-                {"role": "user", "content": OPENING_INSTRUCTION},
+                {"role": "user", "content": instruction},
             ]
-            max_tokens = DEFAULT_OPENING_MAX_TOKENS
+            max_tokens = max_tok
         else:
             api_messages = self._format_messages(messages, config)
             max_tokens = config.max_tokens

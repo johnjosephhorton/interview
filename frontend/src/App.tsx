@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { AgentConfig, Defaults, Message } from "./types";
+import type { AgentConfig, Defaults, Game, Message } from "./types";
 import * as api from "./api";
 import Layout from "./components/Layout";
 import ChatPanel from "./components/ChatPanel";
@@ -17,11 +17,13 @@ export default function App() {
     useState<AgentConfig | null>(null);
   const [loading, setLoading] = useState(false);
   const [defaults, setDefaults] = useState<Defaults | null>(null);
+  const [games, setGames] = useState<Game[]>([]);
+  const [selectedGame, setSelectedGame] = useState<string | null>(null);
 
   // Debounce timer for config updates
   const configTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Load defaults on mount
+  // Load defaults and games on mount
   useEffect(() => {
     api.getDefaults().then((d) => {
       setDefaults(d);
@@ -38,6 +40,10 @@ export default function App() {
         max_tokens: d.max_tokens,
       });
     });
+    api.getGames().then((g) => {
+      setGames(g);
+      if (g.length > 0) setSelectedGame(g[0].name);
+    });
   }, []);
 
   const createNewSession = useCallback(async () => {
@@ -46,7 +52,8 @@ export default function App() {
     try {
       const session = await api.createSession(
         interviewerConfig,
-        respondentConfig
+        respondentConfig,
+        selectedGame ?? undefined
       );
       setSessionId(session.id);
       setMessages([]);
@@ -54,7 +61,7 @@ export default function App() {
     } finally {
       setLoading(false);
     }
-  }, [interviewerConfig, respondentConfig]);
+  }, [interviewerConfig, respondentConfig, selectedGame]);
 
   const handleStart = useCallback(async () => {
     if (!sessionId) return;
@@ -191,6 +198,9 @@ export default function App() {
           interviewerConfig={interviewerConfig}
           respondentConfig={respondentConfig}
           onConfigChange={handleConfigChange}
+          games={games}
+          selectedGame={selectedGame}
+          onGameChange={setSelectedGame}
         />
       }
     />

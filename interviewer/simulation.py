@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 
 from .core import Interviewer
-from .models import AgentConfig, Message, Transcript
+from .models import AgentConfig, GameConfig, Message, Transcript
 
 
 class Simulation:
@@ -18,6 +18,7 @@ class Simulation:
         respondent_config: AgentConfig,
         max_turns: int = 5,
         on_message: callable | None = None,
+        game_config: GameConfig | None = None,
     ) -> Transcript:
         """Run a full automated interview.
 
@@ -54,7 +55,8 @@ class Simulation:
 
         # Opening message
         opening = await interviewer.generate_response(
-            messages, interviewer_config, message_type="opening_message"
+            messages, interviewer_config, message_type="opening_message",
+            game_config=game_config,
         )
         _add_message("interviewer", opening.text, opening.llm_call_info)
 
@@ -66,13 +68,15 @@ class Simulation:
 
             # Interviewer follows up
             follow_up = await interviewer.generate_response(
-                messages, interviewer_config, message_type="next_message"
+                messages, interviewer_config, message_type="next_message",
+                game_config=game_config,
             )
             _add_message("interviewer", follow_up.text, follow_up.llm_call_info)
 
         # Last question
         last_q = await interviewer.generate_response(
-            messages, interviewer_config, message_type="last_question"
+            messages, interviewer_config, message_type="last_question",
+            game_config=game_config,
         )
         _add_message("interviewer", last_q.text, last_q.llm_call_info)
 
@@ -82,7 +86,8 @@ class Simulation:
 
         # End of interview
         end = await interviewer.generate_response(
-            messages, interviewer_config, message_type="end_of_interview"
+            messages, interviewer_config, message_type="end_of_interview",
+            game_config=game_config,
         )
         _add_message("interviewer", end.text, end.llm_call_info)
 

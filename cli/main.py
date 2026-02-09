@@ -11,14 +11,14 @@ from rich.panel import Panel
 from rich.text import Text
 
 from interviewer import (
-    DEFAULT_INTERVIEWER_SYSTEM_PROMPT,
     DEFAULT_MODEL,
-    DEFAULT_RESPONDENT_SYSTEM_PROMPT,
     AgentConfig,
     Interviewer,
     Message,
     Simulation,
     Transcript,
+    list_games,
+    load_game,
     load_prompt,
     save_transcript,
 )
@@ -29,11 +29,12 @@ console = Console()
 
 @app.command()
 def chat(
-    system_prompt: str = typer.Option(
-        DEFAULT_INTERVIEWER_SYSTEM_PROMPT,
+    game: str = typer.Argument(..., help="Game name (matches a folder in games/)"),
+    system_prompt: Optional[str] = typer.Option(
+        None,
         "--system-prompt",
         "-s",
-        help="Interviewer system prompt (inline text or path to .md file)",
+        help="Override interviewer system prompt (inline text or path to .md file)",
     ),
     model: str = typer.Option(DEFAULT_MODEL, "--model", "-m", help="OpenAI model"),
     temperature: float = typer.Option(0.7, "--temperature", "-t", help="Sampling temperature"),
@@ -41,11 +42,12 @@ def chat(
     save: Optional[str] = typer.Option(None, "--save", help="Save transcript to file (json/csv)"),
 ):
     """Interactive CLI chat — you are the respondent."""
-    asyncio.run(_chat(system_prompt, model, temperature, max_tokens, save))
+    asyncio.run(_chat(game, system_prompt, model, temperature, max_tokens, save))
 
 
 async def _chat(
-    system_prompt: str,
+    game_name: str,
+    system_prompt_override: str | None,
     model: str,
     temperature: float,
     max_tokens: int,
@@ -53,9 +55,15 @@ async def _chat(
 ):
     from interviewer import Transcript
 
-    resolved_prompt = load_prompt(system_prompt)
+    game_config = load_game(game_name)
+
+    # Use game prompt, but allow CLI override
+    prompt = game_config.interviewer_system_prompt
+    if system_prompt_override:
+        prompt = load_prompt(system_prompt_override)
+
     config = AgentConfig(
-        system_prompt=resolved_prompt,
+        system_prompt=prompt,
         model=model,
         temperature=temperature,
         max_tokens=max_tokens,
@@ -65,17 +73,19 @@ async def _chat(
     messages: list[Message] = []
     transcript = Transcript(interviewer_config=config)
 
+    label = game_config.name
+
     console.print(
         Panel(
-            "[bold]AI Interview[/bold] — Type your responses.\n"
-            "  /last_question — signal the interviewer to ask a final question\n"
-            "  /end           — end the interview"
+            f"[bold]{label}[/bold] — Type your responses.\n"
+            "  /last_question — signal the final question\n"
+            "  /end           — end the session"
         )
     )
 
     def _print_interviewer(text: str):
         console.print()
-        console.print(Text("Interviewer: ", style="bold blue"), end="")
+        console.print(Text(f"{label}: ", style="bold blue"), end="")
         console.print(text)
 
     def _track(resp):
@@ -85,7 +95,9 @@ async def _chat(
             transcript.total_output_tokens += resp.llm_call_info.output_tokens
 
     # Opening message
-    opening = await interviewer.generate_response(messages, config, message_type="opening_message")
+    opening = await interviewer.generate_response(
+        messages, config, message_type="opening_message", game_config=game_config
+    )
     msg = Message(role="interviewer", text=opening.text)
     messages.append(msg)
     transcript.messages.append(msg)
@@ -103,7 +115,7 @@ async def _chat(
 
         if cmd == "/last_question":
             last_q = await interviewer.generate_response(
-                messages, config, message_type="last_question"
+                messages, config, message_type="last_question", game_config=game_config
             )
             msg = Message(role="interviewer", text=last_q.text)
             messages.append(msg)
@@ -114,7 +126,7 @@ async def _chat(
 
         if cmd == "/end":
             end = await interviewer.generate_response(
-                messages, config, message_type="end_of_interview"
+                messages, config, message_type="end_of_interview", game_config=game_config
             )
             msg = Message(role="interviewer", text=end.text)
             messages.append(msg)
@@ -130,7 +142,7 @@ async def _chat(
 
         # Get interviewer response
         response = await interviewer.generate_response(
-            messages, config, message_type="next_message"
+            messages, config, message_type="next_message", game_config=game_config
         )
         msg = Message(role="interviewer", text=response.text)
         messages.append(msg)
@@ -151,17 +163,18 @@ async def _chat(
 
 @app.command()
 def simulate(
-    interviewer_prompt: str = typer.Option(
-        DEFAULT_INTERVIEWER_SYSTEM_PROMPT,
+    game: str = typer.Argument(..., help="Game name (matches a folder in games/)"),
+    interviewer_prompt: Optional[str] = typer.Option(
+        None,
         "--interviewer-prompt",
         "-i",
-        help="Interviewer system prompt (inline text or path to .md file)",
+        help="Override interviewer system prompt (inline text or path to .md file)",
     ),
-    respondent_prompt: str = typer.Option(
-        DEFAULT_RESPONDENT_SYSTEM_PROMPT,
+    respondent_prompt: Optional[str] = typer.Option(
+        None,
         "--respondent-prompt",
         "-r",
-        help="Respondent system prompt (inline text or path to .md file)",
+        help="Override respondent system prompt (inline text or path to .md file)",
     ),
     model: str = typer.Option(DEFAULT_MODEL, "--model", "-m", help="OpenAI model"),
     temperature: float = typer.Option(0.7, "--temperature", "-t"),
@@ -174,7 +187,7 @@ def simulate(
     """Fully automated simulation — both sides are AI."""
     asyncio.run(
         _simulate(
-            interviewer_prompt, respondent_prompt, model, temperature, max_tokens,
+            game, interviewer_prompt, respondent_prompt, model, temperature, max_tokens,
             max_turns, num_simulations, save, verbose,
         )
     )
@@ -186,17 +199,20 @@ async def _run_one_simulation(
     respondent_config: AgentConfig,
     max_turns: int,
     on_message: callable | None = None,
+    game_config=None,
 ) -> Transcript:
     """Run a single simulation and return its transcript."""
     sim = Simulation()
     return await sim.run(
-        interviewer_config, respondent_config, max_turns=max_turns, on_message=on_message
+        interviewer_config, respondent_config, max_turns=max_turns,
+        on_message=on_message, game_config=game_config,
     )
 
 
 async def _simulate(
-    interviewer_prompt: str,
-    respondent_prompt: str,
+    game_name: str,
+    interviewer_prompt_override: str | None,
+    respondent_prompt_override: str | None,
     model: str,
     temperature: float,
     max_tokens: int,
@@ -205,39 +221,51 @@ async def _simulate(
     save_path: str,
     verbose: bool,
 ):
-    resolved_interviewer = load_prompt(interviewer_prompt)
-    resolved_respondent = load_prompt(respondent_prompt)
+    game_config = load_game(game_name)
+
+    # Use game prompts, allow CLI overrides
+    int_prompt = game_config.interviewer_system_prompt
+    if interviewer_prompt_override:
+        int_prompt = load_prompt(interviewer_prompt_override)
+
+    resp_prompt = game_config.respondent_system_prompt
+    if respondent_prompt_override:
+        resp_prompt = load_prompt(respondent_prompt_override)
 
     interviewer_config = AgentConfig(
-        system_prompt=resolved_interviewer,
+        system_prompt=int_prompt,
         model=model,
         temperature=temperature,
         max_tokens=max_tokens,
     )
     respondent_config = AgentConfig(
-        system_prompt=resolved_respondent,
+        system_prompt=resp_prompt,
         model=model,
         temperature=temperature,
         max_tokens=max_tokens,
     )
 
+    label = game_config.name
     on_message = None
     if verbose and num_simulations == 1:
         console.print(
-            Panel(f"[bold]Simulated Interview[/bold] — {max_turns} turns, model: {model}")
+            Panel(f"[bold]{label} Simulation[/bold] — {max_turns} turns, model: {model}")
         )
 
         def on_message(msg: Message):
             console.print()
             if msg.role == "interviewer":
-                console.print(Text("Interviewer: ", style="bold blue"), end="")
+                console.print(Text(f"{label}: ", style="bold blue"), end="")
             else:
                 console.print(Text("Respondent: ", style="bold green"), end="")
             console.print(msg.text)
 
     # Run simulations in parallel
     tasks = [
-        _run_one_simulation(i, interviewer_config, respondent_config, max_turns, on_message)
+        _run_one_simulation(
+            i, interviewer_config, respondent_config, max_turns,
+            on_message, game_config=game_config,
+        )
         for i in range(num_simulations)
     ]
     transcripts = await asyncio.gather(*tasks)
@@ -329,16 +357,34 @@ def show(
 
 @app.command()
 def preview(
-    system_prompt: str = typer.Option(
-        DEFAULT_INTERVIEWER_SYSTEM_PROMPT,
+    game: str = typer.Argument(..., help="Game name (matches a folder in games/)"),
+    system_prompt: Optional[str] = typer.Option(
+        None,
         "--system-prompt",
         "-s",
-        help="System prompt (inline text or path to .md file)",
+        help="Override system prompt (inline text or path to .md file)",
     ),
 ):
     """Print the resolved system prompt to stdout."""
-    resolved = load_prompt(system_prompt)
-    console.print(Panel(resolved, title="System Prompt"))
+    game_config = load_game(game)
+    prompt = game_config.interviewer_system_prompt
+    if system_prompt:
+        prompt = load_prompt(system_prompt)
+    console.print(Panel(prompt, title=f"{game_config.name} — System Prompt"))
+
+
+@app.command()
+def games():
+    """List available games."""
+    available = list_games()
+    if not available:
+        console.print("[yellow]No games found in games/ folder.[/yellow]")
+        raise typer.Exit(0)
+
+    console.print(Panel("[bold]Available Games[/bold]"))
+    for g in available:
+        desc = f" — {g['description']}" if g["description"] else ""
+        console.print(f"  [bold]{g['name']}[/bold]{desc}")
 
 
 if __name__ == "__main__":
