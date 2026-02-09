@@ -19,8 +19,8 @@ export default function ConfigPanel({
   const [previewPrompt, setPreviewPrompt] = useState<string | null>(null);
 
   const tabs: { key: Tab; label: string }[] = [
-    { key: "interviewer", label: "Interviewer" },
-    { key: "respondent", label: "Respondent" },
+    { key: "interviewer", label: "Bargainer" },
+    { key: "respondent", label: "Counterpart" },
     { key: "model", label: "Model" },
   ];
 

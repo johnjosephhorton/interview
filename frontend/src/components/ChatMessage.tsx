@@ -17,7 +17,7 @@ export default function ChatMessage({ message }: Props) {
         }`}
       >
         <div className="text-xs font-medium mb-1 opacity-60">
-          {isInterviewer ? "Interviewer" : "Respondent"}
+          {isInterviewer ? "Bargainer" : "Counterpart"}
         </div>
         <div className="text-sm whitespace-pre-wrap">{message.text}</div>
       </div>

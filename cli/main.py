@@ -23,7 +23,7 @@ from interviewer import (
     save_transcript,
 )
 
-app = typer.Typer(name="interview", help="AI Interviewer CLI")
+app = typer.Typer(name="interview", help="AI Bargaining CLI")
 console = Console()
 
 
@@ -33,14 +33,14 @@ def chat(
         DEFAULT_INTERVIEWER_SYSTEM_PROMPT,
         "--system-prompt",
         "-s",
-        help="Interviewer system prompt (inline text or path to .md file)",
+        help="Bargainer system prompt (inline text or path to .md file)",
     ),
     model: str = typer.Option(DEFAULT_MODEL, "--model", "-m", help="OpenAI model"),
     temperature: float = typer.Option(0.7, "--temperature", "-t", help="Sampling temperature"),
     max_tokens: int = typer.Option(200, "--max-tokens", help="Max tokens per response"),
     save: Optional[str] = typer.Option(None, "--save", help="Save transcript to file (json/csv)"),
 ):
-    """Interactive CLI chat — you are the respondent."""
+    """Interactive CLI chat — you are the counterpart."""
     asyncio.run(_chat(system_prompt, model, temperature, max_tokens, save))
 
 
@@ -67,15 +67,15 @@ async def _chat(
 
     console.print(
         Panel(
-            "[bold]AI Interview[/bold] — Type your responses.\n"
-            "  /last_question — signal the interviewer to ask a final question\n"
-            "  /end           — end the interview"
+            "[bold]AI Bargaining[/bold] — Type your responses.\n"
+            "  /last_question — signal the bargainer to make a final offer\n"
+            "  /end           — end the bargaining session"
         )
     )
 
     def _print_interviewer(text: str):
         console.print()
-        console.print(Text("Interviewer: ", style="bold blue"), end="")
+        console.print(Text("Bargainer: ", style="bold blue"), end="")
         console.print(text)
 
     def _track(resp):
@@ -155,13 +155,13 @@ def simulate(
         DEFAULT_INTERVIEWER_SYSTEM_PROMPT,
         "--interviewer-prompt",
         "-i",
-        help="Interviewer system prompt (inline text or path to .md file)",
+        help="Bargainer system prompt (inline text or path to .md file)",
     ),
     respondent_prompt: str = typer.Option(
         DEFAULT_RESPONDENT_SYSTEM_PROMPT,
         "--respondent-prompt",
         "-r",
-        help="Respondent system prompt (inline text or path to .md file)",
+        help="Counterpart system prompt (inline text or path to .md file)",
     ),
     model: str = typer.Option(DEFAULT_MODEL, "--model", "-m", help="OpenAI model"),
     temperature: float = typer.Option(0.7, "--temperature", "-t"),
@@ -171,7 +171,7 @@ def simulate(
     save: str = typer.Option(..., "--save", "-o", help="Output CSV file path"),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Print conversation to terminal"),
 ):
-    """Fully automated simulation — both sides are AI."""
+    """Fully automated bargaining simulation — both sides are AI."""
     asyncio.run(
         _simulate(
             interviewer_prompt, respondent_prompt, model, temperature, max_tokens,
@@ -224,15 +224,15 @@ async def _simulate(
     on_message = None
     if verbose and num_simulations == 1:
         console.print(
-            Panel(f"[bold]Simulated Interview[/bold] — {max_turns} turns, model: {model}")
+            Panel(f"[bold]Simulated Bargaining[/bold] — {max_turns} turns, model: {model}")
         )
 
         def on_message(msg: Message):
             console.print()
             if msg.role == "interviewer":
-                console.print(Text("Interviewer: ", style="bold blue"), end="")
+                console.print(Text("Bargainer: ", style="bold blue"), end="")
             else:
-                console.print(Text("Respondent: ", style="bold green"), end="")
+                console.print(Text("Counterpart: ", style="bold green"), end="")
             console.print(msg.text)
 
     # Run simulations in parallel
@@ -264,7 +264,7 @@ async def _simulate(
 def show(
     csv_file: str = typer.Argument(..., help="Path to simulation results CSV file"),
 ):
-    """Browse simulated interviews from a CSV results file."""
+    """Browse simulated bargaining sessions from a CSV results file."""
     import json as json_mod
 
     path = Path(csv_file)
@@ -286,7 +286,7 @@ def show(
         raise typer.Exit(0)
 
     # Display list of simulations
-    console.print(Panel(f"[bold]{len(transcripts)} simulated interview(s)[/bold] in {csv_file}"))
+    console.print(Panel(f"[bold]{len(transcripts)} simulated bargaining(s)[/bold] in {csv_file}"))
     console.print()
     for sim_id, t in transcripts:
         n_messages = len(t.messages)
@@ -297,7 +297,7 @@ def show(
     # Let user select one
     while True:
         choice = console.input(
-            f"[bold]Select interview (1-{len(transcripts)}), or q to quit: [/bold]"
+            f"[bold]Select session (1-{len(transcripts)}), or q to quit: [/bold]"
         ).strip()
         if choice.lower() == "q":
             return
@@ -312,13 +312,13 @@ def show(
     # Display the selected interview
     _, transcript = transcripts[idx - 1]
     console.print()
-    console.print(Panel(f"[bold]Interview {idx}[/bold]"))
+    console.print(Panel(f"[bold]Bargaining Session {idx}[/bold]"))
     for msg in transcript.messages:
         console.print()
         if msg.role == "interviewer":
-            console.print(Text("Interviewer: ", style="bold blue"), end="")
+            console.print(Text("Bargainer: ", style="bold blue"), end="")
         else:
-            console.print(Text("Respondent: ", style="bold green"), end="")
+            console.print(Text("Counterpart: ", style="bold green"), end="")
         console.print(msg.text)
     console.print()
     console.print(

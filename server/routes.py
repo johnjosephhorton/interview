@@ -131,7 +131,7 @@ async def api_send_message(session_id: str, req: SendMessageRequest):
 
 @router.post("/sessions/{session_id}/simulate-turn")
 async def api_simulate_turn(session_id: str):
-    """One turn: AI respondent replies, then interviewer follows up."""
+    """One turn: AI counterpart replies, then bargainer follows up."""
     session = _get_session_or_404(session_id)
 
     respondent = SimulatedRespondent()
@@ -154,7 +154,7 @@ async def api_simulate_turn(session_id: str):
 
 @router.post("/sessions/{session_id}/simulate-all")
 async def api_simulate_all(session_id: str, max_turns: int = Query(default=5)):
-    """Run the interview to completion."""
+    """Run the bargaining session to completion."""
     session = _get_session_or_404(session_id)
 
     interviewer = Interviewer()

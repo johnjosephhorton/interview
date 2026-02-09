@@ -22,9 +22,9 @@ def test_defaults():
     assert DEFAULT_TEMPERATURE == 0.7
     assert DEFAULT_MAX_TOKENS == 200
     assert DEFAULT_OPENING_MAX_TOKENS == 150
-    assert "interviewer" in DEFAULT_INTERVIEWER_SYSTEM_PROMPT.lower()
-    assert "participant" in DEFAULT_RESPONDENT_SYSTEM_PROMPT.lower()
-    assert LAST_QUESTION_RESPONSE.startswith("Before we wrap up")
+    assert "negotiator" in DEFAULT_INTERVIEWER_SYSTEM_PROMPT.lower()
+    assert "counterpart" in DEFAULT_RESPONDENT_SYSTEM_PROMPT.lower()
+    assert LAST_QUESTION_RESPONSE.startswith("Before we close")
     assert END_OF_INTERVIEW_RESPONSE.startswith("Thank you")
     assert "greeting" in OPENING_INSTRUCTION.lower()
 

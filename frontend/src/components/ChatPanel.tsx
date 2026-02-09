@@ -52,7 +52,7 @@ export default function ChatPanel({
             disabled={loading}
             className="text-sm px-3 py-1.5 rounded bg-green-100 text-green-800 hover:bg-green-200 disabled:opacity-50"
           >
-            Start Interview
+            Start Bargaining
           </button>
         )}
 
@@ -94,7 +94,7 @@ export default function ChatPanel({
         )}
         {sessionId && messages.length === 0 && status === "created" && (
           <div className="text-center text-gray-400 mt-20">
-            Click "Start Interview" to begin
+            Click "Start Bargaining" to begin
           </div>
         )}
         {messages.map((msg, i) => (
