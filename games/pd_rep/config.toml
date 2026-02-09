@@ -1,0 +1,14 @@
+name = "Repeated Prisoner's Dilemma"
+description = "A 5-round repeated prisoner's dilemma"
+
+[canned]
+opening_instruction = """Explain the game rules clearly so someone with no prior knowledge could understand. Include: what the game is, the number of rounds, the two possible actions (cooperate and defect), and the exact payoffs for every combination. Show the payoff matrix. Then immediately start Round 1.
+Starting scoreboard (Human: $0 | AI: $0).
+"Round 1 of 5: Do you choose to COOPERATE or DEFECT?"
+
+Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start."""
+last_question = "This is the final round. Make your choice."
+end_of_session = "The game is complete. You do not need to do anything else. Thank you for participating!"
+
+[settings]
+opening_max_tokens = 600
