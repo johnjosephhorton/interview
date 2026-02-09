@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from .game_routes import game_router
 from .routes import router
 
 
@@ -16,5 +17,6 @@ def create_app() -> FastAPI:
     )
 
     app.include_router(router)
+    app.include_router(game_router)
 
     return app

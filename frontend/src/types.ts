@@ -25,3 +25,28 @@ export interface Defaults {
   temperature: number;
   max_tokens: number;
 }
+
+// --- Game types ---
+
+export interface GameMessage {
+  role: "manager" | "human" | "player";
+  text: string;
+  visible: boolean;
+}
+
+export interface GameSession {
+  id: string;
+  manager_config: AgentConfig;
+  player_config: AgentConfig;
+  messages: GameMessage[];
+  status: "created" | "active" | "ended";
+}
+
+export interface GameDefaults {
+  manager_system_prompt: string;
+  player_system_prompt: string;
+  model: string;
+  temperature: number;
+  manager_max_tokens: number;
+  player_max_tokens: number;
+}

@@ -11,15 +11,20 @@ from rich.panel import Panel
 from rich.text import Text
 
 from interviewer import (
+    DEFAULT_GAME_MANAGER_SYSTEM_PROMPT,
+    DEFAULT_GAME_MODEL,
+    DEFAULT_GAME_PLAYER_SYSTEM_PROMPT,
     DEFAULT_INTERVIEWER_SYSTEM_PROMPT,
     DEFAULT_MODEL,
     DEFAULT_RESPONDENT_SYSTEM_PROMPT,
     AgentConfig,
+    GameOrchestrator,
     Interviewer,
     Message,
     Simulation,
     Transcript,
     load_prompt,
+    save_game_transcript,
     save_transcript,
 )
 
@@ -323,6 +328,130 @@ def show(
     console.print()
     console.print(
         f"Tokens: {transcript.total_input_tokens} input, "
+        f"{transcript.total_output_tokens} output"
+    )
+
+
+@app.command()
+def game(
+    manager_prompt: str = typer.Option(
+        DEFAULT_GAME_MANAGER_SYSTEM_PROMPT,
+        "--manager-prompt",
+        "-M",
+        help="Manager system prompt (inline text or path to .md file)",
+    ),
+    player_prompt: str = typer.Option(
+        DEFAULT_GAME_PLAYER_SYSTEM_PROMPT,
+        "--player-prompt",
+        "-P",
+        help="Player system prompt (inline text or path to .md file)",
+    ),
+    model: str = typer.Option(DEFAULT_GAME_MODEL, "--model", "-m", help="OpenAI model"),
+    temperature: float = typer.Option(0.7, "--temperature", "-t", help="Sampling temperature"),
+    manager_max_tokens: int = typer.Option(
+        500, "--manager-max-tokens", help="Max tokens for manager responses"
+    ),
+    player_max_tokens: int = typer.Option(
+        100, "--player-max-tokens", help="Max tokens for player responses"
+    ),
+    save: Optional[str] = typer.Option(None, "--save", help="Save transcript to file (json/csv)"),
+):
+    """Interactive game — you are the human player."""
+    asyncio.run(
+        _game(
+            manager_prompt, player_prompt, model, temperature,
+            manager_max_tokens, player_max_tokens, save,
+        )
+    )
+
+
+async def _game(
+    manager_prompt: str,
+    player_prompt: str,
+    model: str,
+    temperature: float,
+    manager_max_tokens: int,
+    player_max_tokens: int,
+    save_path: str | None,
+):
+    from interviewer.game_models import GameMessage, GameTranscript
+
+    resolved_manager = load_prompt(manager_prompt)
+    resolved_player = load_prompt(player_prompt)
+
+    manager_config = AgentConfig(
+        system_prompt=resolved_manager,
+        model=model,
+        temperature=temperature,
+        max_tokens=manager_max_tokens,
+    )
+    player_config = AgentConfig(
+        system_prompt=resolved_player,
+        model=model,
+        temperature=temperature,
+        max_tokens=player_max_tokens,
+    )
+
+    orchestrator = GameOrchestrator()
+    messages: list[GameMessage] = []
+    transcript = GameTranscript(manager_config=manager_config, player_config=player_config)
+
+    console.print(
+        Panel(
+            "[bold]Game Mode[/bold] — Type your moves.\n"
+            "  /end  — end the game"
+        )
+    )
+
+    def _print_game(text: str):
+        console.print()
+        console.print(Text("Game: ", style="bold cyan"), end="")
+        console.print(text)
+
+    def _track_calls(llm_calls):
+        for call in llm_calls:
+            transcript.llm_calls.append(call)
+            transcript.total_input_tokens += call.input_tokens
+            transcript.total_output_tokens += call.output_tokens
+
+    # Opening
+    new_msgs, llm_calls = await orchestrator.process_opening(manager_config, player_config)
+    messages.extend(new_msgs)
+    transcript.messages.extend(new_msgs)
+    _track_calls(llm_calls)
+
+    for msg in new_msgs:
+        if msg.visible and msg.role == "manager":
+            _print_game(msg.text)
+
+    while True:
+        console.print()
+        user_input = console.input("[bold green]You: [/bold green]").strip()
+
+        if not user_input:
+            continue
+
+        if user_input.lower() == "/end":
+            break
+
+        new_msgs, llm_calls = await orchestrator.process_human_input(
+            user_input, messages, manager_config, player_config
+        )
+        messages.extend(new_msgs)
+        transcript.messages.extend(new_msgs)
+        _track_calls(llm_calls)
+
+        for msg in new_msgs:
+            if msg.visible and msg.role == "manager":
+                _print_game(msg.text)
+
+    if save_path:
+        fmt = "csv" if save_path.endswith(".csv") else "json"
+        save_game_transcript(transcript, save_path, format=fmt)
+        console.print(f"\nTranscript saved to {save_path}")
+
+    console.print(
+        f"\nTokens used: {transcript.total_input_tokens} input, "
         f"{transcript.total_output_tokens} output"
     )
 

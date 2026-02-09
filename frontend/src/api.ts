@@ -1,4 +1,11 @@
-import type { AgentConfig, Defaults, Session } from "./types";
+import type {
+  AgentConfig,
+  Defaults,
+  GameDefaults,
+  GameMessage,
+  GameSession,
+  Session,
+} from "./types";
 
 const BASE = "/api";
 
@@ -98,4 +105,68 @@ export async function getTranscript(
 
 export async function getDefaults(): Promise<Defaults> {
   return request("/config/defaults");
+}
+
+// --- Game API ---
+
+export async function createGameSession(
+  managerConfig?: AgentConfig,
+  playerConfig?: AgentConfig
+): Promise<GameSession> {
+  return request("/games/sessions", {
+    method: "POST",
+    body: JSON.stringify({
+      manager_config: managerConfig,
+      player_config: playerConfig,
+    }),
+  });
+}
+
+export async function getGameSession(id: string): Promise<GameSession> {
+  return request(`/games/sessions/${id}`);
+}
+
+export async function deleteGameSession(id: string): Promise<void> {
+  await request(`/games/sessions/${id}`, { method: "DELETE" });
+}
+
+export async function updateGameConfig(
+  id: string,
+  managerConfig?: AgentConfig,
+  playerConfig?: AgentConfig
+): Promise<GameSession> {
+  return request(`/games/sessions/${id}/config`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      manager_config: managerConfig,
+      player_config: playerConfig,
+    }),
+  });
+}
+
+export async function startGame(
+  id: string
+): Promise<{ messages: GameMessage[]; llm_calls: unknown[] }> {
+  return request(`/games/sessions/${id}/start`, { method: "POST" });
+}
+
+export async function sendGameMove(
+  id: string,
+  text: string
+): Promise<{ messages: GameMessage[]; llm_calls: unknown[] }> {
+  return request(`/games/sessions/${id}/move`, {
+    method: "POST",
+    body: JSON.stringify({ text }),
+  });
+}
+
+export async function getGameTranscript(
+  id: string,
+  format: "json" | "csv" = "json"
+): Promise<unknown> {
+  return request(`/games/sessions/${id}/transcript?format=${format}`);
+}
+
+export async function getGameDefaults(): Promise<GameDefaults> {
+  return request("/games/config/defaults");
 }
