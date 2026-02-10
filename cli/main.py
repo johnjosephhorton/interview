@@ -552,5 +552,147 @@ async def _check(
         console.print(f"\nResults saved to {save_path}")
 
 
+@app.command(name="check-summary")
+def check_summary(
+    game: str = typer.Argument(..., help="Game name (matches a folder in games/)"),
+    no_suggest: bool = typer.Option(False, "--no-suggest", help="Skip LLM suggestions, report only"),
+    model: str = typer.Option("gpt-4o", "--model", "-m", help="Model for suggestions"),
+):
+    """Aggregate checker results and optionally get LLM suggestions for fixing failures."""
+    asyncio.run(_check_summary(game, no_suggest, model))
+
+
+async def _check_summary(game_name: str, no_suggest: bool, model: str):
+    import json as json_mod
+    from collections import defaultdict
+
+    transcripts_dir = Path("transcripts") / game_name
+    if not transcripts_dir.is_dir():
+        console.print(f"[red]No transcripts directory found: {transcripts_dir}[/red]")
+        raise typer.Exit(1)
+
+    check_files = sorted(transcripts_dir.glob("*_check.json"))
+    if not check_files:
+        console.print(f"[yellow]No *_check.json files found in {transcripts_dir}[/yellow]")
+        raise typer.Exit(0)
+
+    # Aggregate pass/fail counts per criterion
+    criterion_stats: dict[str, dict] = defaultdict(
+        lambda: {"pass": 0, "fail": 0, "fail_explanations": []}
+    )
+
+    for cf in check_files:
+        try:
+            data = json_mod.loads(cf.read_text())
+            for c in data.get("criteria", []):
+                name = c["criterion"]
+                if c["passed"]:
+                    criterion_stats[name]["pass"] += 1
+                else:
+                    criterion_stats[name]["fail"] += 1
+                    criterion_stats[name]["fail_explanations"].append(
+                        {"file": cf.name, "explanation": c["explanation"]}
+                    )
+        except Exception:
+            console.print(f"[yellow]Skipping malformed file: {cf.name}[/yellow]")
+
+    total_transcripts = len(check_files)
+    console.print(
+        Panel(
+            f"[bold]{game_name}[/bold] — {total_transcripts} checked transcript(s)",
+            title="Check Summary",
+        )
+    )
+
+    # Display table
+    has_failures = False
+    for name, stats in sorted(criterion_stats.items()):
+        total = stats["pass"] + stats["fail"]
+        fail_rate = stats["fail"] / total * 100 if total > 0 else 0
+        if stats["fail"] > 0:
+            has_failures = True
+            console.print(
+                f"  [red]x {name}[/red]: {stats['fail']}/{total} failed ({fail_rate:.0f}%)"
+            )
+            # Show up to 2 sample explanations
+            for sample in stats["fail_explanations"][:2]:
+                console.print(f"      {sample['file']}: {sample['explanation']}")
+        else:
+            console.print(f"  [green]✓ {name}[/green]: {total}/{total} passed")
+
+    if not has_failures:
+        console.print("\n[green]All criteria passed across all transcripts.[/green]")
+        return
+
+    if no_suggest:
+        return
+
+    # Build failure summary for LLM
+    failure_lines = []
+    for name, stats in sorted(criterion_stats.items()):
+        if stats["fail"] > 0:
+            total = stats["pass"] + stats["fail"]
+            failure_lines.append(f"- {name}: {stats['fail']}/{total} failed")
+            for sample in stats["fail_explanations"][:3]:
+                failure_lines.append(f"  Example: {sample['explanation']}")
+    failure_summary = "\n".join(failure_lines)
+
+    # Load current game prompts
+    manager_prompt, player_prompt, opening_instruction = TranscriptChecker._load_game_prompts(
+        game_name
+    )
+
+    suggestion_prompt = f"""You are a game prompt debugger. A game called "{game_name}" has recurring checker failures across multiple transcripts.
+
+## Failure Patterns
+
+{failure_summary}
+
+## Current Manager Prompt (manager.md)
+
+{manager_prompt}
+
+## Current Player Prompt (player.md)
+
+{player_prompt}
+
+## Current Opening Instruction (config.toml)
+
+{opening_instruction}
+
+## Task
+
+Based on the failure patterns, suggest specific edits to the manager prompt, player prompt, or opening instruction that would fix the recurring issues. For each suggestion:
+1. State which file to edit (manager.md, player.md, or config.toml)
+2. Quote the relevant section that needs to change
+3. Provide the suggested replacement text
+4. Explain why this fix addresses the failure pattern
+
+Be concrete and actionable. Do not suggest changes unrelated to the observed failures."""
+
+    console.print("\n[bold]Generating suggestions...[/bold]\n")
+
+    try:
+        from openai import AsyncOpenAI
+
+        client = AsyncOpenAI()
+        response = await client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": suggestion_prompt}],
+            temperature=0.3,
+        )
+        suggestion = response.choices[0].message.content or ""
+        console.print(Panel(suggestion, title="Suggested Fixes"))
+
+        usage = response.usage
+        if usage:
+            console.print(
+                f"\nSuggestion tokens: {usage.prompt_tokens} input, "
+                f"{usage.completion_tokens} output"
+            )
+    except Exception as e:
+        console.print(f"[yellow]Could not generate suggestions: {e}[/yellow]")
+
+
 if __name__ == "__main__":
     app()

@@ -10,13 +10,13 @@ load_dotenv()
 
 from openai import AsyncOpenAI
 
-from .models import CheckResult, CriterionResult, Message, _GAMES_DIR
+from .models import CheckResult, CriterionResult, Message, _GAMES_DIR, load_game
 
 _CHECKER_PROMPT_PATH = Path(__file__).resolve().parent.parent / "prompts" / "checker.md"
 
 
 class TranscriptChecker:
-    """Evaluates game transcripts against 8 quality criteria using an LLM."""
+    """Evaluates game transcripts against quality criteria using an LLM."""
 
     def __init__(self, api_key: str | None = None, model: str = "gpt-4o"):
         self._api_key = api_key or os.environ.get("OPENAI_API_KEY")
@@ -30,8 +30,11 @@ class TranscriptChecker:
         return AsyncOpenAI(api_key=self._api_key)
 
     @staticmethod
-    def _load_game_prompts(game_name: str) -> tuple[str, str]:
-        """Load manager.md and player.md for a game. Returns (manager_prompt, player_prompt)."""
+    def _load_game_prompts(game_name: str) -> tuple[str, str, str]:
+        """Load manager.md, player.md, and opening_instruction for a game.
+
+        Returns (manager_prompt, player_prompt, opening_instruction).
+        """
         game_dir = _GAMES_DIR / game_name
         if not game_dir.is_dir():
             raise ValueError(f"Game not found: '{game_name}'")
@@ -44,7 +47,12 @@ class TranscriptChecker:
         if not player_path.exists():
             raise ValueError(f"Missing player.md in games/{game_name}/")
 
-        return manager_path.read_text().strip(), player_path.read_text().strip()
+        game_config = load_game(game_name)
+        return (
+            manager_path.read_text().strip(),
+            player_path.read_text().strip(),
+            game_config.opening_instruction,
+        )
 
     @staticmethod
     def _format_transcript(messages: list[Message]) -> str:
@@ -61,18 +69,19 @@ class TranscriptChecker:
 
     def _build_prompt(self, game_name: str, messages: list[Message]) -> str:
         """Fill the checker template with game rules and transcript."""
-        manager_prompt, player_prompt = self._load_game_prompts(game_name)
+        manager_prompt, player_prompt, opening_instruction = self._load_game_prompts(game_name)
         transcript_text = self._format_transcript(messages)
 
         template = _CHECKER_PROMPT_PATH.read_text()
         return template.format(
             manager_prompt=manager_prompt,
             player_prompt=player_prompt,
+            opening_instruction=opening_instruction,
             transcript_text=transcript_text,
         )
 
     async def check(self, game_name: str, messages: list[Message]) -> CheckResult:
-        """Evaluate a transcript against all 8 criteria. Returns a CheckResult."""
+        """Evaluate a transcript against all criteria. Returns a CheckResult."""
         prompt = self._build_prompt(game_name, messages)
         client = self._get_client()
 

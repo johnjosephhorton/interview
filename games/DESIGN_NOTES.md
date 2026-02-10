@@ -27,6 +27,13 @@ Ongoing log of issues found during development and testing. Reference these when
 **Fix:** Added worked examples for every combination (AI proposes + human accepts, human proposes + AI accepts, etc.) with exact dollar amounts.
 **Rule:** Include at least 2-3 worked examples in Payout Logic, covering each distinct outcome path.
 
+### Opening message must actually explain the rules
+**Game:** contest
+**Symptom:** The opening message skipped explaining the all-pay mechanic entirely — the human had no idea they'd lose their investment when losing. The checker passed 7/8 criteria but couldn't catch this because it had no criterion for it.
+**Root cause:** (1) The `opening_instruction` in contest's config.toml said to explain "how all-pay contests work (both players spend their effort regardless of who wins)" but the LLM glossed over it. (2) The checker had no criterion to verify the opening message against the opening instruction.
+**Fix:** Added `instructions_delivered` as a 9th checker criterion. The checker now receives the `opening_instruction` text and verifies Turn 1 covers every item specified in it.
+**Rule:** The `opening_instruction` must list every mechanic the human needs to understand, and the checker will verify they were actually explained.
+
 ## End-of-Game Detection
 
 ### Two markers for robustness

@@ -64,10 +64,11 @@ def test_format_transcript_manager_only(checker):
 
 
 def test_load_game_prompts_bargainer(checker):
-    manager, player = checker._load_game_prompts("bargainer")
+    manager, player, opening_instruction = checker._load_game_prompts("bargainer")
     assert len(manager) > 0
     assert len(player) > 0
     assert "game manager" in manager.lower() or "manager" in manager.lower()
+    assert len(opening_instruction) > 0
 
 
 def test_load_game_prompts_not_found(checker):
@@ -85,10 +86,17 @@ def test_build_prompt_contains_sections(checker):
     # Should contain the template sections
     assert "Manager Instructions" in prompt
     assert "AI Player Strategy" in prompt
+    assert "Opening Instruction" in prompt
     assert "Transcript" in prompt
     # Should contain the formatted transcript
     assert "[Turn 1] MANAGER: Welcome!" in prompt
     assert "[Turn 1] HUMAN: Thanks." in prompt
+
+
+def test_load_game_prompts_opening_instruction(checker):
+    _, _, opening_instruction = checker._load_game_prompts("pd_rep")
+    assert "cooperate" in opening_instruction.lower() or "COOPERATE" in opening_instruction
+    assert "defect" in opening_instruction.lower() or "DEFECT" in opening_instruction
 
 
 def test_criterion_result_model():

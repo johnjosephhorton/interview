@@ -2,7 +2,10 @@ name = "Bargainer"
 description = "A multi-round price negotiation over a mug"
 
 [canned]
-opening_instruction = "Begin the game. Explain the rules briefly (5-6 sentences) and present Round 1 with the AI's opening offer."
+opening_instruction = """Explain the game rules clearly so someone with no prior knowledge could understand. Include: what the game is (a price negotiation over a mug), that the AI owns the mug, that the human wants to buy it, that neither player knows the other's valuation, the alternating offer structure (AI offers on odd rounds, human on even rounds), the maximum of 6 rounds, valid price range ($0.00–$15.00), that the human can accept or counteroffer each round, and what happens if no deal is reached (AI keeps the mug, human gets nothing).
+Then immediately present Round 1 with the AI's opening offer and ask: "Do you accept, or would you like to make a counteroffer?"
+
+Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start."""
 last_question = "This is the final round. Make your last decision."
 end_of_session = "The bargaining session has ended. Thank you for participating."
 

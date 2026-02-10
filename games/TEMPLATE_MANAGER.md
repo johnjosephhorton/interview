@@ -27,6 +27,8 @@ Must include:
 - Valid input ranges (dollar amounts, action names, etc.)
 - Any asymmetries (different roles, different info, etc.)
 
+**Simultaneous Choices:** If the game has simultaneous decisions (e.g., prisoner's dilemma, contests, public goods), state explicitly that the AI player has already committed its choice before the human responds. The manager must never reveal the AI's choice until the human has committed. Pattern: "The AI has already decided. After you submit your choice, both will be revealed."
+
 ## Payout Logic [GAME-SPECIFIC]
 
 Must include:
@@ -47,14 +49,15 @@ Must include:
 ## Message Flow [GAME-SPECIFIC]
 
 Must include:
-- `YOUR VERY FIRST MESSAGE: SEE THE QUESTION INPUT`
+- **YOUR VERY FIRST MESSAGE:** The `opening_instruction` from `config.toml` is injected as the first user message. You must follow it precisely — it specifies exactly what rules to explain and how to prompt for Round 1. The checker verifies that your opening message covers every item listed in the opening instruction.
 - **Every valid input path the human can take, with explicit handling for each.** This is the most critical section.
   - For each game state, list what the human might do and what the manager does in response
   - If the human can ACCEPT → describe exactly what happens (deal reached, show end game, etc.)
   - If the human can make an OFFER/CHOICE → describe what happens next
   - If the human's input resolves a round → describe: result display, scoreboard, next prompt
-- Bundling rules (when to combine multiple actions in one message)
 - What to say on the final round
+
+**Bundling Rules:** When one action resolves a round AND triggers the next round prompt, both MUST appear in the same message. For example, in ultimatum: if the human's response resolves a round, the result scoreboard AND the next round's offer must be in a single reply. Never split round resolution and next-round prompt into separate messages.
 
 **LESSON LEARNED:** If a valid input type is listed in Input Validation but has no corresponding handling in Message Flow, the LLM will reject it as invalid. Every valid input must have a described outcome path.
 
@@ -95,3 +98,13 @@ After displaying this message, the game is OVER. Do not continue under any circu
 ```
 
 Both `GAME OVER` and `YOU ARE FINISHED` are detected server-side to lock the session.
+
+## Common Pitfalls
+
+Reference these when building new games (see `DESIGN_NOTES.md` for full details):
+
+1. **Opening message skips rules:** If the `opening_instruction` says to explain specific mechanics (e.g., "both players lose their investment"), the opening message MUST include them. The checker now verifies this with `instructions_delivered`.
+2. **Missing input paths:** Every valid input listed in Input Validation must have a corresponding handler in Message Flow. Otherwise the LLM rejects valid input.
+3. **Payout formula ambiguity:** Show worked examples for ALL outcome paths (accept/reject, win/lose, cooperate/defect). One abstract formula is not enough.
+4. **Simultaneous choice leakage:** For simultaneous games, ensure the AI's choice is locked before the human responds and never revealed early.
+5. **Split messages:** Round resolution + next round prompt must be bundled in one message. Two-message sequences confuse the turn counter.
