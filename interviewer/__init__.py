@@ -1,5 +1,6 @@
 """Standalone AI Interviewer — symmetric LLM agents for qualitative research."""
 
+from .checker import TranscriptChecker
 from .core import Interviewer
 from .defaults import (
     DEFAULT_INTERVIEWER_SYSTEM_PROMPT,
@@ -8,10 +9,12 @@ from .defaults import (
     DEFAULT_RESPONDENT_SYSTEM_PROMPT,
     DEFAULT_TEMPERATURE,
 )
-from .logging import save_transcript
+from .logging import auto_save_transcript, save_transcript
 from .models import (
     AgentConfig,
     AgentResponse,
+    CheckResult,
+    CriterionResult,
     GameConfig,
     LLMCallInfo,
     Message,
@@ -26,6 +29,8 @@ from .simulation import Simulation
 __all__ = [
     "AgentConfig",
     "AgentResponse",
+    "CheckResult",
+    "CriterionResult",
     "DEFAULT_INTERVIEWER_SYSTEM_PROMPT",
     "DEFAULT_MAX_TOKENS",
     "DEFAULT_MODEL",
@@ -38,6 +43,8 @@ __all__ = [
     "SimulatedRespondent",
     "Simulation",
     "Transcript",
+    "TranscriptChecker",
+    "auto_save_transcript",
     "list_games",
     "load_game",
     "load_prompt",

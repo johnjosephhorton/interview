@@ -13,10 +13,13 @@ from rich.text import Text
 from interviewer import (
     DEFAULT_MODEL,
     AgentConfig,
+    CheckResult,
     Interviewer,
     Message,
     Simulation,
     Transcript,
+    TranscriptChecker,
+    auto_save_transcript,
     list_games,
     load_game,
     load_prompt,
@@ -161,15 +164,41 @@ async def _chat(
         if _check_game_ended(response.text):
             break
 
-    if save_path:
-        fmt = "csv" if save_path.endswith(".csv") else "json"
-        save_transcript(transcript, save_path, format=fmt)
-        console.print(f"\nTranscript saved to {save_path}")
-
     console.print(
         f"\nTokens used: {transcript.total_input_tokens} input, "
         f"{transcript.total_output_tokens} output"
     )
+
+    # Auto-save transcript
+    saved_path = auto_save_transcript(transcript, game_name)
+    console.print(f"\nTranscript saved to {saved_path}")
+
+    # Auto-check
+    try:
+        checker = TranscriptChecker()
+        result = await checker.check(game_name, transcript.messages)
+
+        status = "[green]PASS[/green]" if result.overall_passed else "[red]FAIL[/red]"
+        console.print(f"\nChecker: {status}")
+        for c in result.criteria:
+            if not c.passed:
+                console.print(f"  [red]x {c.criterion}[/red]: {c.explanation}")
+            else:
+                console.print(f"  [green]✓ {c.criterion}[/green]: {c.explanation}")
+
+        # Save check results alongside transcript
+        import json as json_mod
+        check_path = saved_path.with_name(saved_path.stem + "_check.json")
+        check_path.write_text(json_mod.dumps(result.model_dump(), indent=2))
+        console.print(f"\nCheck results saved to {check_path}")
+    except Exception as e:
+        console.print(f"\n[yellow]Checker skipped: {e}[/yellow]")
+
+    # Additional copy if --save specified
+    if save_path:
+        fmt = "csv" if save_path.endswith(".csv") else "json"
+        save_transcript(transcript, save_path, format=fmt)
+        console.print(f"Additional copy saved to {save_path}")
 
 
 @app.command()
@@ -192,7 +221,7 @@ def simulate(
     max_tokens: int = typer.Option(200, "--max-tokens"),
     max_turns: int = typer.Option(5, "--max-turns", help="Number of conversation turns"),
     num_simulations: int = typer.Option(1, "--num-simulations", "-n", help="Number of simulations to run in parallel"),
-    save: str = typer.Option(..., "--save", "-o", help="Output CSV file path"),
+    save: Optional[str] = typer.Option(None, "--save", "-o", help="Additional CSV export path"),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Print conversation to terminal"),
 ):
     """Fully automated simulation — both sides are AI."""
@@ -229,7 +258,7 @@ async def _simulate(
     max_tokens: int,
     max_turns: int,
     num_simulations: int,
-    save_path: str,
+    save_path: str | None,
     verbose: bool,
 ):
     game_config = load_game(game_name)
@@ -281,22 +310,59 @@ async def _simulate(
     ]
     transcripts = await asyncio.gather(*tasks)
 
-    # Write results to CSV: each row is the JSON of one conversation
-    path = Path(save_path)
-    with open(path, "w", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(["simulation_id", "transcript"])
-        for i, transcript in enumerate(transcripts):
-            transcript_json = transcript.model_dump_json(
-                exclude={"llm_calls": {"__all__": {"messages"}}}
-            )
-            writer.writerow([i + 1, transcript_json])
+    total_input = sum(t.total_input_tokens for t in transcripts)
+    total_output = sum(t.total_output_tokens for t in transcripts)
+    console.print(
+        f"\n{num_simulations} simulation(s) complete. "
+        f"Tokens: {total_input} input, {total_output} output"
+    )
 
-    if verbose:
-        total_input = sum(t.total_input_tokens for t in transcripts)
-        total_output = sum(t.total_output_tokens for t in transcripts)
-        console.print(f"\n{num_simulations} simulation(s) saved to {save_path}")
-        console.print(f"Total tokens: {total_input} input, {total_output} output")
+    # Auto-save each transcript
+    from datetime import datetime as dt
+    timestamp = dt.now().strftime("%Y-%m-%d_%H-%M-%S")
+    saved_paths = []
+    for i, transcript in enumerate(transcripts):
+        suffix = f"sim{i + 1}"
+        p = auto_save_transcript(transcript, game_name, suffix=suffix, timestamp=timestamp)
+        saved_paths.append(p)
+        console.print(f"  Saved: {p}")
+
+    # Auto-check all transcripts in parallel
+    try:
+        checker = TranscriptChecker()
+        check_tasks = [checker.check(game_name, t.messages) for t in transcripts]
+        results: list[CheckResult] = await asyncio.gather(*check_tasks)
+
+        import json as json_mod
+        console.print()
+        for i, (result, sp) in enumerate(zip(results, saved_paths)):
+            status = "[green]PASS[/green]" if result.overall_passed else "[red]FAIL[/red]"
+            console.print(f"  Sim {i + 1}: {status}")
+            if not result.overall_passed:
+                for c in result.criteria:
+                    if not c.passed:
+                        console.print(f"    [red]x {c.criterion}[/red]: {c.explanation}")
+
+            check_path = sp.with_name(sp.stem + "_check.json")
+            check_path.write_text(json_mod.dumps(result.model_dump(), indent=2))
+
+        passed = sum(1 for r in results if r.overall_passed)
+        console.print(f"\n{passed}/{len(results)} transcripts passed all checks.")
+    except Exception as e:
+        console.print(f"\n[yellow]Checker skipped: {e}[/yellow]")
+
+    # Additional CSV export if --save specified
+    if save_path:
+        path = Path(save_path)
+        with open(path, "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(["simulation_id", "transcript"])
+            for i, transcript in enumerate(transcripts):
+                transcript_json = transcript.model_dump_json(
+                    exclude={"llm_calls": {"__all__": {"messages"}}}
+                )
+                writer.writerow([i + 1, transcript_json])
+        console.print(f"Additional CSV saved to {save_path}")
 
 
 @app.command()
@@ -396,6 +462,94 @@ def games():
     for g in available:
         desc = f" — {g['description']}" if g["description"] else ""
         console.print(f"  [bold]{g['name']}[/bold]{desc}")
+
+
+@app.command()
+def check(
+    game: str = typer.Argument(..., help="Game name (matches a folder in games/)"),
+    transcript_file: str = typer.Argument(..., help="Path to transcript file (JSON or CSV)"),
+    model: str = typer.Option("gpt-4o", "--model", "-m", help="Checker model"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Show per-criterion details"),
+    save: Optional[str] = typer.Option(None, "--save", help="Save results to JSON file"),
+):
+    """Check a game transcript for correctness."""
+    asyncio.run(_check(game, transcript_file, model, verbose, save))
+
+
+async def _check(
+    game_name: str,
+    transcript_file: str,
+    model: str,
+    verbose: bool,
+    save_path: str | None,
+):
+    import json as json_mod
+
+    path = Path(transcript_file)
+    if not path.exists():
+        console.print(f"[red]File not found: {transcript_file}[/red]")
+        raise typer.Exit(1)
+
+    checker = TranscriptChecker(model=model)
+
+    # Parse input — JSON (single) or CSV (batch)
+    transcripts: list[tuple[int, list[Message]]] = []
+
+    if path.suffix == ".json":
+        data = json_mod.loads(path.read_text())
+        messages = [Message(**m) for m in data.get("messages", [])]
+        transcripts.append((1, messages))
+    elif path.suffix == ".csv":
+        with open(path, newline="") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                sim_id = int(row["simulation_id"])
+                data = json_mod.loads(row["transcript"])
+                messages = [Message(**m) for m in data.get("messages", [])]
+                transcripts.append((sim_id, messages))
+    else:
+        console.print(f"[red]Unsupported file format: {path.suffix}. Use .json or .csv[/red]")
+        raise typer.Exit(1)
+
+    if not transcripts:
+        console.print("[yellow]No transcripts found in file.[/yellow]")
+        raise typer.Exit(0)
+
+    console.print(
+        f"Checking {len(transcripts)} transcript(s) for [bold]{game_name}[/bold] "
+        f"with model [bold]{model}[/bold]...\n"
+    )
+
+    # Run checks in parallel
+    tasks = [checker.check(game_name, msgs) for _, msgs in transcripts]
+    results: list[CheckResult] = await asyncio.gather(*tasks)
+
+    # Display results
+    for (sim_id, _), result in zip(transcripts, results):
+        status = "[green]PASS[/green]" if result.overall_passed else "[red]FAIL[/red]"
+        console.print(f"  Simulation {sim_id}: {status}")
+
+        if verbose or not result.overall_passed:
+            for c in result.criteria:
+                if not c.passed:
+                    console.print(f"    [red]x {c.criterion}[/red]: {c.explanation}")
+                elif verbose:
+                    console.print(f"    [green]✓ {c.criterion}[/green]: {c.explanation}")
+
+    # Summary
+    passed = sum(1 for r in results if r.overall_passed)
+    total = len(results)
+    console.print(f"\n{passed}/{total} transcripts passed all checks.")
+
+    total_input = sum(r.input_tokens for r in results)
+    total_output = sum(r.output_tokens for r in results)
+    console.print(f"Checker tokens: {total_input} input, {total_output} output")
+
+    # Save results
+    if save_path:
+        output = [r.model_dump() for r in results]
+        Path(save_path).write_text(json_mod.dumps(output, indent=2))
+        console.print(f"\nResults saved to {save_path}")
 
 
 if __name__ == "__main__":

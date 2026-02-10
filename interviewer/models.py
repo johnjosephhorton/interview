@@ -73,6 +73,22 @@ class GameConfig(BaseModel):
     opening_max_tokens: int = 150
 
 
+class CriterionResult(BaseModel):
+    criterion: str
+    passed: bool
+    explanation: str
+
+
+class CheckResult(BaseModel):
+    game_name: str
+    transcript_summary: str
+    criteria: list[CriterionResult]
+    overall_passed: bool
+    checker_model: str
+    input_tokens: int = 0
+    output_tokens: int = 0
+
+
 def load_game(name: str) -> GameConfig:
     """Load a game definition from games/{name}/ folder.
 

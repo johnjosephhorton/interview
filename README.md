@@ -33,47 +33,38 @@ Or add it to a `.env` file in the project root.
 
 ## Playing a Game (CLI)
 
-Use `interview chat` with the `-s` flag pointing to a game's manager prompt:
+Just pass the game name to `interview chat`:
 
 ```bash
-interview chat -s games/bargainer/manager.md
+interview chat bargainer
 ```
 
 This starts an interactive session where the AI manager explains the game and you play against the AI player. The game ends automatically when all rounds are complete.
 
+To see all available games:
+
+```bash
+interview games
+```
+
 ### Examples
 
 ```bash
-# Bargaining over a mug
-interview chat -s games/bargainer/manager.md
-
-# Bargaining with imperfect information (you know the AI's range)
-interview chat -s games/bargain_imperfect/manager.md
-
-# Ultimatum game — split $100
-interview chat -s games/ultimatum/manager.md
-
-# Repeated Prisoner's Dilemma
-interview chat -s games/pd_rep/manager.md
-
-# Trust game — one shot
-interview chat -s games/trust/manager.md
-
-# Sealed-bid auction
-interview chat -s games/auction/manager.md
-
-# All-pay contest
-interview chat -s games/contest/manager.md
-
-# Public goods game
-interview chat -s games/public_goods/manager.md
+interview chat bargainer           # Bargaining over a mug
+interview chat bargain_imperfect   # Bargaining (you know the AI's value range)
+interview chat ultimatum           # Split $100
+interview chat pd_rep              # Repeated Prisoner's Dilemma
+interview chat trust               # One-shot trust game
+interview chat auction             # Sealed-bid auction
+interview chat contest             # All-pay contest
+interview chat public_goods        # Public goods game
 ```
 
 ### CLI Options
 
 | Flag | Short | Default | Description |
 |------|-------|---------|-------------|
-| `--system-prompt` | `-s` | built-in default | Manager system prompt (path to `.md` file or inline text) |
+| `--system-prompt` | `-s` | — | Override the manager prompt (path to `.md` file or inline text) |
 | `--model` | `-m` | `gpt-4o-mini` | OpenAI model |
 | `--temperature` | `-t` | `0.7` | Sampling temperature |
 | `--max-tokens` | | `200` | Max tokens per response |
@@ -84,10 +75,7 @@ interview chat -s games/public_goods/manager.md
 Run fully automated games where a simulated human plays against the AI:
 
 ```bash
-interview simulate \
-  -i games/bargainer/manager.md \
-  -r games/bargainer/sim_human.md \
-  -n 10 --save results.csv -v
+interview simulate bargainer -n 10 --save results.csv -v
 ```
 
 This runs 10 parallel simulations of the bargaining game and saves results to CSV.
@@ -96,8 +84,8 @@ This runs 10 parallel simulations of the bargaining game and saves results to CS
 
 | Flag | Short | Default | Description |
 |------|-------|---------|-------------|
-| `--interviewer-prompt` | `-i` | built-in default | Manager system prompt |
-| `--respondent-prompt` | `-r` | built-in default | Simulated human prompt |
+| `--interviewer-prompt` | `-i` | — | Override manager prompt |
+| `--respondent-prompt` | `-r` | — | Override simulated human prompt |
 | `--model` | `-m` | `gpt-4o-mini` | OpenAI model |
 | `--max-turns` | | `5` | Max conversation turns |
 | `--num-simulations` | `-n` | `1` | Number of parallel simulations |
@@ -111,7 +99,7 @@ This runs 10 parallel simulations of the bargaining game and saves results to CS
 interview show results.csv
 
 # Preview a resolved prompt
-interview preview -s games/bargainer/manager.md
+interview preview bargainer
 ```
 
 ## Game Structure

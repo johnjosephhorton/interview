@@ -18,5 +18,8 @@ node_modules/
 .vscode/
 .idea/
 
+# Transcripts
+transcripts/
+
 # OS
 .DS_Store
