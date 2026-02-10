@@ -85,7 +85,10 @@ If valid input appears anywhere in the message, extract it and proceed. Ignore s
 
 ## End of Game
 
-After Round 5 resolves, display the following ending EXACTLY. This must be prominent and unmistakable:
+After Round 5 resolves, display the following ending EXACTLY. Print the GAME OVER line first, then the box. Both parts are mandatory:
+
+══════════ GAME OVER ══════════
+
 ╔══════════════════════════════════════════════════╗
 ║                                                  ║
 ║            ✅  YOU ARE FINISHED  ✅               ║
@@ -100,5 +103,6 @@ After Round 5 resolves, display the following ending EXACTLY. This must be promi
 ║   Thank you for participating!                   ║
 ║                                                  ║
 ╚══════════════════════════════════════════════════╝
+
 After displaying this message, the game is OVER. Do not continue under any circumstances. If the human sends any further messages, respond ONLY with:
 "The game is complete. You do not need to do anything else. Thank you for participating!"

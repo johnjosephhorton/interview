@@ -1,6 +1,6 @@
 # Interviewer
 
-A standalone AI interviewer with symmetric LLM agents for qualitative research. Conduct interactive interviews where you answer questions from an AI interviewer, or run fully automated simulations where both sides are AI.
+A platform for running economic games between a human participant and an AI player, powered by OpenAI LLM agents. The AI game manager controls the flow, validates input, and tracks scores, while a separate AI player makes strategic decisions.
 
 ## Setup
 
@@ -18,92 +18,133 @@ export OPENAI_API_KEY="sk-..."
 
 Or add it to a `.env` file in the project root.
 
-## CLI Commands
+## Available Games
 
-The package installs an `interview` command with four subcommands:
+| Game | Folder | Description | Rounds |
+|------|--------|-------------|--------|
+| **Bargainer** | `bargainer` | Negotiate the price of a mug. Both sides make counteroffers until someone accepts or rounds run out. | 6 |
+| **Bargainer (Imperfect Info)** | `bargain_imperfect` | Same as Bargainer, but the human is told the AI's value range ($4–$8). | 6 |
+| **Ultimatum** | `ultimatum` | Split $100 each round. One player proposes, the other accepts or rejects. | 4 |
+| **Prisoner's Dilemma** | `pd_rep` | Classic repeated PD — COOPERATE or DEFECT each round. | 5 |
+| **Trust Game** | `trust` | One-shot: human sends money, it triples, AI decides how much to return. | 1 |
+| **Sealed-Bid Auction** | `auction` | First-price sealed-bid auction with private valuations. Both bid simultaneously. | 3 |
+| **Contest (All-Pay)** | `contest` | Both invest effort for a $10 prize. Higher investor wins, but both pay. | 3 |
+| **Public Goods** | `public_goods` | Both receive $10 and choose how much to contribute to a shared pool (doubled and split). | 5 |
 
-### `interview chat` -- Interactive interview
+## Playing a Game (CLI)
 
-You are the respondent. The AI interviewer asks questions and you type responses.
+Use `interview chat` with the `-s` flag pointing to a game's manager prompt:
 
 ```bash
-interview chat
+interview chat -s games/bargainer/manager.md
 ```
 
-Options:
+This starts an interactive session where the AI manager explains the game and you play against the AI player. The game ends automatically when all rounds are complete.
+
+### Examples
+
+```bash
+# Bargaining over a mug
+interview chat -s games/bargainer/manager.md
+
+# Bargaining with imperfect information (you know the AI's range)
+interview chat -s games/bargain_imperfect/manager.md
+
+# Ultimatum game — split $100
+interview chat -s games/ultimatum/manager.md
+
+# Repeated Prisoner's Dilemma
+interview chat -s games/pd_rep/manager.md
+
+# Trust game — one shot
+interview chat -s games/trust/manager.md
+
+# Sealed-bid auction
+interview chat -s games/auction/manager.md
+
+# All-pay contest
+interview chat -s games/contest/manager.md
+
+# Public goods game
+interview chat -s games/public_goods/manager.md
+```
+
+### CLI Options
 
 | Flag | Short | Default | Description |
 |------|-------|---------|-------------|
-| `--system-prompt` | `-s` | built-in default | Interviewer system prompt (inline text or path to a `.md` file) |
+| `--system-prompt` | `-s` | built-in default | Manager system prompt (path to `.md` file or inline text) |
 | `--model` | `-m` | `gpt-4o-mini` | OpenAI model |
 | `--temperature` | `-t` | `0.7` | Sampling temperature |
 | `--max-tokens` | | `200` | Max tokens per response |
 | `--save` | | | Save transcript to file (`.json` or `.csv`) |
 
-In-session commands:
-- `/last_question` -- ask the interviewer to pose a final question
-- `/end` -- end the interview
+## Running Simulations (AI vs AI)
 
-Example with a custom prompt:
-
-```bash
-interview chat -s prompts/examples/open_source_interviewer.md --save transcript.json
-```
-
-### `interview simulate` -- Automated simulation
-
-Both interviewer and respondent are AI. Runs one or more simulations and writes results to CSV.
-
-```bash
-interview simulate --save results.csv
-```
-
-Options:
-
-| Flag | Short | Default | Description |
-|------|-------|---------|-------------|
-| `--interviewer-prompt` | `-i` | built-in default | Interviewer system prompt |
-| `--respondent-prompt` | `-r` | built-in default | Respondent system prompt |
-| `--model` | `-m` | `gpt-4o-mini` | OpenAI model |
-| `--temperature` | `-t` | `0.7` | Sampling temperature |
-| `--max-tokens` | | `200` | Max tokens per response |
-| `--max-turns` | | `5` | Number of conversation turns |
-| `--num-simulations` | `-n` | `1` | Number of simulations to run in parallel |
-| `--save` | `-o` | **(required)** | Output CSV file path |
-| `--verbose` | `-v` | `false` | Print conversation to terminal |
-
-Example running 10 parallel simulations with custom prompts:
+Run fully automated games where a simulated human plays against the AI:
 
 ```bash
 interview simulate \
-  -i prompts/examples/open_source_interviewer.md \
-  -r prompts/examples/open_source_respondent.md \
-  -n 10 --max-turns 8 --save results.csv -v
+  -i games/bargainer/manager.md \
+  -r games/bargainer/sim_human.md \
+  -n 10 --save results.csv -v
 ```
 
-### `interview show` -- Browse simulation results
+This runs 10 parallel simulations of the bargaining game and saves results to CSV.
 
-Interactively browse transcripts from a simulation CSV file.
+### Simulation Options
+
+| Flag | Short | Default | Description |
+|------|-------|---------|-------------|
+| `--interviewer-prompt` | `-i` | built-in default | Manager system prompt |
+| `--respondent-prompt` | `-r` | built-in default | Simulated human prompt |
+| `--model` | `-m` | `gpt-4o-mini` | OpenAI model |
+| `--max-turns` | | `5` | Max conversation turns |
+| `--num-simulations` | `-n` | `1` | Number of parallel simulations |
+| `--save` | `-o` | **(required)** | Output CSV file |
+| `--verbose` | `-v` | `false` | Print conversations to terminal |
+
+## Other CLI Commands
 
 ```bash
+# Browse simulation results interactively
 interview show results.csv
+
+# Preview a resolved prompt
+interview preview -s games/bargainer/manager.md
 ```
 
-### `interview preview` -- Preview a resolved prompt
+## Game Structure
 
-Print the resolved system prompt to stdout. Useful for verifying that a `.md` file loads correctly.
+Each game is a folder under `games/` with four files:
+
+| File | Purpose |
+|------|---------|
+| `config.toml` | Game metadata — name, description, rounds, model settings |
+| `manager.md` | Prompt for the game manager (controls flow, validates input, tracks scores) |
+| `player.md` | Prompt for the AI player (strategy and self-contained game rules) |
+| `sim_human.md` | Prompt for a simulated human participant (used in `simulate` mode) |
+
+### Creating a New Game
+
+1. Copy an existing game folder as a starting point
+2. Follow the templates in `games/TEMPLATE_MANAGER.md`, `games/TEMPLATE_PLAYER.md`, and `games/TEMPLATE_CONFIG.md`
+3. See `games/DESIGN_NOTES.md` for common pitfalls and lessons learned
+
+## REST API
+
+Start the backend server:
 
 ```bash
-interview preview -s prompts/examples/open_source_interviewer.md
+cd server && uvicorn app:create_app --factory --reload --port 8000
 ```
 
-## Custom Prompts
+See `CLAUDE.md` for full endpoint documentation.
 
-System prompts can be provided as inline text or as a path to a `.md` file. Example prompt files are in `prompts/examples/`.
+## Development
 
-To write your own, create a `.md` file with the interviewer's persona and rules, then pass it with `-s` (chat) or `-i`/`-r` (simulate).
-
-## Output Formats
-
-- **JSON** (`--save transcript.json` in `chat`): Full transcript with messages, configs, token counts, and LLM call metadata.
-- **CSV** (`--save results.csv` in `simulate`): One row per simulation with columns `simulation_id` and `transcript` (JSON blob).
+```bash
+make install    # pip install -e ".[cli,server,dev]"
+make test       # pytest
+make backend    # start FastAPI server
+```

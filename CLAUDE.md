@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**Interviewer** is a standalone AI interviewer for qualitative research. It uses symmetric LLM agents — one plays the interviewer, one plays the respondent — both powered by OpenAI chat completions. The project has three interfaces: a CLI (Typer), a REST API (FastAPI), and a web frontend (React + Vite + Tailwind).
+**Interviewer** is a standalone AI interviewer for qualitative research. It uses symmetric LLM agents — one plays the interviewer, one plays the respondent — both powered by OpenAI chat completions. The project has two interfaces: a CLI (Typer) and a REST API (FastAPI).
 
 ## Repository Layout
 
@@ -20,16 +20,23 @@ cli/                  # CLI layer (Typer app)
   main.py             # `interview` command with subcommands: chat, simulate, show, preview
 
 server/               # REST API layer (FastAPI)
-  app.py              # create_app() factory with CORS middleware
+  app.py              # create_app() factory
   routes.py           # All API endpoints under /api prefix
   session.py          # In-memory session store (Session model + CRUD functions)
 
-frontend/             # React web UI (Vite + TypeScript + Tailwind)
-  src/
-    App.tsx           # Main app — session lifecycle, state management
-    api.ts            # Typed fetch wrappers for all /api endpoints
-    types.ts          # TypeScript interfaces mirroring Python models
-    components/       # ChatPanel, ChatInput, ChatMessage, ConfigPanel, PromptPreview, Layout
+games/                # Game definitions (one folder per game)
+  bargainer/          # Multi-round price negotiation
+  bargain_imperfect/  # Bargainer variant with asymmetric information
+  ultimatum/          # Repeated ultimatum game
+  pd_rep/             # Repeated prisoner's dilemma
+  trust/              # One-shot trust/investment game
+  auction/            # First-price sealed-bid auction
+  contest/            # All-pay contest
+  public_goods/       # Public goods contribution game
+  TEMPLATE_MANAGER.md # Template for new manager prompts
+  TEMPLATE_PLAYER.md  # Template for new player prompts
+  TEMPLATE_CONFIG.md  # Template for new config files
+  DESIGN_NOTES.md     # Running log of bugs and lessons learned
 
 prompts/              # Prompt files (.md)
   interviewer_default.md
@@ -79,16 +86,19 @@ The `Interviewer.generate_response()` method accepts a `message_type` parameter:
 
 The server uses an in-memory session store (`server/session.py`). Sessions have a lifecycle: `created` -> `active` -> `ended`. Sessions hold their own `interviewer_config`, `respondent_config`, `messages` list, and `status`. No persistence — all state is lost on restart.
 
-### Frontend
+### Game Structure
 
-React SPA that talks to the FastAPI backend. Key flow:
-1. Loads defaults from `GET /api/config/defaults`
-2. Creates a session via `POST /api/sessions`
-3. Starts interview via `POST /api/sessions/{id}/start`
-4. User types responses or clicks simulate buttons
-5. Downloads transcript as JSON
+Each game lives in `games/<name>/` with four files:
+- `config.toml` — game metadata (name, description, rounds, model settings)
+- `manager.md` — prompt for the game manager LLM (controls flow, validates input, displays state)
+- `player.md` — prompt for the AI player LLM (strategy, fully self-contained game rules)
+- `sim_human.md` — prompt for a simulated human player
 
-The frontend dev server runs on port 5173 (Vite default). The backend CORS config allows this origin.
+Games are loaded via `load_game()` in `interviewer/models.py`.
+
+### End-of-Game Detection
+
+The manager prompt instructs the LLM to output `══════════ GAME OVER ══════════` and a `YOU ARE FINISHED` box at the end. Both `routes.py` and `cli/main.py` detect these markers and terminate the session automatically.
 
 ## Key Models (interviewer/models.py)
 
@@ -136,22 +146,16 @@ pytest
 # Start backend (FastAPI with auto-reload)
 cd server && uvicorn app:create_app --factory --reload --port 8000
 
-# Start frontend (Vite dev server)
-cd frontend && npm run dev
-
 # Or use Makefile shortcuts
 make install       # pip install -e ".[cli,server,dev]"
 make test          # pytest
-make dev           # starts both backend and frontend
 make backend       # backend only
-make frontend      # frontend only
 ```
 
 ## Environment
 
 - Requires `OPENAI_API_KEY` — set as env var or in a `.env` file (loaded via python-dotenv)
 - Python 3.10+
-- Node.js required for frontend
 
 ## Testing Conventions
 
@@ -176,7 +180,6 @@ make frontend      # frontend only
 2. Populate it in `Simulation.run()` (`interviewer/simulation.py`) and `_chat()` / `_simulate()` in `cli/main.py`
 3. Handle it in `save_transcript()` (`interviewer/logging.py`) if it needs special CSV formatting
 4. Add to `Session` or route responses in `server/routes.py` if it should be exposed via the API
-5. Update the TypeScript types in `frontend/src/types.ts`
 
 ### Adding a new CLI command
 1. Add a new `@app.command()` function in `cli/main.py`
@@ -184,8 +187,11 @@ make frontend      # frontend only
 
 ### Adding a new API endpoint
 1. Add the route function in `server/routes.py` on the `router` object
-2. Add the corresponding fetch wrapper in `frontend/src/api.ts`
-3. Wire it into the React app in `frontend/src/App.tsx`
+
+### Adding a new game
+1. Create a new folder under `games/` with `config.toml`, `manager.md`, `player.md`, `sim_human.md`
+2. Follow the templates in `games/TEMPLATE_*.md` and `games/TEMPLATE_CONFIG.md`
+3. See `games/DESIGN_NOTES.md` for common pitfalls
 
 ### Custom prompts
 Create a `.md` file and pass it via CLI flags (`-s`, `-i`, `-r`) or set it in `AgentConfig.system_prompt`. The `load_prompt()` function handles resolution. Example prompts are in `prompts/examples/`.

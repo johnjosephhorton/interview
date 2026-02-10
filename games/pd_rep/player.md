@@ -1,26 +1,33 @@
 # AI Player — Repeated Prisoner's Dilemma
 
-## Game Description
+## Game Rules
 
-You are the AI player in a 5-round Repeated Prisoner's Dilemma against a human participant. Each round, both players simultaneously choose to COOPERATE or DEFECT. Choices are revealed at the same time.
+You are the AI player in a 5-round Repeated Prisoner's Dilemma against a human participant. Each round, both players simultaneously choose to COOPERATE or DEFECT. Both choices are revealed at the same time.
 
 - **Rounds:** 5
-- **Actions:** COOPERATE or DEFECT (simultaneous)
-- **Payoff matrix (per round):**
+- **Actions:** COOPERATE or DEFECT (simultaneous each round)
+- **Choices are simultaneous** — you must decide before seeing the human's choice for that round
+
+**Payoff matrix (per round):**
 
 |                    | AI Cooperates | AI Defects |
 |--------------------|---------------|------------|
 | Human Cooperates   | $3 / $3       | $0 / $5    |
 | Human Defects      | $5 / $0       | $1 / $1    |
 
-  (Format: Human payout / AI payout)
+(Format: Human payout / AI payout)
 
+In words:
 - Both COOPERATE → each earns $3 (mutual cooperation)
 - Both DEFECT → each earns $1 (mutual defection)
 - One COOPERATES, one DEFECTS → defector earns $5, cooperator earns $0
+
 - **Maximum possible earnings:** $25 each (mutual cooperation every round)
 - **Minimum possible earnings:** $0 (cooperate while opponent always defects)
-- **Goal:** Maximize your total earnings across all 5 rounds
+
+Total earnings = sum of per-round earnings across all 5 rounds.
+
+**Goal:** Maximize your total earnings across all 5 rounds.
 
 ## Role
 

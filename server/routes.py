@@ -25,6 +25,14 @@ from .session import Session, create_session, delete_session, get_session
 
 router = APIRouter(prefix="/api")
 
+END_GAME_MARKERS = ("GAME OVER", "YOU ARE FINISHED")
+POST_GAME_RESPONSE = "The game is complete. You do not need to do anything else. Thank you for participating!"
+
+
+def _check_game_ended(text: str) -> bool:
+    """Check if the LLM response contains either end-of-game marker."""
+    return any(marker in text for marker in END_GAME_MARKERS)
+
 
 def _get_session_or_404(session_id: str) -> Session:
     session = get_session(session_id)
@@ -122,6 +130,17 @@ async def api_start_session(session_id: str):
 async def api_send_message(session_id: str, req: SendMessageRequest):
     session = _get_session_or_404(session_id)
 
+    # If game already ended, return canned response without calling the LLM
+    if session.status == "ended":
+        interviewer_msg = Message(role="interviewer", text=POST_GAME_RESPONSE)
+        session.messages.append(Message(role="respondent", text=req.text))
+        session.messages.append(interviewer_msg)
+        return {
+            "respondent_message": {"role": "respondent", "text": req.text},
+            "interviewer_message": interviewer_msg.model_dump(),
+            "llm_call_info": None,
+        }
+
     # Add user (respondent) message
     user_msg = Message(role="respondent", text=req.text)
     session.messages.append(user_msg)
@@ -132,6 +151,11 @@ async def api_send_message(session_id: str, req: SendMessageRequest):
         session.messages, session.interviewer_config, message_type="next_message",
         game_config=session.game_config,
     )
+
+    # Check for end-game marker
+    if _check_game_ended(response.text):
+        session.status = "ended"
+
     interviewer_msg = Message(role="interviewer", text=response.text)
     session.messages.append(interviewer_msg)
 
@@ -147,6 +171,12 @@ async def api_simulate_turn(session_id: str):
     """One turn: AI respondent replies, then interviewer follows up."""
     session = _get_session_or_404(session_id)
 
+    if session.status == "ended":
+        return {
+            "respondent_message": None,
+            "interviewer_message": {"role": "interviewer", "text": POST_GAME_RESPONSE},
+        }
+
     respondent = SimulatedRespondent()
     resp = await respondent.generate_response(session.messages, session.respondent_config)
     resp_msg = Message(role="respondent", text=resp.text)
@@ -157,6 +187,10 @@ async def api_simulate_turn(session_id: str):
         session.messages, session.interviewer_config, message_type="next_message",
         game_config=session.game_config,
     )
+
+    if _check_game_ended(follow_up.text):
+        session.status = "ended"
+
     interviewer_msg = Message(role="interviewer", text=follow_up.text)
     session.messages.append(interviewer_msg)
 
@@ -197,29 +231,34 @@ async def api_simulate_all(session_id: str, max_turns: int = Query(default=5)):
         session.messages.append(int_msg)
         new_messages.append(int_msg)
 
-    # Last question + response + end
-    last_q = await interviewer.generate_response(
-        session.messages, session.interviewer_config, message_type="last_question",
-        game_config=session.game_config,
-    )
-    lq_msg = Message(role="interviewer", text=last_q.text)
-    session.messages.append(lq_msg)
-    new_messages.append(lq_msg)
+        if _check_game_ended(follow_up.text):
+            session.status = "ended"
+            break
 
-    resp = await respondent.generate_response(session.messages, session.respondent_config)
-    resp_msg = Message(role="respondent", text=resp.text)
-    session.messages.append(resp_msg)
-    new_messages.append(resp_msg)
+    if session.status != "ended":
+        # Last question + response + end
+        last_q = await interviewer.generate_response(
+            session.messages, session.interviewer_config, message_type="last_question",
+            game_config=session.game_config,
+        )
+        lq_msg = Message(role="interviewer", text=last_q.text)
+        session.messages.append(lq_msg)
+        new_messages.append(lq_msg)
 
-    end = await interviewer.generate_response(
-        session.messages, session.interviewer_config, message_type="end_of_interview",
-        game_config=session.game_config,
-    )
-    end_msg = Message(role="interviewer", text=end.text)
-    session.messages.append(end_msg)
-    new_messages.append(end_msg)
+        resp = await respondent.generate_response(session.messages, session.respondent_config)
+        resp_msg = Message(role="respondent", text=resp.text)
+        session.messages.append(resp_msg)
+        new_messages.append(resp_msg)
 
-    session.status = "ended"
+        end = await interviewer.generate_response(
+            session.messages, session.interviewer_config, message_type="end_of_interview",
+            game_config=session.game_config,
+        )
+        end_msg = Message(role="interviewer", text=end.text)
+        session.messages.append(end_msg)
+        new_messages.append(end_msg)
+
+        session.status = "ended"
 
     return {
         "new_messages": [m.model_dump() for m in new_messages],

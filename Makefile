@@ -1,15 +1,10 @@
-.PHONY: install dev cli-chat cli-simulate frontend backend
+.PHONY: install backend cli-chat cli-simulate test
 
 install:
 	pip install -e ".[cli,server,dev]"
 
-dev: backend frontend
-
 backend:
-	cd server && uvicorn app:create_app --factory --reload --port 8000 &
-
-frontend:
-	cd frontend && npm run dev &
+	cd server && uvicorn app:create_app --factory --reload --port 8000
 
 cli-chat:
 	interview chat

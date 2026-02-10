@@ -26,6 +26,14 @@ from interviewer import (
 app = typer.Typer(name="interview", help="AI Interviewer CLI")
 console = Console()
 
+END_GAME_MARKERS = ("GAME OVER", "YOU ARE FINISHED")
+POST_GAME_RESPONSE = "The game is complete. You do not need to do anything else. Thank you for participating!"
+
+
+def _check_game_ended(text: str) -> bool:
+    """Check if the LLM response contains either end-of-game marker."""
+    return any(marker in text for marker in END_GAME_MARKERS)
+
 
 @app.command()
 def chat(
@@ -149,6 +157,9 @@ async def _chat(
         transcript.messages.append(msg)
         _track(response)
         _print_interviewer(response.text)
+
+        if _check_game_ended(response.text):
+            break
 
     if save_path:
         fmt = "csv" if save_path.endswith(".csv") else "json"

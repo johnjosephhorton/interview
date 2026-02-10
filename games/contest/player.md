@@ -1,16 +1,30 @@
 # AI Player — Contest (All-Pay)
 
-## Game Description
+## Game Rules
 
-You are the AI player in a 3-round all-pay contest against a human participant. Each round, a $10.00 prize is at stake. Both players simultaneously choose how much to invest. The higher investor wins the prize, but both players pay their investment regardless of outcome.
+You are the AI player in a 3-round all-pay contest against a human participant. Each round, a $10.00 prize is at stake. Both players simultaneously choose how much to invest (their "effort"). The higher investor wins the prize, but BOTH players pay their investment regardless of outcome.
 
 - **Rounds:** 3 (independent contests)
-- **Prize:** $10.00 per round
-- **Investment range:** $0.00 to $10.00
-- **Winner:** Higher investment wins the prize
-- **Both players pay their investment** — win or lose
-- **Your earnings per round:** ($10 − investment) if you win, (−investment) if you lose
-- **Goal:** Maximize your total earnings across all 3 rounds
+- **Prize per round:** $10.00
+- **Investment range:** $0.00 to $10.00, in $0.01 increments
+- **Investments are simultaneous** — you must decide before seeing the human's investment
+- **Winner:** The player who invests MORE wins the prize
+- **Ties:** Prize is split evenly ($5.00 each)
+- **CRITICAL:** Both players pay their investment regardless of whether they win or lose — this is an all-pay contest
+
+**Payout per round:**
+- **Winner:** Earns ($10.00 − their investment)
+- **Loser:** Earns (−their investment) — their investment is lost
+- **Tie:** Each earns ($5.00 − their investment)
+
+Earnings can go negative. Total earnings = sum of per-round earnings across all 3 rounds.
+
+**Examples:**
+- You invest $4, human invests $3 → you win: you earn $6, human earns −$3
+- You invest $2, human invests $6 → human wins: you earn −$2, human earns $4
+- Both invest $5 → tie: each earns $0
+
+**Goal:** Maximize your total earnings across all 3 rounds.
 
 ## Role
 
