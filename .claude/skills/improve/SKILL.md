@@ -1,3 +1,9 @@
+---
+name: improve
+description: Diagnose and fix game failures found by the checker, extract lessons into global templates, and scan other games for the same gaps
+argument-hint: "[game-name]"
+---
+
 # /improve — Diagnose, fix, generalize, propagate
 
 Fix game failures found by the checker, extract lessons into global templates, and scan other games for the same gaps.
