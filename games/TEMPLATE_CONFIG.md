@@ -28,16 +28,16 @@ Short description shown when listing games.
 
 ### [canned]
 
-**opening_instruction** — Injected as the first user message to kick off the game. The checker's `instructions_delivered` criterion verifies the opening message against this text, so be specific about which mechanics to explain. Must include:
-- Instruction to explain the rules clearly for someone with no prior knowledge
-- What specific information to cover (actions, payoffs, roles, round count)
-- Any special mechanics that must be explained (e.g., "both players lose their investment", "choices are simultaneous", "contributions are multiplied by 1.5x")
+**opening_instruction** — Injected as the first user message to kick off the game. The Game Rules (Human-Facing) section in `manager.md` is the single source of truth for rules; this instruction tells the manager to present those rules and lists the specific items the checker will verify. Must include:
+- `Explain the game rules from the Game Rules section` (references the authoritative source)
+- A checklist of specific items to cover (the checker's `instructions_delivered` criterion verifies against this list, so be explicit — e.g., "how all-pay contests work (both players spend their effort regardless of who wins)")
+- Any private-info warnings (e.g., "do NOT reveal the AI's valuation")
 - The exact prompt for Round 1 (including any game-specific values like the AI's opening offer)
 - `Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start.`
 
 **Example (good):**
 ```toml
-opening_instruction = """Explain the game rules clearly so someone with no prior knowledge could understand. Include: what the game is, how all-pay contests work (both players spend their effort regardless of who wins), the prize amount, the number of rounds, and how the winner is determined.
+opening_instruction = """Explain the game rules from the Game Rules section clearly so someone with no prior knowledge could understand. Include: what the game is, how all-pay contests work (both players spend their effort regardless of who wins), the prize amount ($10.00), the number of rounds (3), how the winner is determined, and how earnings are computed.
 Starting scoreboard (Human: $0 | AI: $0).
 "Round 1 of 3: The prize is $10.00. How much do you want to invest? (Enter any amount from $0.00 to $10.00.)"
 

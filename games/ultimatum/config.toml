@@ -2,7 +2,7 @@ name = "Ultimatum"
 description = "A 4-round repeated ultimatum game over $100"
 
 [canned]
-opening_instruction = """Rules summary: explain the game such that a person who had no idea what it was could understand the rules. This includes fully describing what the game is, the number of rounds, the possible actions (accept and reject), the outcomes when different actions are taken, and the full roles one could take. For example, if someone rejects, what happens?
+opening_instruction = """Explain the game rules from the Game Rules section clearly so someone with no prior knowledge could understand. Include: what the game is (a repeated ultimatum game), the number of rounds (4), the pot size ($100), that roles alternate (AI proposes in odd rounds, human in even rounds), the possible actions (accept and reject), what happens when accepted (proposer keeps $100 minus the offer, responder gets the offer), what happens when rejected (both earn $0 for that round), and that offers must be whole numbers from $0 to $100.
 Starting scoreboard (Human: $0 | AI: $0).
 "Round 1: The AI is the Proposer. The AI offers you $[X] out of $100 (the AI keeps $[100−X]). Do you accept or reject?"
 
@@ -11,5 +11,5 @@ last_question = "This is the final round. Make your decision."
 end_of_session = "The interview is complete. You do not need to do anything else. Thank you for participating!"
 
 [settings]
-max_tokens = 400
-opening_max_tokens = 800
+max_tokens = 4096
+opening_max_tokens = 8192

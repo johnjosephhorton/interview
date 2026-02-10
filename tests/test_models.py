@@ -28,8 +28,8 @@ from interviewer.models import (
 
 
 def test_defaults():
-    assert DEFAULT_MODEL == "gpt-4o-mini"
-    assert DEFAULT_TEMPERATURE == 0.7
+    assert DEFAULT_MODEL == "gpt-5"
+    assert DEFAULT_TEMPERATURE == 1
     assert DEFAULT_MAX_TOKENS == 200
     assert DEFAULT_OPENING_MAX_TOKENS == 150
     assert "interviewer" in DEFAULT_INTERVIEWER_SYSTEM_PROMPT.lower()
@@ -50,8 +50,8 @@ def test_message():
 
 def test_agent_config_defaults():
     config = AgentConfig(system_prompt="Test prompt")
-    assert config.model == "gpt-4o-mini"
-    assert config.temperature == 0.7
+    assert config.model == "gpt-5"
+    assert config.temperature == 1
     assert config.max_tokens == 200
 
 
@@ -99,7 +99,7 @@ def test_llm_call_info():
     info = LLMCallInfo(
         model="gpt-4o-mini",
         messages=[{"role": "system", "content": "test"}],
-        params={"temperature": 0.7},
+        params={"temperature": 1},
         input_tokens=100,
         output_tokens=50,
     )

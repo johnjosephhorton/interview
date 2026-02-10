@@ -2,7 +2,7 @@ name = "Repeated Prisoner's Dilemma"
 description = "A 5-round repeated prisoner's dilemma"
 
 [canned]
-opening_instruction = """Explain the game rules clearly so someone with no prior knowledge could understand. Include: what the game is, the number of rounds, the two possible actions (cooperate and defect), and the exact payoffs for every combination. Show the payoff matrix. Then immediately start Round 1.
+opening_instruction = """Explain the game rules from the Game Rules section clearly so someone with no prior knowledge could understand. Include: what the game is (a repeated prisoner's dilemma), the number of rounds (5), the two possible actions (cooperate and defect), that choices are simultaneous, and the exact payoffs for every combination (both cooperate: $3 each; both defect: $1 each; one defects: defector gets $5, cooperator gets $0). Show the payoff matrix. Then immediately start Round 1.
 Starting scoreboard (Human: $0 | AI: $0).
 "Round 1 of 5: Do you choose to COOPERATE or DEFECT?"
 
@@ -11,5 +11,5 @@ last_question = "This is the final round. Make your choice."
 end_of_session = "The game is complete. You do not need to do anything else. Thank you for participating!"
 
 [settings]
-max_tokens = 400
-opening_max_tokens = 600
+max_tokens = 4096
+opening_max_tokens = 8192

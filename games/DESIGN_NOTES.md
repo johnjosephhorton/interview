@@ -48,6 +48,41 @@ Ongoing log of issues found during development and testing. Reference these when
 **Fix:** Added FINAL ROUND instructions in Message Flow: skip the separate SCOREBOARD on the last round (the GAME OVER box already has final earnings), omit filler text, go straight to result → GAME OVER ending.
 **Rule:** The final round message must be compact enough to fit the round result AND the full GAME OVER box within 200 tokens. Always add explicit final-round compactness guidance in Message Flow.
 
+### Private values leak when visible in Game Parameters
+**Game:** bargain_imperfect
+**Symptom:** The opening message told the human the AI's exact valuation ($6.00) instead of only the range ($4.00–$8.00). The checker flagged `instructions_delivered`.
+**Root cause:** Game Parameters listed "AI owns the mug (worth $6.00 to AI)" prominently alongside the human-facing rules. The LLM saw "$6.00" and repeated it in the opening explanation. There was no structural separation between "what to tell the human" and "internal-only values."
+**Fix:** Split Game Parameters into subsections: general rules, "What the human is told" (range only), and "Internal only — NEVER reveal to the human" (exact value + bold warning). Added reinforcement in Message Flow OPENING.
+**Rule:** In imperfect-information games, structurally separate private values from public rules in the prompt. Put private values in a clearly labeled "Internal only" subsection with an explicit "NEVER reveal" warning. The LLM will repeat anything it sees — if a private value appears near public rules, it WILL leak.
+
+### Private valuations leak even when "neither player knows" is stated
+**Game:** bargainer
+**Symptom:** Opening message said "The AI owns the mug, which is worth $6.00 to the AI" despite the rule "neither player knows the other's valuation." The checker's `information_leakage` criterion passed — it checks for strategy leakage, not valuation leakage.
+**Root cause:** Game Parameters listed both valuations inline: "AI owns the mug (worth $6.00 to AI)" and "Human wants the mug (worth $8.00 to human)." Saying "neither player knows the other's valuation" on the next line was not enough — the LLM sees the numbers and repeats them. This is the same bug as bargain_imperfect but in a game where BOTH valuations are private.
+**Fix:** Applied the same "Internal only — NEVER reveal" subsection pattern. Moved AI's $6.00 to internal-only. Added bold warning in Game Parameters and reinforcement in Message Flow OPENING. Also updated config.toml opening_instruction to explicitly say "do NOT reveal the AI's valuation."
+**Rule:** ANY game where a valuation should be hidden needs the "Internal only" subsection — not just imperfect-information variants. "Neither player knows X" is not sufficient; the LLM will leak any number it can see. The structural separation is mandatory.
+
+### Auction valuations listed in plain view leak to human
+**Game:** auction
+**Symptom:** All per-round valuations (Human = $7/$4/$8, AI = $5/$6/$7) were listed together in Game Parameters with only a prose warning "AI's valuation is never revealed." Risk of LLM revealing AI valuations or future human valuations in the opening message.
+**Root cause:** Valuations table was in the main Game Parameters section without structural separation. The prose warning was on the same level as the data — easy for the LLM to overlook.
+**Fix:** Moved entire valuations table to "Internal only — NEVER reveal" subsection. Added bold rules: only reveal human's valuation for the current round, never reveal AI's valuation during play, never reveal future human valuations. Updated config.toml opening_instruction to explicitly say "do NOT reveal the AI's valuation or the human's future valuations."
+**Rule:** In games with per-round private valuations, the entire valuations schedule belongs in "Internal only." Even the human's own future valuations should not be shown upfront — reveal only the current round's value.
+
+### Bare numbers rejected as invalid counteroffers
+**Game:** bargain_imperfect
+**Symptom:** Human typed "4", "6", "9", "3", "6.00" — all rejected. Even "$3.00" was rejected on a second attempt. Only "$3.00" and "$5.00" worked (inconsistently).
+**Root cause:** Prose-style examples ("3", "5", "7.50") in Input Validation were not enough. gpt-4o-mini does not reliably generalize from a few examples to a general rule. It needs an explicit table format and a bold rule statement.
+**Fix:** Replaced prose examples with a **lookup table** (| Human types | Interpret as |) showing 10+ input formats. Added bold rule: "If the message contains ANY number between 0 and 15, treat it as a valid dollar counteroffer." Added "CRITICAL: Do NOT reject valid input" header.
+**Rule:** For input validation, use a table format with 8-10 explicit examples, not prose. Add a bold general rule. LLMs (especially smaller models) need the table to be unambiguous.
+
+### Round counter not advancing in bargaining games
+**Game:** bargain_imperfect
+**Symptom:** The bargaining status showed "Round 1 of 6" for the entire game, even after multiple counteroffers. The checker flagged `rule_adherence`.
+**Root cause:** Message Flow described what happens when offers are made and bundled, but never explicitly said "advance round_number by 1" at each step. The LLM didn't infer that counteroffers advance the round.
+**Fix:** Added a "ROUND COUNTING" section to Message Flow with explicit rules: "Every offer advances the round counter by 1" plus a worked example showing Round 1 → Round 2 → Round 3 progression. Each Message Flow branch now says "advance round_number by 1."
+**Rule:** In alternating-offer games, add an explicit ROUND COUNTING section with a worked example. Don't assume the LLM will infer round advancement from the turn structure.
+
 ## End-of-Game Detection
 
 ### Two markers for robustness

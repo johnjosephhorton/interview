@@ -48,7 +48,7 @@ def chat(
         help="Override interviewer system prompt (inline text or path to .md file)",
     ),
     model: str = typer.Option(DEFAULT_MODEL, "--model", "-m", help="OpenAI model"),
-    temperature: float = typer.Option(0.7, "--temperature", "-t", help="Sampling temperature"),
+    temperature: float = typer.Option(1, "--temperature", "-t", help="Sampling temperature"),
     max_tokens: int = typer.Option(200, "--max-tokens", help="Max tokens per response"),
     save: Optional[str] = typer.Option(None, "--save", help="Save transcript to file (json/csv)"),
 ):
@@ -220,7 +220,7 @@ def simulate(
         help="Override respondent system prompt (inline text or path to .md file)",
     ),
     model: str = typer.Option(DEFAULT_MODEL, "--model", "-m", help="OpenAI model"),
-    temperature: float = typer.Option(0.7, "--temperature", "-t"),
+    temperature: float = typer.Option(1, "--temperature", "-t"),
     max_tokens: int = typer.Option(200, "--max-tokens"),
     max_turns: int = typer.Option(5, "--max-turns", help="Number of conversation turns"),
     num_simulations: int = typer.Option(1, "--num-simulations", "-n", help="Number of simulations to run in parallel"),
