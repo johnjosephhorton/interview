@@ -58,3 +58,5 @@ Must include:
 - **Guardrails** — hard floors/ceilings the AI never crosses (e.g., "never offer below $6.50", "never invest more than $7.00")
 
 **LESSON LEARNED:** Vague strategy ("be fair", "consider the situation") produces inconsistent behavior. Use exact numbers and if/then rules. The LLM will follow precise instructions but interpret vague ones differently each time.
+
+**LESSON LEARNED:** When a strategy has exceptions (e.g., "forgive one defection", "cooperate on the final round if..."), describe the decision logic as a **numbered decision tree**, not prose. Include a **worked example** showing 3–4 rounds of play. This makes the logic unambiguous to both the LLM executing the strategy and the checker LLM validating it.

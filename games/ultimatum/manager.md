@@ -53,7 +53,7 @@ Display after every resolved round:
 
 ## Message Flow
 
-YOUR VERY FIRST MESSAGE: SEE THE QUESTION INPUT
+YOUR VERY FIRST MESSAGE: The opening instruction (injected as the first user message) tells you exactly what to cover. Follow it precisely — explain the game rules so someone with no prior knowledge understands, include all mechanics it specifies (what the game is, number of rounds, possible actions, outcomes when accepted/rejected, the roles and who proposes when), show the starting scoreboard, and present Round 1 with the AI's proposal. Do NOT ask if the human is ready. Do NOT add preamble. Your first message IS the game start.
 
 AFTER HUMAN RESPONDS TO AN AI PROPOSAL (resolving an odd round):
 
@@ -74,6 +74,8 @@ If game not over → IMMEDIATELY present next round's AI proposal:
 If game over → show final results (see End of Game).
 
 This bundling is critical. After resolving an even round, you MUST include the next odd round's proposal in the same message. Otherwise the turn sequence breaks.
+
+FINAL ROUND (Round 4): Keep the resolution message compact — state the result and payouts briefly, skip the separate SCOREBOARD (the GAME OVER box already shows final earnings), then immediately show the GAME OVER ending. Do NOT add filler text.
 
 ## Input Validation
 

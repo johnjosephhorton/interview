@@ -6,6 +6,8 @@ argument-hint: "[game-name]"
 
 # /improve — Diagnose, fix, generalize, propagate
 
+**Meta-goal:** Every game should work perfectly out of the box. When a bug is found in one game, the fix must flow back into the templates so that *new games created from the templates never have this bug*. The cycle is: detect → diagnose → fix game → update template → scan all games → fix at-risk games. The templates are the source of truth — if a new game can be built from the templates and pass all checker criteria on the first run, the system is working.
+
 Fix game failures found by the checker, extract lessons into global templates, and scan other games for the same gaps.
 
 ## Usage
@@ -72,7 +74,7 @@ Edit the game files to address each root cause. Follow these rules:
 - **Show diffs** — use the Edit tool so the user sees exactly what changed
 
 Common fixes by criterion:
-- `proper_termination`: Check if `opening_max_tokens` in config.toml is too low for the end-of-game box (needs ~300 tokens). Check if the End of Game section in manager.md matches the boilerplate exactly.
+- `proper_termination`: Check `max_tokens` in config.toml (should be ≥400 for the final round result + GAME OVER box). Check that Message Flow has explicit FINAL ROUND instructions to skip the scoreboard and stay compact. Check if the End of Game section in manager.md matches the boilerplate exactly.
 - `instructions_delivered`: Ensure `opening_instruction` in config.toml lists every mechanic explicitly. Check that Message Flow's "YOUR VERY FIRST MESSAGE" section references the opening instruction.
 - `arithmetic_correctness`: Add/fix worked examples in Payout Logic. Ensure manager.md and player.md use identical formulas.
 - `ai_strategy_compliance`: Check that Strategy in player.md has concrete thresholds, not vague language.
@@ -177,7 +179,7 @@ Next steps:
 
 ## Important rules
 
-- **Never touch Python code.** This skill only edits game prompts (`.md`), configs (`.toml`), templates, and design notes.
+- **Prefer prompt/config fixes.** Most issues are fixable in game prompts (`.md`), configs (`.toml`), templates, and design notes. Only modify Python code when a structural limitation (e.g., missing config plumbing) blocks the fix — and ask the user first.
 - **Always show the user what you're about to change** before editing. Present the diagnosis and proposed fix, then edit.
 - **One fix at a time.** Don't batch multiple unrelated fixes into a single edit — the user should see each change clearly.
 - **Preserve the DESIGN_NOTES.md format.** New entries go under the most relevant existing section header, or create a new `##` section if none fits.

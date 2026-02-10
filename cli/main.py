@@ -73,11 +73,14 @@ async def _chat(
     if system_prompt_override:
         prompt = load_prompt(system_prompt_override)
 
+    # Use game-specific max_tokens if user didn't override via CLI
+    effective_max_tokens = game_config.max_tokens if max_tokens == 200 else max_tokens
+
     config = AgentConfig(
         system_prompt=prompt,
         model=model,
         temperature=temperature,
-        max_tokens=max_tokens,
+        max_tokens=effective_max_tokens,
     )
 
     interviewer = Interviewer()
@@ -272,17 +275,20 @@ async def _simulate(
     if respondent_prompt_override:
         resp_prompt = load_prompt(respondent_prompt_override)
 
+    # Use game-specific max_tokens if user didn't override via CLI
+    effective_max_tokens = game_config.max_tokens if max_tokens == 200 else max_tokens
+
     interviewer_config = AgentConfig(
         system_prompt=int_prompt,
         model=model,
         temperature=temperature,
-        max_tokens=max_tokens,
+        max_tokens=effective_max_tokens,
     )
     respondent_config = AgentConfig(
         system_prompt=resp_prompt,
         model=model,
         temperature=temperature,
-        max_tokens=max_tokens,
+        max_tokens=effective_max_tokens,
     )
 
     label = game_config.name

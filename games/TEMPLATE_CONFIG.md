@@ -14,6 +14,7 @@ last_question = "..."
 end_of_session = "..."
 
 [settings]
+max_tokens = 400
 opening_max_tokens = 600
 ```
 
@@ -53,4 +54,6 @@ Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your 
 
 ### [settings]
 
-**opening_max_tokens** — Token limit for the opening message. Should be generous enough for a full rules explanation + Round 1 prompt. Typical range: 500–800. The default for subsequent messages is 200 (set in AgentConfig).
+**max_tokens** — Token limit for non-opening messages (round results, game-over, etc.). Default is 200, but games should set this to 400 to ensure the final round result + GAME OVER box fits without truncation. The GAME OVER box alone is ~130 tokens; add round result overhead and 200 is too tight.
+
+**opening_max_tokens** — Token limit for the opening message. Should be generous enough for a full rules explanation + Round 1 prompt. Typical range: 500–800.

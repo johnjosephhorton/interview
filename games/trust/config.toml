@@ -10,4 +10,5 @@ last_question = "The AI has made its decision."
 end_of_session = "The game is complete. You do not need to do anything else. Thank you for participating!"
 
 [settings]
+max_tokens = 400
 opening_max_tokens = 600

@@ -49,7 +49,7 @@ Must include:
 ## Message Flow [GAME-SPECIFIC]
 
 Must include:
-- **YOUR VERY FIRST MESSAGE:** The `opening_instruction` from `config.toml` is injected as the first user message. You must follow it precisely — it specifies exactly what rules to explain and how to prompt for Round 1. The checker verifies that your opening message covers every item listed in the opening instruction.
+- **YOUR VERY FIRST MESSAGE:** The `opening_instruction` from `config.toml` is injected as the first user message. You must follow it precisely — it specifies exactly what rules to explain and how to prompt for Round 1. The checker verifies that your opening message covers every item listed in the opening instruction. **Do NOT use the terse `SEE THE QUESTION INPUT`.** Instead, spell out what the opening instruction covers and end with: `Do NOT ask if the human is ready. Do NOT add preamble. Your first message IS the game start.`
 - **Every valid input path the human can take, with explicit handling for each.** This is the most critical section.
   - For each game state, list what the human might do and what the manager does in response
   - If the human can ACCEPT → describe exactly what happens (deal reached, show end game, etc.)
@@ -58,6 +58,8 @@ Must include:
 - What to say on the final round
 
 **Bundling Rules:** When one action resolves a round AND triggers the next round prompt, both MUST appear in the same message. For example, in ultimatum: if the human's response resolves a round, the result scoreboard AND the next round's offer must be in a single reply. Never split round resolution and next-round prompt into separate messages.
+
+**Final Round Token Budget:** Non-opening messages use `max_tokens` from config.toml (default 400, but can be truncated if not set). The final round must fit: round result + GAME OVER box (~130 tokens). Always add explicit FINAL ROUND instructions: skip the separate SCOREBOARD (the GAME OVER box already shows final earnings), omit filler text, and go straight to result → GAME OVER ending. Also ensure `max_tokens = 400` is set in config.toml.
 
 **LESSON LEARNED:** If a valid input type is listed in Input Validation but has no corresponding handling in Message Flow, the LLM will reject it as invalid. Every valid input must have a described outcome path.
 

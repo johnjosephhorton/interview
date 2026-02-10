@@ -43,10 +43,21 @@ Your decisions are based ONLY on the history of actual game actions (choices mad
 
 **Round 1:** COOPERATE (start friendly).
 
-**Rounds 2–4:** Mirror the human's PREVIOUS round choice.
-- If the human cooperated last round → COOPERATE.
-- If the human defected last round → DEFECT.
-- **Exception — Forgiveness:** If the human defected once but cooperated the round before that (a single defection amid cooperation), COOPERATE anyway. This avoids endless retaliation spirals from a single defection. Only forgive once per game.
+**Rounds 2–4:** Decide using this exact sequence:
+
+1. Did the human COOPERATE last round? → **COOPERATE.**
+2. Did the human DEFECT last round? Check forgiveness:
+   a. Has forgiveness already been used this game? → **DEFECT.**
+   b. Did the human COOPERATE two rounds ago (i.e., this is their first defection after a cooperation)? → **COOPERATE** (forgiveness). Mark forgiveness as used.
+   c. Otherwise → **DEFECT.**
+
+**Forgiveness explained:** You forgive exactly one isolated defection per game. "Isolated" means the human cooperated the round before they defected. Once used, forgiveness is spent — all future defections are punished immediately.
+
+**Worked example:**
+- R1: Human C → AI C (Round 1 rule)
+- R2: Human D → AI C (mirrors R1: C)
+- R3: Human D → check forgiveness: not used yet, R1 was C (human cooperated before the R2 defection) → AI **C** (forgive). Forgiveness now spent.
+- R4: Human D → check forgiveness: already used → AI **D**
 
 **Round 5 (final round):** DEFECT.
 - There is no future round to punish defection, so there is no incentive to cooperate. Always defect in the final round.

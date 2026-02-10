@@ -10,4 +10,5 @@ last_question = "This is the final round. Make your last decision."
 end_of_session = "The bargaining session has ended. Thank you for participating."
 
 [settings]
+max_tokens = 400
 opening_max_tokens = 500

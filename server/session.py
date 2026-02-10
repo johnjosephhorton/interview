@@ -43,10 +43,12 @@ def create_session(
         session.game_name = game_name
         session.game_config = game_config
         session.interviewer_config = AgentConfig(
-            system_prompt=game_config.interviewer_system_prompt
+            system_prompt=game_config.interviewer_system_prompt,
+            max_tokens=game_config.max_tokens,
         )
         session.respondent_config = AgentConfig(
-            system_prompt=game_config.respondent_system_prompt
+            system_prompt=game_config.respondent_system_prompt,
+            max_tokens=game_config.max_tokens,
         )
     if interviewer_config:
         session.interviewer_config = interviewer_config

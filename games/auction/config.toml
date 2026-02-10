@@ -10,4 +10,5 @@ last_question = "This is the final auction round. Submit your bid."
 end_of_session = "The game is complete. You do not need to do anything else. Thank you for participating!"
 
 [settings]
+max_tokens = 400
 opening_max_tokens = 700

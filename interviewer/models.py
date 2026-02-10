@@ -71,6 +71,7 @@ class GameConfig(BaseModel):
     last_question_response: str
     end_of_session_response: str
     opening_max_tokens: int = 150
+    max_tokens: int = 200
 
 
 class CriterionResult(BaseModel):
@@ -133,6 +134,7 @@ def load_game(name: str) -> GameConfig:
         last_question_response=canned.get("last_question", ""),
         end_of_session_response=canned.get("end_of_session", ""),
         opening_max_tokens=settings.get("opening_max_tokens", 150),
+        max_tokens=settings.get("max_tokens", 200),
     )
 
 

@@ -6,6 +6,13 @@ Ongoing log of issues found during development and testing. Reference these when
 
 ## Prompt Issues
 
+### Strategy exceptions must use decision trees, not prose
+**Game:** pd_rep
+**Symptom:** The checker flagged `ai_strategy_compliance` — said the AI should have defected in Round 3 after the human defected in Round 2. But the AI actually played correctly: the forgiveness exception was legitimately triggered.
+**Root cause:** The forgiveness rule was described in prose ("If the human defected once but cooperated the round before that, COOPERATE anyway"), which the checker LLM (GPT-4o) misinterpreted as simple tit-for-tat. The exception was ambiguous enough that the checker couldn't parse it.
+**Fix:** Rewrote the forgiveness rule as a numbered decision tree (1 → 2a → 2b → 2c) and added a 4-round worked example showing exactly when forgiveness triggers.
+**Rule:** When a strategy has exceptions, always describe them as a numbered decision tree with a worked example. Prose exceptions are ambiguous to both the executing LLM and the checker LLM.
+
 ### Message Flow must cover ALL valid input paths
 **Game:** bargainer
 **Symptom:** Human typed "accept" and got "That's not a valid response" every time. Counteroffers worked fine.
@@ -33,6 +40,13 @@ Ongoing log of issues found during development and testing. Reference these when
 **Root cause:** (1) The `opening_instruction` in contest's config.toml said to explain "how all-pay contests work (both players spend their effort regardless of who wins)" but the LLM glossed over it. (2) The checker had no criterion to verify the opening message against the opening instruction.
 **Fix:** Added `instructions_delivered` as a 9th checker criterion. The checker now receives the `opening_instruction` text and verifies Turn 1 covers every item specified in it.
 **Rule:** The `opening_instruction` must list every mechanic the human needs to understand, and the checker will verify they were actually explained.
+
+### Final round truncates the GAME OVER box
+**Game:** contest
+**Symptom:** The GAME OVER box was cut off mid-way — missing the AI's final earnings and the closing border. The checker flagged `proper_termination`.
+**Root cause:** Non-opening messages have a 200-token limit (DEFAULT_MAX_TOKENS). The final round message contained: round result + scoreboard + GAME OVER box, which exceeded 200 tokens. The LLM also wasted tokens on filler ("Determining the winner...").
+**Fix:** Added FINAL ROUND instructions in Message Flow: skip the separate SCOREBOARD on the last round (the GAME OVER box already has final earnings), omit filler text, go straight to result → GAME OVER ending.
+**Rule:** The final round message must be compact enough to fit the round result AND the full GAME OVER box within 200 tokens. Always add explicit final-round compactness guidance in Message Flow.
 
 ## End-of-Game Detection
 
