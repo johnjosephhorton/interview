@@ -1,0 +1,213 @@
+---
+name: create-2-player-game
+description: Generate a complete two-player (human vs. AI) game (config.toml, manager.md, player.md, sim_human.md) from a user description, enforcing cross-file consistency
+argument-hint: "[description of the game]"
+---
+
+# /create-2-player-game — Generate a new two-player game from scratch
+
+**Context:** Every game is a **two-player interaction between a human and an AI agent**, managed by a separate LLM "manager" that enforces rules, tracks state, and displays results. The human plays through the chat interface; the AI player (`player.md`) responds autonomously. For automated testing, a simulated human (`sim_human.md`) can stand in for the real human.
+
+**Meta-goal:** Every new game should pass all checker criteria on its first simulation run. Cross-file consistency is the #1 source of bugs — round counts, payoff formulas, action formats, and private info handling must agree across all 4 files. This skill generates all 4 files in a single pass to enforce that consistency.
+
+## Usage
+
+- `/create-2-player-game a first-price sealed-bid auction with 3 rounds` — Generate from a description
+- `/create-2-player-game` — Interactive: the skill will ask what game to build
+
+---
+
+## Phase 1: Gather spec
+
+Collect the following 12 items. Extract as many as possible from the user's initial description, then ask for anything missing. Present the full spec as a summary table for user confirmation before proceeding.
+
+Remember: every game has exactly **two players — one human, one AI** — plus an LLM manager that runs the game. The human interacts via the chat UI; the AI player responds autonomously via `player.md`.
+
+| # | Item | Description |
+|---|------|-------------|
+| 1 | **Game name** | snake_case folder name (e.g., `dutch_auction`) |
+| 2 | **Display name** | Human-readable name for UI (e.g., "Dutch Auction") |
+| 3 | **One-line description** | Short description for game listings |
+| 4 | **Structure type** | One of: Bargaining, Proposer-responder, Matrix/simultaneous, Trust/Sequential (one-shot), Trust/Sequential (repeated), Auction, Contest, Public goods, or Other |
+| 5 | **Rounds** | Number of rounds, or "one-shot" |
+| 6 | **Roles** | Which role the human plays and which the AI plays (e.g., "Human = buyer, AI = seller"). Every game is 1 human vs. 1 AI — no multi-player or AI-vs-AI games |
+| 7 | **Actions per round** | What each player (human and AI) does and valid ranges (e.g., "Both choose integer 0–10") |
+| 8 | **Turn structure** | Simultaneous, alternating (who goes first — human or AI), or sequential |
+| 9 | **Payoff formulas** | Exact formulas for EVERY outcome path, with at least 2–3 worked examples |
+| 10 | **Hidden information** | What's private to the human, what's private to the AI, or "all public" |
+| 11 | **AI player strategy** | Named strategy with concrete thresholds and decision trees for exceptions (this drives `player.md`) |
+| 12 | **Simulated human strategy** | Behavioral profile for `sim_human.md` — used during automated testing to stand in for the real human player (e.g., "starts cooperative, retaliates after defection") |
+
+When presenting the summary, format it clearly:
+
+```
+Game spec: <display_name>
+─────────────────────────────
+Name:           <snake_case>
+Description:    <one-liner>
+Structure:      <type>
+Rounds:         <N>
+Roles:          Human = <role>, AI = <role>
+Actions:        <description>
+Turn structure: <type>
+Payoffs:        <formulas with examples>
+Hidden info:    <description>
+AI strategy:    <name + key thresholds>
+Sim human:      <behavioral profile>
+```
+
+Ask: "Does this spec look correct? I'll generate all 4 game files from this."
+
+---
+
+## Phase 2: Read references
+
+After the user confirms the spec, read files in parallel:
+
+### Templates + design notes (always read):
+- `games/TEMPLATE_MANAGER.md`
+- `games/TEMPLATE_PLAYER.md`
+- `games/TEMPLATE_CONFIG.md`
+- `games/DESIGN_NOTES.md`
+
+### Reference game (read all 4 files from the closest match):
+
+Select the reference game based on structure type:
+
+| Structure type | Reference game | Why |
+|---|---|---|
+| Bargaining | `games/bargain_imperfect/` | Has bundling, round counting, price anchoring, private info |
+| Proposer-responder | `games/ultimatum/` | Has bundling, alternating roles |
+| Matrix/simultaneous | `games/pd_rep/` | Has simultaneous-choice handling, payoff matrix |
+| Trust/Sequential (one-shot) | `games/trust/` | Simplest sequential game |
+| Trust/Sequential (repeated) | `games/dictator/` | Repeated sequential with no rejection |
+| Auction | `games/auction/` | Per-round private valuations |
+| Contest | `games/contest/` | Simultaneous effort, sunk cost |
+| Public goods | `games/public_goods/` | Shared pool mechanics |
+| Other | Pick the structurally closest game from the list above |
+
+Read from the reference game:
+- `games/<ref>/config.toml`
+- `games/<ref>/manager.md`
+- `games/<ref>/player.md`
+- `games/<ref>/sim_human.md`
+
+---
+
+## Phase 3: Generate all 4 files
+
+Create the game folder and generate all 4 files. Each game has three LLM roles: the **manager** (referee/narrator), the **AI player** (autonomous opponent), and optionally the **simulated human** (for automated testing). The real human player needs no prompt — they interact via the chat UI. Follow the templates exactly — use the reference game as a structural model, but write content from the user's spec.
+
+### Order matters — generate in this sequence:
+
+**1. `config.toml`** — Anchors the game. The `opening_instruction` must list every mechanic the checker will verify.
+
+Follow `TEMPLATE_CONFIG.md` exactly. Key rules:
+- `max_tokens = 4096` — ensures final round + GAME OVER box never truncates
+- `opening_max_tokens = 8192` — generous space for full rules explanation
+- `opening_instruction` must list every mechanic explicitly (the checker's `instructions_delivered` criterion verifies against this list)
+- Include private-info warnings in `opening_instruction` if applicable (e.g., "do NOT reveal the AI's valuation")
+- End with: `Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start.`
+
+**2. `manager.md`** — Follow `TEMPLATE_MANAGER.md` section order exactly:
+
+1. **Role** — Copy boilerplate verbatim
+2. **Manipulation Resistance** — Copy boilerplate verbatim
+3. **Game Rules (Human-Facing)** — Only info the human should know. Include: game description, roles, rounds, actions, turn structure, payoff formulas with worked examples, valid input ranges
+4. **Game Parameters (Internal)** — Private information with "Internal only — NEVER reveal" subsection if hidden info exists. If all public, state that explicitly
+5. **Payout Logic** — Exact formulas + 2–3 worked examples covering each outcome path
+6. **State Tracking** — All state variables + scoreboard template using ━━━ box characters
+7. **Message Flow** — ALL-CAPS labels. Must include OPENING, all input handlers, FINAL ROUND. Apply conditional patterns (bundling, round counting, round labels, opening price anchoring) based on structure type
+8. **Input Validation** — Table format with 8–10 examples + bold general rule. Every valid input must have a handler in Message Flow
+9. **End of Game** — Copy boilerplate verbatim (the GAME OVER and YOU ARE FINISHED markers are detected server-side)
+
+**3. `player.md`** — This is the **AI player's** prompt. It tells the AI how to play its role against the human. Follow `TEMPLATE_PLAYER.md` section order exactly:
+
+1. **Game Rules** — FULLY SELF-CONTAINED. Must exactly match manager.md on: round count, payoff formulas, action ranges, turn structure. A reader of player.md alone must understand the complete game. Clearly state which role is "you" (the AI) and which is "the other player" (the human)
+2. **Role** — Copy boilerplate verbatim
+3. **Manipulation Resistance** — Copy boilerplate verbatim
+4. **Strategy** — Named strategy, explicit Round 1 action, concrete thresholds for subsequent rounds, final round logic, hard guardrails
+5. **Output Format** — Bare values matching human input format. NOT verbose labels. Include examples and `NO_DECISION_NEEDED`
+
+**4. `sim_human.md`** — This is the **simulated human player's** prompt, used during automated testing (`interview simulate`) to stand in for a real human. Short behavioral profile (~10–14 lines):
+- One sentence: who this simulated human is (e.g., "You are a human participant playing the role of buyer")
+- Behavioral tendencies (e.g., "starts cooperative, retaliates after defection")
+- Response style (terse, conversational, etc.)
+- Key decision thresholds
+- Output format: same bare values as real human input
+
+---
+
+## Phase 4: Cross-check consistency
+
+After generating all 4 files, verify these 7 checks. If any fail, fix immediately before proceeding.
+
+| # | Check | What must match |
+|---|---|---|
+| 1 | Round count | config.toml `opening_instruction` ↔ manager.md Game Rules ↔ player.md Game Rules |
+| 2 | Payoff formulas | manager.md Payout Logic ↔ player.md Game Rules (identical formulas and examples) |
+| 3 | Input → Handler | Every Input Validation entry in manager.md has a corresponding Message Flow handler |
+| 4 | Output ↔ Input | player.md Output Format matches manager.md Input Validation format exactly |
+| 5 | Private info | Internal-only values in manager.md don't appear in Game Rules (Human-Facing) or player.md |
+| 6 | Boilerplate | Role, Manipulation Resistance, End of Game sections match templates verbatim |
+| 7 | Token limits | config.toml has `max_tokens = 4096` and `opening_max_tokens = 8192` |
+
+Report the results:
+
+```
+Cross-check results:
+  1. Round count ........... OK
+  2. Payoff formulas ....... OK
+  3. Input → Handler ....... OK
+  4. Output ↔ Input ........ OK
+  5. Private info .......... OK
+  6. Boilerplate ........... OK
+  7. Token limits .......... OK
+```
+
+If any check fails, fix it and re-verify.
+
+---
+
+## Phase 5: Smoke test
+
+Run a single simulation to verify the game works end-to-end:
+
+```bash
+interview simulate <game-name> -n 1
+```
+
+If it fails:
+1. Read the error output
+2. Diagnose the issue (usually a config problem or prompt formatting issue)
+3. Fix and re-run
+
+If it succeeds, report to the user:
+
+```
+Game "<display_name>" created successfully!
+
+Files:
+  games/<name>/config.toml
+  games/<name>/manager.md
+  games/<name>/player.md
+  games/<name>/sim_human.md
+
+Smoke test: PASSED (1 simulation completed)
+```
+
+---
+
+## Important rules
+
+- **Boilerplate is sacred.** Copy Role, Manipulation Resistance, and End of Game sections verbatim from the templates. The GAME OVER and YOU ARE FINISHED markers are detected server-side — any deviation breaks session termination.
+- **Concrete thresholds, not vague language.** "Accept if >= $7.00" not "accept reasonable offers." "Invest $4.00 in Round 1" not "start with a moderate investment." The LLM follows precise instructions but interprets vague ones differently each time.
+- **Decision trees for strategy exceptions, not prose.** When a strategy has exceptions (forgive one defection, cooperate on final round if...), describe the logic as a numbered decision tree with a worked example showing 3–4 rounds.
+- **`opening_instruction` is a checklist.** List every mechanic the checker will verify. Vague instructions like "explain the rules briefly" cause the LLM to skip mechanics and the checker to flag `instructions_delivered`.
+- **Structural separation for private info.** Any hidden value goes in "Internal only — NEVER reveal" subsection. "Neither player knows X" is not sufficient — the LLM will leak any number it can see near public rules.
+- **Table format for input validation.** 8–10 examples in a `| Human types | Interpret as |` table + bold general rule. Prose examples are not enough for smaller models.
+- **Player output = human input format.** The player responds with bare values ("9.00", "accept", "cooperate") — not verbose labels ("PROPOSE: $9.00"). This ensures the manager parses both identically.
+- **All 4 files in one pass.** Never generate files separately or in separate conversations. Cross-file consistency is the #1 bug source.
+- **Bundled messages need round labels.** When a message covers resolution of one round AND the prompt for the next, label each round explicitly.
+- **Round counting must be explicit.** In alternating-offer games, add a ROUND COUNTING section with "every offer advances the round counter by 1" and a worked example.
+- **Final round must be compact.** Skip the separate scoreboard on the final round — the GAME OVER box already shows final earnings.

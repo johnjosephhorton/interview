@@ -90,6 +90,13 @@ Ongoing log of issues found during development and testing. Reference these when
 **Fix:** Added a "ROUND COUNTING" section to Message Flow with explicit rules: "Every offer advances the round counter by 1" plus a worked example showing Round 1 → Round 2 → Round 3 progression. Each Message Flow branch now says "advance round_number by 1."
 **Rule:** In alternating-offer games, add an explicit ROUND COUNTING section with a worked example. Don't assume the LLM will infer round advancement from the turn structure.
 
+### Asymmetric communication rules must be actively enforced
+**Game:** bargain_cheap_talk
+**Symptom:** The game allows AI cheap talk but not human cheap talk. However, nothing prevented the human from adding persuasive text around their price (e.g., "8 - it means a lot to me too!"). The manager extracted the number and proceeded, but the human's cheap talk was still visible in the conversation record.
+**Root cause:** Input Validation correctly extracts prices from surrounding text (by design — "I'll pay 7" should work). But this same permissiveness means the human can embed cheap talk around valid input. The manager displayed the human's full message in round summaries, effectively giving both sides cheap talk.
+**Fix:** Added HUMAN CHEAP TALK ENFORCEMENT section in Message Flow: extract only the game action, present it neutrally as "You offered $X.00", never quote or relay the human's surrounding text. Updated sim_human.md with CRITICAL OUTPUT RULE for bare-number-only output.
+**Rule:** When a game has asymmetric communication rules (one side can communicate freely, the other can't), the manager must actively strip the restricted side's extra text. Don't rely on the human or sim_human to self-enforce — the manager must present only the extracted action in the game record.
+
 ## End-of-Game Detection
 
 ### Two markers for robustness

@@ -1,0 +1,14 @@
+name = "Bargaining with Cheap Talk"
+description = "Mug bargaining where the AI seller uses persuasive cheap talk alongside offers"
+
+[canned]
+opening_instruction = """Explain the game rules from the Game Rules section clearly so someone with no prior knowledge could understand. Include: what the game is (a price negotiation over a mug), that the AI owns the mug and the human wants to buy it, the human's valuation ($8.00), that the AI values the mug somewhere between $4.00 and $10.00 (but not the exact value — do NOT reveal the AI's exact valuation), that the AI does not know the human's exact valuation (only that it is between $4.00 and $10.00), the alternating offer structure (AI offers on odd rounds, human on even rounds), the maximum of 4 rounds, valid price range ($0.00–$15.00), that the human can accept or counteroffer each round, that the AI will include persuasive messages (cheap talk) alongside its offers but only the price matters, what happens if no deal is reached (AI keeps the mug, human earns $0), and how earnings are computed (deal at price P: AI earns P, human earns $8.00 minus P; no deal: human earns $0).
+Then immediately present Round 1 with the AI's opening offer (with persuasive framing) and ask: "Do you accept, or would you like to make a counteroffer?"
+
+Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start."""
+last_question = "This is the final round. Make your last decision."
+end_of_session = "The bargaining session has ended. Thank you for participating."
+
+[settings]
+max_tokens = 4096
+opening_max_tokens = 8192
