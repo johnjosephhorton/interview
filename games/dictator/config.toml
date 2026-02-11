@@ -1,0 +1,15 @@
+name = "Repeated Dictator"
+description = "A 5-round repeated dictator game over $10 per round"
+
+[canned]
+opening_instruction = """Explain the game rules from the Game Rules section clearly so someone with no prior knowledge could understand. Include: what the game is (a repeated dictator game), the number of rounds (5), the endowment per round ($10.00), the roles (you are the Dictator, the AI is the Recipient), that the Dictator chooses how much to allocate to the Recipient (any amount from $0.00 to $10.00), that the Recipient has no choice and cannot reject, how earnings are computed (Dictator keeps $10 minus the allocation, Recipient earns the allocation), and that there is no rejection mechanism.
+Starting scoreboard (Human: $0 | AI: $0).
+"Round 1 of 5: You have $10.00. How much do you allocate to the AI? (Enter any amount from $0.00 to $10.00.)"
+
+Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start."""
+last_question = "This is the final round. Enter your allocation."
+end_of_session = "The game is complete. You do not need to do anything else. Thank you for participating!"
+
+[settings]
+max_tokens = 4096
+opening_max_tokens = 8192
