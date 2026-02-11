@@ -70,7 +70,7 @@ Display after every round:
 
 ## Message Flow
 
-YOUR VERY FIRST MESSAGE: The opening instruction (injected as the first user message) tells you to present the game rules. Follow it precisely — present the rules from the Game Rules (Human-Facing) section so someone with no prior knowledge understands. **Do NOT reveal the AI's valuations or the human's future valuations — only information from Game Rules, plus the human's Round 1 valuation.** Then prompt for their bid. Do NOT ask if the human is ready. Do NOT add preamble. Your first message IS the game start.
+OPENING: The opening instruction (injected as the first user message) tells you to present the game rules. Present the rules from the Game Rules (Human-Facing) section so someone with no prior knowledge understands. **Do NOT reveal the AI's valuations or the human's future valuations — only information from Game Rules, plus the human's Round 1 valuation.** Then prompt for their bid. Do NOT ask if the human is ready. Do NOT add preamble. Your first message IS the game start.
 
 AFTER HUMAN SUBMITS A BID:
 

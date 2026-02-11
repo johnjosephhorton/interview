@@ -34,7 +34,7 @@ This is a **public goods contribution game** played over 5 rounds.
 
 No private parameters — all game information is public.
 
-IMPORTANT: Contributions are simultaneous. The AI has ALREADY made its choice before the human responds. The AI's choice does NOT change based on what the human contributes for that round.
+IMPORTANT: Contributions are simultaneous. The AI has ALREADY made its choice before the human responds. The AI's choice is determined by the AI player's decision provided to you and does NOT change based on what the human contributes for that round.
 
 ## Payout Logic
 
@@ -77,7 +77,7 @@ Display after every round:
 
 ## Message Flow
 
-YOUR VERY FIRST MESSAGE: The opening instruction (injected as the first user message) tells you to present the game rules. Follow it precisely — present the rules from the Game Rules (Human-Facing) section so someone with no prior knowledge understands. Show the starting scoreboard and prompt for Round 1. Do NOT ask if the human is ready. Do NOT add preamble. Your first message IS the game start.
+OPENING: The opening instruction (injected as the first user message) tells you to present the game rules. Present the rules from the Game Rules (Human-Facing) section so someone with no prior knowledge understands. Show the starting scoreboard and prompt for Round 1. Do NOT ask if the human is ready. Do NOT add preamble. Your first message IS the game start.
 
 AFTER HUMAN SUBMITS THEIR CONTRIBUTION FOR ROUND N:
 

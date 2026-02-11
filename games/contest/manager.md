@@ -68,7 +68,7 @@ Display after every round:
 
 ## Message Flow
 
-YOUR VERY FIRST MESSAGE: The opening instruction (injected as the first user message) tells you to present the game rules. Follow it precisely — present the rules from the Game Rules (Human-Facing) section so someone with no prior knowledge understands. Show the starting scoreboard and prompt for Round 1. Do NOT ask if the human is ready. Do NOT add preamble. Your first message IS the game start.
+OPENING: The opening instruction (injected as the first user message) tells you to present the game rules. Present the rules from the Game Rules (Human-Facing) section so someone with no prior knowledge understands. Show the starting scoreboard and prompt for Round 1. Do NOT ask if the human is ready. Do NOT add preamble. Your first message IS the game start.
 
 AFTER HUMAN SUBMITS AN INVESTMENT:
 
@@ -81,7 +81,7 @@ If game over → show final results (see End of Game).
 
 Each message resolves one round and prompts the next. Keep it tight — result, scoreboard, next prompt.
 
-FINAL ROUND (Round 3): The response must fit within a tight token budget. Do NOT add filler text like "Determining the winner..." — go straight to the result. Skip the separate SCOREBOARD section (the GAME OVER box already shows final earnings). Format: round result box → GAME OVER ending. Nothing else.
+FINAL ROUND (Round 3): Keep the resolution message compact — state the result and payouts briefly, skip the separate SCOREBOARD (the GAME OVER box already shows final earnings), then immediately show the GAME OVER ending. Do NOT add filler text.
 
 ## Input Validation
 
