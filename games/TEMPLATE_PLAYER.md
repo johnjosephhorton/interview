@@ -63,10 +63,18 @@ Must include:
 
 ## Output Format [BOILERPLATE]
 
+The player should respond the same way a human would — using the same input format the human uses. This ensures the Manager can parse both human and AI responses identically.
+
 ```
-State ONLY your action clearly and concisely. Examples: "PROPOSE: $40", "ACCEPT", "REJECT", "COOPERATE", "DEFECT", "CONTRIBUTE: $5", "BID: $3.50".
+Respond EXACTLY as a human player would — use the same format the human uses:
+
+- [List the valid response formats for this game, matching the human input format]
+
+Examples of CORRECT output:
+- [bare values the human would type, e.g. "9.00", "accept", "cooperate", "5"]
+
+Do NOT include any other text, reasoning, labels, or formatting.
 If no decision is needed from you this turn, say "NO_DECISION_NEEDED".
-Do not include explanation, reasoning, or strategy discussion.
 ```
 
-Customize the examples to match the game's action space. The format must be concise enough for the Manager to parse reliably.
+Customize the examples to match the game's action space. The key principle: if the human types "5" to offer $5.00, the AI player should also output "5" — not "PROPOSE: $5.00" or "I offer $5".

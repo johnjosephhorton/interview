@@ -8,9 +8,8 @@ from .models import AgentConfig, AgentResponse, LLMCallInfo, Message
 
 DECISION_INSTRUCTION = (
     "\n\nBased on the current game state above, state your decision now. "
-    "State ONLY your action (e.g. PROPOSE: $40, ACCEPT, REJECT, COOPERATE, DEFECT, "
-    "CONTRIBUTE: $5, BID: $3.50). If no decision is needed from you this turn, "
-    "say NO_DECISION_NEEDED."
+    "Follow the Output Format rules in your instructions exactly. "
+    "If no decision is needed from you this turn, say NO_DECISION_NEEDED."
 )
 
 
@@ -50,6 +49,10 @@ class GamePlayer:
                 for m in messages
             )
             api_messages.append({"role": "user", "content": conversation + DECISION_INSTRUCTION})
+        else:
+            api_messages.append(
+                {"role": "user", "content": "The game is starting." + DECISION_INSTRUCTION}
+            )
         return api_messages
 
     async def generate_decision(

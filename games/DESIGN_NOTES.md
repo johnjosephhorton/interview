@@ -69,6 +69,13 @@ Ongoing log of issues found during development and testing. Reference these when
 **Fix:** Moved entire valuations table to "Internal only — NEVER reveal" subsection. Added bold rules: only reveal human's valuation for the current round, never reveal AI's valuation during play, never reveal future human valuations. Updated config.toml opening_instruction to explicitly say "do NOT reveal the AI's valuation or the human's future valuations."
 **Rule:** In games with per-round private valuations, the entire valuations schedule belongs in "Internal only." Even the human's own future valuations should not be shown upfront — reveal only the current round's value.
 
+### Player decisions truncated at token limit — manager fabricates actions
+**Game:** bargainer
+**Symptom:** AI opened at $12.00 (strategy says $9.00); AI offered $8.50 in Round 3 (strategy says $8.00 when human < $5). Checker flagged `ai_strategy_compliance` and `rule_adherence` (4 rounds counted instead of 6).
+**Root cause:** Three issues compounded: (1) The player's Output Format used verbose labels ("PROPOSE: $9.00", "REJECT AND COUNTEROFFER: $7.50") encouraging the LLM to generate reasoning before the decision, which got truncated at 150 tokens. (2) When messages was empty (opening), the player received no DECISION_INSTRUCTION user message — just the system prompt — so it generated free-form text instead of a concise decision. (3) The manager had no fallback price for the opening, so it fabricated $12.00. (4) Bundled messages (human counteroffer + AI rejection + AI counteroffer) didn't label rounds explicitly, so the checker undercounted.
+**Fix:** (1) Changed player Output Format to human-equivalent bare values ("9.00", "accept"). (2) Fixed player.py to always send DECISION_INSTRUCTION, even with empty messages. (3) Added default opening price fallback in manager.md. (4) Added explicit round labels in bundled messages.
+**Rule:** Player output must be as terse as possible — bare values matching the human input format. The DECISION_INSTRUCTION must always be sent (even for the opening). The manager should have a fallback price for the opening. Bundled messages must label each round explicitly.
+
 ### Bare numbers rejected as invalid counteroffers
 **Game:** bargain_imperfect
 **Symptom:** Human typed "4", "6", "9", "3", "6.00" — all rejected. Even "$3.00" was rejected on a second attempt. Only "$3.00" and "$5.00" worked (inconsistently).

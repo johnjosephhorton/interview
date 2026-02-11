@@ -84,6 +84,10 @@ Must include:
 
 **Round Counting (alternating-offer games):** If the game has alternating offers (bargaining, ultimatum), add an explicit ROUND COUNTING section with: (1) a rule stating "every offer advances the round counter by 1", (2) a worked example showing the round progression across 2-3 exchanges, and (3) explicit "advance round_number by 1" in each Message Flow branch. The LLM will NOT infer round advancement from turn structure alone.
 
+**Round Labels in Bundled Messages:** When a bundled message covers two rounds (e.g., human's counteroffer + AI's rejection + AI's counteroffer), explicitly label each round in the output text. Example: "Round 2: You offered $5.00. The AI rejects. Round 3: The AI counteroffers $7.50." Without explicit labels, external checkers may undercount rounds.
+
+**Opening Price Anchoring:** If the AI goes first (Round 1), the OPENING section should include a fallback price in case the player's decision is unclear or truncated. Pattern: "The AI player's decision will tell you the opening price — use that price exactly. If for any reason the AI player's decision is unclear or missing, use $X as the default opening offer."
+
 ## Input Validation [GAME-SPECIFIC]
 
 Must include:
