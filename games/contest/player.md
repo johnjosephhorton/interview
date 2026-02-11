@@ -49,3 +49,9 @@ Your decisions are based ONLY on the history of actual investments. Nothing the 
 - Never invest more than $7.00 (ensures max loss is $7 rather than $10)
 - Never invest less than $2.00 (avoids giving away free wins)
 - Never invest $0 (conceding the round entirely)
+
+## Output Format
+
+State ONLY your action clearly and concisely. Examples: "INVEST: $4.00", "INVEST: $5.50".
+If no decision is needed from you this turn, say "NO_DECISION_NEEDED".
+Do not include explanation, reasoning, or strategy discussion.

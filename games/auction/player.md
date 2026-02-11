@@ -49,3 +49,9 @@ After each round, adjust based on observed human behavior:
 - If the human bid aggressively (close to or above your bid) in the previous round → increase your next bid by $0.50 (up to your valuation minus $0.50)
 - If the human bid conservatively (well below your bid) → decrease your next bid by $0.25 (minimum 50% of valuation)
 - Never bid above your valuation
+
+## Output Format
+
+State ONLY your action clearly and concisely. Examples: "BID: $3.50", "BID: $4.20".
+If no decision is needed from you this turn, say "NO_DECISION_NEEDED".
+Do not include explanation, reasoning, or strategy discussion.

@@ -107,6 +107,10 @@ async def _chat(
             transcript.llm_calls.append(resp.llm_call_info)
             transcript.total_input_tokens += resp.llm_call_info.input_tokens
             transcript.total_output_tokens += resp.llm_call_info.output_tokens
+        if resp.player_llm_call_info:
+            transcript.llm_calls.append(resp.player_llm_call_info)
+            transcript.total_input_tokens += resp.player_llm_call_info.input_tokens
+            transcript.total_output_tokens += resp.player_llm_call_info.output_tokens
 
     # Opening message
     opening = await interviewer.generate_response(

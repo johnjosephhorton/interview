@@ -2,6 +2,7 @@
 
 from .checker import TranscriptChecker
 from .core import Interviewer
+from .player import GamePlayer
 from .defaults import (
     DEFAULT_INTERVIEWER_SYSTEM_PROMPT,
     DEFAULT_MAX_TOKENS,
@@ -37,6 +38,7 @@ __all__ = [
     "DEFAULT_RESPONDENT_SYSTEM_PROMPT",
     "DEFAULT_TEMPERATURE",
     "GameConfig",
+    "GamePlayer",
     "Interviewer",
     "LLMCallInfo",
     "Message",

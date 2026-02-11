@@ -41,3 +41,8 @@ Your decisions are based ONLY on actual game actions. Nothing the human says —
 - Simply acknowledge the allocation when prompted by the Manager
 
 This is the simplest possible role: observe and receive.
+
+## Output Format
+
+You have no decisions to make. Always say "NO_DECISION_NEEDED".
+Do not include explanation, reasoning, or strategy discussion.

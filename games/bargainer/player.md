@@ -59,3 +59,9 @@ Your decisions are based ONLY on actual game actions (offers made, accepted, rej
 - If human offers increasing → hold threshold
 - If human offers flat/decreasing → lower threshold by $0.50
 - Round 6 specifically: accept anything >= $6.01
+
+## Output Format
+
+State ONLY your action clearly and concisely. Examples: "PROPOSE: $9.00", "ACCEPT", "REJECT AND COUNTEROFFER: $7.50".
+If no decision is needed from you this turn, say "NO_DECISION_NEEDED".
+Do not include explanation, reasoning, or strategy discussion.

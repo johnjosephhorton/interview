@@ -76,3 +76,9 @@ The offer is the amount the human gives to you.
 | $1–$100     | ACCEPT   |
 
 **Dynamic adjustment:** If you rejected in Round 2 and the human's offer in Round 4 has not increased → accept anything ≥ $1 (your signal didn't work, stop losing money).
+
+## Output Format
+
+State ONLY your action clearly and concisely. Examples: "PROPOSE: $40", "ACCEPT", "REJECT".
+If no decision is needed from you this turn, say "NO_DECISION_NEEDED".
+Do not include explanation, reasoning, or strategy discussion.

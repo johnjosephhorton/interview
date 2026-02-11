@@ -49,6 +49,7 @@ class LLMCallInfo(BaseModel):
 class AgentResponse(BaseModel):
     text: str
     llm_call_info: LLMCallInfo | None = None
+    player_llm_call_info: LLMCallInfo | None = None
 
 
 class Transcript(BaseModel):
@@ -67,6 +68,7 @@ class GameConfig(BaseModel):
     description: str = ""
     interviewer_system_prompt: str
     respondent_system_prompt: str
+    player_system_prompt: str | None = None
     opening_instruction: str
     last_question_response: str
     end_of_session_response: str
@@ -113,9 +115,8 @@ def load_game(name: str) -> GameConfig:
     if not respondent_path.exists():
         raise ValueError(f"Missing sim_human.md in games/{name}/")
 
-    interviewer_prompt = (
-        manager_path.read_text().strip() + "\n\n" + player_path.read_text().strip()
-    )
+    interviewer_prompt = manager_path.read_text().strip()
+    player_prompt = player_path.read_text().strip()
 
     with open(config_path, "rb") as f:
         cfg = tomllib.load(f)
@@ -130,6 +131,7 @@ def load_game(name: str) -> GameConfig:
         description=cfg.get("description", ""),
         interviewer_system_prompt=interviewer_prompt,
         respondent_system_prompt=respondent_prompt,
+        player_system_prompt=player_prompt,
         opening_instruction=canned.get("opening_instruction", ""),
         last_question_response=canned.get("last_question", ""),
         end_of_session_response=canned.get("end_of_session", ""),

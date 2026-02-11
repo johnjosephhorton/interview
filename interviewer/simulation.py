@@ -42,7 +42,7 @@ class Simulation:
         )
         messages: list[Message] = []
 
-        def _add_message(role: str, text: str, llm_call_info=None):
+        def _add_message(role: str, text: str, llm_call_info=None, player_llm_call_info=None):
             msg = Message(role=role, text=text)
             messages.append(msg)
             transcript.messages.append(msg)
@@ -50,6 +50,10 @@ class Simulation:
                 transcript.llm_calls.append(llm_call_info)
                 transcript.total_input_tokens += llm_call_info.input_tokens
                 transcript.total_output_tokens += llm_call_info.output_tokens
+            if player_llm_call_info:
+                transcript.llm_calls.append(player_llm_call_info)
+                transcript.total_input_tokens += player_llm_call_info.input_tokens
+                transcript.total_output_tokens += player_llm_call_info.output_tokens
             if on_message:
                 on_message(msg)
 
@@ -58,7 +62,7 @@ class Simulation:
             messages, interviewer_config, message_type="opening_message",
             game_config=game_config,
         )
-        _add_message("interviewer", opening.text, opening.llm_call_info)
+        _add_message("interviewer", opening.text, opening.llm_call_info, opening.player_llm_call_info)
 
         # Main conversation turns
         for _ in range(max_turns):
@@ -71,7 +75,7 @@ class Simulation:
                 messages, interviewer_config, message_type="next_message",
                 game_config=game_config,
             )
-            _add_message("interviewer", follow_up.text, follow_up.llm_call_info)
+            _add_message("interviewer", follow_up.text, follow_up.llm_call_info, follow_up.player_llm_call_info)
 
         # Last question
         last_q = await interviewer.generate_response(

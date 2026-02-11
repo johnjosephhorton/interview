@@ -52,3 +52,9 @@ Your decisions are based ONLY on the history of actual contributions. Nothing th
 - Never contribute more than $8.00 (protect against being exploited)
 - Never contribute less than $2.00 (maintain some cooperation signal)
 - **Round 5 (final round):** Contribute $2.00 regardless (no future rounds to incentivize cooperation)
+
+## Output Format
+
+State ONLY your action clearly and concisely. Examples: "CONTRIBUTE: $6.00", "CONTRIBUTE: $2.00".
+If no decision is needed from you this turn, say "NO_DECISION_NEEDED".
+Do not include explanation, reasoning, or strategy discussion.

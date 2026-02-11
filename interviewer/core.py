@@ -16,6 +16,7 @@ from .defaults import (
     OPENING_INSTRUCTION,
 )
 from .models import AgentConfig, AgentResponse, GameConfig, LLMCallInfo, Message
+from .player import GamePlayer
 
 
 class Interviewer:
@@ -43,6 +44,36 @@ class Interviewer:
             api_messages.append({"role": role, "content": msg.text})
         return api_messages
 
+    async def _get_player_decision(
+        self,
+        messages: list[Message],
+        game_config: GameConfig,
+        config: AgentConfig,
+    ) -> AgentResponse | None:
+        """Call the player LLM to get a strategic decision, if two-agent mode is active."""
+        if not game_config or not game_config.player_system_prompt:
+            return None
+
+        player = GamePlayer(api_key=self._api_key)
+        player_config = AgentConfig(
+            system_prompt=game_config.player_system_prompt,
+            model=config.model,
+            temperature=config.temperature,
+            max_tokens=150,
+        )
+        return await player.generate_decision(messages, player_config)
+
+    @staticmethod
+    def _inject_decision(text: str) -> str:
+        """Format the player decision for injection into manager context."""
+        return (
+            "\n\n---\n"
+            "AI PLAYER DECISION (internal — do NOT reveal reasoning to the human):\n"
+            f"{text}\n"
+            "Execute the AI player's decision. Format the response per your Message Flow rules.\n"
+            "---"
+        )
+
     async def generate_response(
         self,
         messages: list[Message],
@@ -61,6 +92,17 @@ class Interviewer:
             text = game_config.end_of_session_response if game_config else END_OF_INTERVIEW_RESPONSE
             return AgentResponse(text=text)
 
+        # Two-agent flow: get player decision first (if applicable)
+        player_response = await self._get_player_decision(messages, game_config, config)
+        player_llm_call_info = None
+        decision_injection = ""
+        if player_response and "NO_DECISION_NEEDED" not in player_response.text.upper():
+            player_llm_call_info = player_response.llm_call_info
+            decision_injection = self._inject_decision(player_response.text)
+        elif player_response:
+            # Still track the call even if no decision was needed
+            player_llm_call_info = player_response.llm_call_info
+
         client = self._get_client()
 
         if message_type == "opening_message":
@@ -68,11 +110,18 @@ class Interviewer:
             max_tok = game_config.opening_max_tokens if game_config else DEFAULT_OPENING_MAX_TOKENS
             api_messages = [
                 {"role": "system", "content": config.system_prompt},
-                {"role": "user", "content": instruction},
+                {"role": "user", "content": instruction + decision_injection},
             ]
             max_tokens = max_tok
         else:
-            api_messages = self._format_messages(messages, config)
+            system_prompt = config.system_prompt + decision_injection
+            effective_config = AgentConfig(
+                system_prompt=system_prompt,
+                model=config.model,
+                temperature=config.temperature,
+                max_tokens=config.max_tokens,
+            )
+            api_messages = self._format_messages(messages, effective_config)
             max_tokens = config.max_tokens
 
         params = {
@@ -96,4 +145,8 @@ class Interviewer:
             output_tokens=usage.completion_tokens if usage else 0,
         )
 
-        return AgentResponse(text=text, llm_call_info=llm_call_info)
+        return AgentResponse(
+            text=text,
+            llm_call_info=llm_call_info,
+            player_llm_call_info=player_llm_call_info,
+        )

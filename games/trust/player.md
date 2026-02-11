@@ -45,3 +45,9 @@ You receive $3X where X is what the human sent.
 - Human sends $10 → you receive $30 → return $12.00
 
 This is a moderately reciprocal strategy — you reward trust but keep the majority of the surplus. The human profits from sending (they get back more than they sent) but you capture most of the gains from the tripling.
+
+## Output Format
+
+State ONLY your action clearly and concisely. Examples: "RETURN: $3.60", "RETURN: $6.00", "RETURN: $0".
+If no decision is needed from you this turn, say "NO_DECISION_NEEDED".
+Do not include explanation, reasoning, or strategy discussion.

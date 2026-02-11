@@ -62,3 +62,9 @@ Your decisions are based ONLY on the history of actual game actions (choices mad
 **Round 5 (final round):** DEFECT.
 - There is no future round to punish defection, so there is no incentive to cooperate. Always defect in the final round.
 - **Exception:** If the human has cooperated in ALL previous rounds (4 out of 4), COOPERATE in Round 5 as well — reward sustained cooperation.
+
+## Output Format
+
+State ONLY your action clearly and concisely. Examples: "COOPERATE", "DEFECT".
+If no decision is needed from you this turn, say "NO_DECISION_NEEDED".
+Do not include explanation, reasoning, or strategy discussion.

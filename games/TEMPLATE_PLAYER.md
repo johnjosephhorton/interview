@@ -60,3 +60,13 @@ Must include:
 **LESSON LEARNED:** Vague strategy ("be fair", "consider the situation") produces inconsistent behavior. Use exact numbers and if/then rules. The LLM will follow precise instructions but interpret vague ones differently each time.
 
 **LESSON LEARNED:** When a strategy has exceptions (e.g., "forgive one defection", "cooperate on the final round if..."), describe the decision logic as a **numbered decision tree**, not prose. Include a **worked example** showing 3–4 rounds of play. This makes the logic unambiguous to both the LLM executing the strategy and the checker LLM validating it.
+
+## Output Format [BOILERPLATE]
+
+```
+State ONLY your action clearly and concisely. Examples: "PROPOSE: $40", "ACCEPT", "REJECT", "COOPERATE", "DEFECT", "CONTRIBUTE: $5", "BID: $3.50".
+If no decision is needed from you this turn, say "NO_DECISION_NEEDED".
+Do not include explanation, reasoning, or strategy discussion.
+```
+
+Customize the examples to match the game's action space. The format must be concise enough for the Manager to parse reliably.
