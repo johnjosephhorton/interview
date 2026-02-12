@@ -24,24 +24,42 @@ This skill handles the **"what did we learn"** — from transcripts to insights 
 
 Collect everything needed for the writeup. Read files in parallel where possible.
 
-### 1a. Identify the experiment scope
+### 1a. Identify the experiment scope and load hypothesis context
 
-From the argument or context, determine:
-- **Single condition** (one game folder, e.g., `bargain_1s_notalk`) — analyze that game alone
-- **Multi-condition experiment** (e.g., `cheap_talk_info_asymmetry`) — find all related game folders. Heuristics:
-  - Look for a design memo in `writeup/designs/` matching the experiment name (`*_hypothesis.tex`, `*.tex`)
-  - Look for game folders that share a common prefix or are listed in the design memo's Game Implementations table
-  - If ambiguous, glob `transcripts/*/` and `games/*/` for folders with related names
+From the argument or context, determine the experiment scope. **Always check for the experiment manifest first** — it's the structured source of truth.
 
-### 1b. Read the upstream materials (if they exist)
+**Resolution order:**
 
-Search for and read (in parallel):
-- **Hypothesis memo:** `writeup/designs/*_hypothesis.tex` or `*_hypothesis.pdf` matching the experiment
+1. **Experiment manifest** — Check if `writeup/designs/<arg>.manifest.toml` exists. If yes, read it — it contains everything: hypothesis, predictions, condition list, primary outcome, variable definitions, and links to upstream artifacts. This is the **preferred** path.
+2. **Single condition** (one game folder, e.g., `bargain_1s_notalk`) — analyze that game alone. Check if any manifest in `writeup/designs/*.manifest.toml` lists this game in its `[conditions]` to get the broader experiment context.
+3. **Multi-condition experiment** (e.g., `cheap_talk_info_asymmetry`) — find all related game folders via manifest, design memo, or prefix matching.
+
+### 1b. Read the upstream materials
+
+**If manifest exists**, read it first, then use its `[artifacts]` links to find memos:
+
+```toml
+[artifacts]
+hypothesis_memo = "writeup/designs/<name>_hypothesis.pdf"
+design_memo = "writeup/designs/<name>.pdf"
+```
+
+From the manifest, extract and carry forward:
+- `hypothesis` — the one-sentence hypothesis (goes directly into the Research Question section)
+- `research_question` — the one-sentence question
+- `triviality_score` — from the hypothesis scorecard
+- `[variables]` — treatment (X), outcome (Y), mechanism (M), control (Z)
+- `[design]` — primary outcome, primary test, design type
+- `[conditions]` — all game folders with labels and treatment values
+- `[predictions]` — named predictions to evaluate against results
+
+**If no manifest exists**, fall back to searching:
+- **Hypothesis memo:** `writeup/designs/*_hypothesis.tex` matching the experiment
 - **Design memo:** `writeup/designs/*.tex` matching the experiment
 - **Pilot writeup:** `writeup/pilot_*.md` matching the experiment
 - **Game files:** For each condition, read `games/<name>/config.toml`, `games/<name>/manager.md`, `games/<name>/player.md`
 
-If no hypothesis or design memo exists, reconstruct the hypothesis and design from the game files alone. The writeup still needs a hypothesis section — infer it from the game structure, treatment variation, and parameterization.
+If no hypothesis or design memo exists AND no manifest exists, reconstruct the hypothesis and design from the game files alone. The writeup still needs a hypothesis section — infer it from the game structure, treatment variation, and parameterization.
 
 ### 1c. Read all transcripts and checker results
 
@@ -120,10 +138,14 @@ Present as a summary table.
 
 ### 3b. Inferential analysis (if multi-condition)
 
-Match the analysis to the experimental design:
+Match the analysis to the experimental design. **If a manifest exists**, use its `[design]` section to drive the analysis:
+- `primary_outcome` → the dependent variable
+- `primary_outcome_type` → `binary` (use logistic regression) or `continuous` (use linear regression)
+- `primary_test` → the specific test to run (e.g., "interaction term β₃")
+- `[predictions]` → named predictions to formally evaluate (for each, report CONFIRMED / REFUTED / UNCLEAR with the supporting statistic)
 
 **Between-conditions comparison (factorial design):**
-- Use the analysis plan from the design memo if available
+- Use the analysis plan from the manifest or design memo
 - For binary outcomes (deal rate): proportions + chi-squared or Fisher's exact test, logistic regression with treatment indicators
 - For continuous outcomes (price, earnings): t-tests or ANOVA, linear regression with treatment indicators
 - For factorial designs: include interaction terms
@@ -387,6 +409,22 @@ If a transcript has `overall_passed: false` in its checker result, flag it but s
 
 ---
 
+## Phase 6b: Update the experiment manifest
+
+If a manifest exists (`writeup/designs/<experiment>.manifest.toml`), append the results artifact path to the `[artifacts]` section:
+
+```toml
+[artifacts]
+hypothesis_memo = "writeup/designs/<name>_hypothesis.pdf"
+design_memo = "writeup/designs/<name>.pdf"
+results_memo = "writeup/designs/<name>_results.pdf"    # ← added by /analyze-results
+data_csv = "writeup/data/<name>_data.csv"              # ← added by /analyze-results
+```
+
+This keeps the manifest as a single index of all experiment artifacts for `/research-loop` and future iterations.
+
+---
+
 ## Rules
 
 1. **Run to completion.** Never ask the user to choose between analysis approaches. Pick the most appropriate one and execute it.
@@ -397,3 +435,4 @@ If a transcript has `overall_passed: false` in its checker result, flag it but s
 6. **Match existing style.** Follow the LaTeX conventions from existing memos in `writeup/designs/` (same packages, same section styling, same figure caption format).
 7. **No fake data.** Never fabricate statistics. If the sample is too small for inference, say so. Report descriptive statistics even if N is too small for p-values.
 8. **Clean up.** Remove LaTeX aux files after compilation. Remove temporary Python scripts after they've run successfully.
+9. **Manifest is source of truth.** If a manifest exists, use it for hypothesis, predictions, conditions, and primary outcome. Do not reconstruct these from LaTeX memos when the manifest is available.

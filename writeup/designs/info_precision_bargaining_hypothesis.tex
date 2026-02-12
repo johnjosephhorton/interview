@@ -1,0 +1,100 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx, booktabs, hyperref, enumitem, xcolor, titlesec, parskip}
+
+\definecolor{darkblue}{HTML}{1E40AF}
+\definecolor{darkgreen}{HTML}{047857}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{Hypothesis Memo: The Information Precision Valley}}\\[0.5em]
+{\large \today \quad $\cdot$ \quad Status: Pre-design}
+\end{center}
+
+%% --- 1. RESEARCH QUESTION ---
+\section*{Research Question}
+
+Does partial information about opponent valuations create an ``information valley'' in bargaining --- reducing deal rates below both full-information and no-information baselines?
+
+Standard bargaining theory predicts that more information monotonically improves efficiency: information asymmetries are the primary source of failed negotiations (Myerson \& Satterthwaite, 1983), so revealing more should help. But this prediction conflates two distinct functions of information: (1)~\emph{focal point coordination} (exact values provide a natural split-the-difference anchor) and (2)~\emph{aspiration calibration} (any information about the opponent shapes what you think you can get). We hypothesize that partial information --- knowing a range but not exact values --- activates the second function without the first, creating a paradoxical zone where \emph{more knowledge produces worse outcomes}.
+
+The core intuition: when you know the opponent's valuation is somewhere between \$50 and \$80, you anchor to the extreme that favors you (a buyer assumes the seller's cost is near \$50; the seller assumes the buyer's value is near \$80). Both sides form inflated aspirations. But neither has a precise focal point to coordinate on, so they negotiate aggressively from incompatible positions. Under no information, risk aversion drives exploratory compromise. Under exact information, the known ZOPA provides a natural coordination point. Range information gives the worst of both worlds: confident enough to be aggressive, but too uncertain to coordinate.
+
+This matters because most real-world negotiations involve partial information --- parties know \emph{something} about each other's position, but rarely exact values. If partial information is genuinely the worst regime, it reframes information disclosure policies: vague transparency (``the seller paid between \$200K and \$300K'') may be worse than either full disclosure or no disclosure at all.
+
+%% --- 2. INTERESTINGNESS ARGUMENT ---
+\section*{Interestingness Argument}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{@{}lcp{9.5cm}@{}}
+\toprule
+\textbf{Dimension} & \textbf{Score} & \textbf{Reasoning} \\
+\midrule
+Prediction surprise & 4 & Most researchers predict monotonic improvement with more information. The non-monotonic ``valley'' --- partial info is \emph{worst} --- contradicts the standard intuition. Some information economists might predict this, but most experimentalists would not. \\[0.5em]
+Literature gap & 4 & Information precision as a continuous variable (none $\to$ range $\to$ exact) has theoretical treatments in mechanism design, but direct experimental comparison of all three precision levels in the same bargaining game is rare. Prior work in this project tested info \emph{source} (verified vs.\ claims) and info \emph{asymmetry} (one-sided vs.\ two-sided), but not \emph{precision}. \\[0.5em]
+Mechanism specificity & 4 & Two competing mechanisms --- aspiration inflation (drives failure under range info) vs.\ focal point coordination (drives success under exact info) --- and the 3-condition design isolates each. Comparing opening offers across conditions tests aspiration inflation directly. \\[0.5em]
+Boundary conditions & 4 & ZOPA tightness moderates: the valley should be deepest with tight ZOPA (inflated aspirations eat a small surplus) and shallowest with wide ZOPA (room for both aspirations). This is a clean, testable interaction. \\[0.5em]
+Testability in games & 5 & Deal rate is binary and cleanly observable. Opening offer aggressiveness (distance from the fair split) directly measures aspiration inflation. Deal prices under exact info test focal point clustering. \\
+\midrule
+\textbf{Total} & \textbf{21/25} & Proceed as-is (strong hypothesis). \\
+\bottomrule
+\end{tabular}
+\caption*{Triviality scorecard. Score $\geq$ 18: proceed without sharpening.}
+\end{table}
+
+No sharpening needed. The hypothesis already features a non-monotonic prediction, two identified mechanisms, a moderating interaction (ZOPA size), and cleanly observable outcomes.
+
+%% --- 3. CAUSAL MODEL ---
+\section*{Causal Model}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{../plots/dag_info_precision_bargaining.pdf}
+\caption{Causal DAG for the Information Precision Valley hypothesis. Information Precision (treatment, 3 levels) affects Deal Rate through two competing mediating pathways: \emph{aspiration inflation} (activated by range information, reduces deals) and \emph{focal point availability} (activated by exact information, increases deals). ZOPA Size moderates by amplifying aspiration inflation when surplus is small.}
+\end{figure}
+
+\subsection*{Variable Definitions}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{@{}llp{4.8cm}p{4.8cm}@{}}
+\toprule
+\textbf{Variable} & \textbf{Type} & \textbf{Operationalization} & \textbf{Game implementation} \\
+\midrule
+$X$ & Treatment & Information precision: None / Range / Exact & 3 game conditions varying what players are told about each other's valuation \\[0.3em]
+$M_1$ & Mediator & Aspiration inflation: opening offer aggressiveness & Distance of first offer from the ZOPA midpoint \\[0.3em]
+$M_2$ & Mediator & Focal point availability: convergence target & Clustering of deal prices around ZOPA midpoint (exact info) vs.\ dispersion (range/none) \\[0.3em]
+$Y$ & Outcome & Deal rate; rounds to deal; surplus efficiency & Binary deal/no-deal; round count; (deal price $-$ seller cost) / ZOPA \\[0.3em]
+$Z$ & Moderator & ZOPA size: tight (\$10) vs.\ wide (\$25) & Controlled by buyer\_value and seller\_cost parameters \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Testable Implications}
+
+\begin{enumerate}[leftmargin=*, itemsep=0.3em]
+    \item \textbf{The valley:} Deal rate under Range info $<$ deal rate under No info $<$ deal rate under Exact info. The non-monotonic ordering is the central prediction.
+    \item \textbf{Aspiration inflation:} Opening offers in the Range condition are more aggressive (further from the fair split) than in No info or Exact info conditions.
+    \item \textbf{Focal point clustering:} Deal prices in the Exact info condition cluster near the ZOPA midpoint; prices in Range and No info are more dispersed.
+    \item \textbf{ZOPA moderation:} The deal rate gap between Range and Exact conditions is larger with tight ZOPA (\$10) than wide ZOPA (\$25). With wide ZOPA, all conditions should achieve high deal rates (ceiling effect suppresses the valley).
+\end{enumerate}
+
+\subsection*{Identification Strategy}
+
+\begin{itemize}[leftmargin=*, itemsep=0.3em]
+    \item \textbf{Randomize:} Information precision (3 levels) $\times$ ZOPA size (2 levels) = 6 cells, between-subjects
+    \item \textbf{Hold constant:} Number of rounds (6), no cheap talk, both agents are earnings maximizers with identical goal prompts, same underlying valuation draws within ZOPA-size conditions
+    \item \textbf{Ruled out:} AI strategy confounds (same earnings-maximization goal across all conditions), ZOPA variation within cells (controlled parameterization), cheap talk confounds (excluded)
+    \item \textbf{Unidentified:} Whether ``aspiration inflation'' is the true cognitive mechanism vs.\ some other process --- we observe aggressive offers, not beliefs. Also, AI agents may not exhibit human-like anchoring biases, limiting external validity.
+\end{itemize}
+
+%% --- 4. NEXT STEPS ---
+\section*{Next Steps}
+
+This hypothesis is ready for \texttt{/design-experiment} to map it to a concrete game design. The design should produce 6 game conditions (3 precision levels $\times$ 2 ZOPA sizes), with a tight ZOPA condition calibrated to produce real impasse risk (deal rates between 40--80\%, not ceiling 100\%). The prior \texttt{info\_source\_bargaining} experiment showed that a \$30 ZOPA produced 100\% deal rates --- the tight condition here should use $\sim$\$10 to create variance.
+
+Run: \texttt{/design-experiment info\_precision\_bargaining}
+
+\end{document}

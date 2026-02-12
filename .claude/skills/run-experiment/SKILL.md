@@ -29,10 +29,11 @@ Determine what to run and how many conditions are involved.
 
 From the argument or conversation context:
 
-1. **Direct game name** — Check if `games/<arg>/config.toml` exists. If yes, single-condition experiment.
-2. **Experiment name** — Search for a design memo in `writeup/designs/` matching the argument. If found, read the Game Implementations table to get all condition game folders.
-3. **Related game folders** — If no design memo, look for game folders sharing a common prefix. Example: argument `bargain_1s` matches `bargain_1s_notalk`, `bargain_1s_talk`. Confirm by reading their configs.
-4. **Context inference** — If no argument, check if `/create-2-player-game` just produced game files. Use those.
+1. **Experiment manifest** — Check if `writeup/designs/<arg>.manifest.toml` exists. If yes, read it — it contains the full experiment context: all condition game folders, hypothesis, predictions, primary outcome. This is the **preferred** resolution path.
+2. **Direct game name** — Check if `games/<arg>/config.toml` exists. If yes, single-condition experiment. Look for a manifest that lists this game in its `[conditions]` to get the broader experiment context.
+3. **Experiment name** — Search for a design memo in `writeup/designs/` matching the argument. If found, read the Game Implementations table to get all condition game folders.
+4. **Related game folders** — If no manifest or design memo, look for game folders sharing a common prefix. Example: argument `bargain_1s` matches `bargain_1s_notalk`, `bargain_1s_talk`. Confirm by reading their configs.
+5. **Context inference** — If no argument, check if `/create-2-player-game` just produced game files. Use those.
 
 ### 1b. Validate all game folders exist
 
@@ -211,17 +212,34 @@ Transcripts saved to:
 
 ### 5b. Quick data peek
 
-Before handing off, print a 1-table preview of the data so the user sees results immediately. Extract the primary outcome for each condition:
+Before handing off, print a 1-table preview of the data so the user sees results immediately. Extract the primary outcome for each condition.
+
+**If a manifest exists** (`writeup/designs/<experiment>.manifest.toml`), use it to:
+- Know what the **primary outcome** is (e.g., `deal_rate`, `contribution`, `acceptance_rate`)
+- Label conditions with their human-readable labels from `[conditions.*.label]`
+- Compare results against **predictions** from `[predictions]` — mark each prediction as CONFIRMED, REFUTED, or UNCLEAR
+
+```
+Quick peek: deal_rate (primary outcome)
+Hypothesis: Cheap talk helps under one-sided but hurts under two-sided asymmetry
+
+  Condition                  Label                  Deal Rate   Prediction    Result
+  bargain_1s_notalk          One-sided / No talk    100% (9/9)  baseline      —
+  bargain_1s_talk            One-sided / Cheap talk  89% (8/9)  higher        UNCLEAR (↓11pp)
+  bargain_2s_notalk          Two-sided / No talk     78% (7/9)  baseline      —
+  bargain_2s_talk            Two-sided / Cheap talk   56% (5/9)  lower         CONFIRMED (↓22pp)
+
+  Interaction prediction (crossover): PARTIALLY CONFIRMED
+```
+
+**If no manifest exists**, fall back to generic extraction — look for GAME OVER boxes and extract final earnings, or detect "no deal" outcomes:
 
 ```
 Quick peek (primary outcome):
   bargain_1s_notalk:  deal rate = 100% (9/9),  avg price = $55.20
-  bargain_1s_talk:    deal rate =  89% (8/9),  avg price = $52.10
-  bargain_2s_notalk:  deal rate =  78% (7/9),  avg price = $48.30
-  bargain_2s_talk:    deal rate =  56% (5/9),  avg price = $51.00
 ```
 
-This quick peek uses lightweight transcript parsing — look for GAME OVER boxes and extract final earnings, or detect "no deal" outcomes. Do not write a full extraction script here; that's `/analyze-results`' job.
+This quick peek uses lightweight transcript parsing. Do not write a full extraction script here; that's `/analyze-results`' job.
 
 ### 5c. Recommend next step
 
