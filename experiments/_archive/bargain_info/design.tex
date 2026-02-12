@@ -1,0 +1,162 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{parskip}
+
+\hypersetup{colorlinks=true, linkcolor=blue!60!black, urlcolor=blue!60!black}
+\titleformat{\section}{\large\bfseries}{}{0em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{}{0em}{}
+
+\title{\textbf{Research Design Memo:}\\[4pt] Information Structure in Bargaining}
+\author{}
+\date{February 11, 2026 \quad$\cdot$\quad Pre-registration draft}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\section{1. Research Question}
+
+How does the structure of private information---specifically whether one or both parties hold private valuations---affect deal rates and allocative efficiency in alternating-offer bargaining? Classic theory (Myerson \& Satterthwaite, 1983) predicts that two-sided private information makes efficient trade generically impossible, while one-sided asymmetry creates surplus extraction opportunities for the informed party. This experiment tests whether these predictions hold when one counterpart is an LLM agent following a fixed strategy, isolating the effect of information structure on human bargaining behavior.
+
+\section{2. Causal Model}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{plots/dag.pdf}
+\caption{Causal DAG. Treatment (blue) = information structure manipulation. Outcome (green) = deal rate and efficiency. Mediators (gray) = strategic posturing and first-offer anchoring. Controls (dashed) = held constant across conditions.}
+\label{fig:dag}
+\end{figure}
+
+\subsection{Variable Definitions}
+
+\begin{table}[h!]
+\centering\small
+\begin{tabular}{llll}
+\toprule
+\textbf{Variable} & \textbf{Type} & \textbf{Operationalization} & \textbf{Game captures via} \\
+\midrule
+Info structure (X) & Treatment & 1-sided vs.\ 2-sided vs.\ full & Separate game variants \\
+Posturing (M1) & Mediator & Offer aggressiveness rel.\ to ZOPA & Offer sequences in transcript \\
+Anchoring (M2) & Mediator & First offer distance from midpoint & Round 1 offer value \\
+Deal rate (Y1) & Primary outcome & Agreement reached (binary) & ``accept'' event in transcript \\
+Efficiency (Y2) & Primary outcome & Surplus / \$2.00 max & Computed from final price \\
+Deal price (Y3) & Secondary outcome & Final agreed price & Price at acceptance \\
+Payoffs (Z1) & Control & H=\$8, AI=\$6, ZOPA=[\$6,\$8] & Identical across conditions \\
+AI strategy (Z2) & Control & Concession Ladder (fixed) & Identical \texttt{player.md} \\
+Rounds (Z3) & Control & 6 rounds per session & Identical \texttt{config.toml} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Testable Implications}
+
+\begin{enumerate}[leftmargin=1.5em]
+\item If two-sided info increases strategic posturing, deal rates should be \textbf{lower} in the two-sided condition.
+\item If one-sided info enables surplus extraction, deal prices should be \textbf{closer to the uninformed party's reservation value} (\$8.00).
+\item If info structure affects anchoring, first offers should be more extreme under greater uncertainty.
+\item Conditional on a deal, efficiency should be stable---but the \emph{probability} of reaching a deal should vary.
+\end{enumerate}
+
+\subsection{Identification Strategy}
+
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Randomized:} Game variant assignment (information structure).
+\item \textbf{Held constant:} Valuations (\$8/\$6), AI strategy, round count (6), payoff formulas, turn structure.
+\item \textbf{Ruled out:} Payoff-driven differences (same ZOPA), AI behavioral confounds (identical strategy).
+\item \textbf{Limitations:} LLM counterpart follows fixed strategy regardless of info---tests human response only, not bilateral strategic interaction.
+\end{itemize}
+
+\section{3. Experimental Design}
+
+\subsection{Conditions}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{plots/design_matrix.pdf}
+\caption{Design matrix. Yellow cells indicate the treatment manipulation---elements that differ across conditions. All other elements are held constant.}
+\label{fig:matrix}
+\end{figure}
+
+\textbf{Full Info (Control):} Both valuations public. Human knows AI values the mug at \$6.00; AI knows human values it at \$8.00. ZOPA = [\$6, \$8]. The only barrier to trade is splitting the surplus.
+
+\textbf{One-Sided (Treatment 1):} Human's valuation (\$8.00) is public. AI's valuation (\$6.00) is private---human only knows it falls in [\$4.00, \$8.00]. The AI has an information advantage.
+
+\textbf{Two-Sided (Treatment 2):} Both valuations are private. Human knows own value (\$8.00) and that AI's is in [\$4.00, \$8.00]. AI knows own value (\$6.00) and that human's is in [\$6.00, \$10.00]. Neither knows the exact ZOPA.
+
+\subsection{Outcome Measures}
+
+\begin{table}[h!]
+\centering\small
+\begin{tabular}{lllp{4.5cm}}
+\toprule
+\textbf{Measure} & \textbf{Type} & \textbf{Operationalization} & \textbf{Source} \\
+\midrule
+Deal rate & Primary & Agreement before round limit & ``accept'' in transcript \\
+Efficiency & Primary & Joint surplus / \$2.00 & Computed from final price \\
+Deal price & Secondary & Final agreed price & Price at acceptance \\
+Rounds to agreement & Secondary & Round count at acceptance & Round counter \\
+First-offer distance & Mechanism & $|$Offer $-$ \$7.00$|$ & Round 1 human counteroffer \\
+Concession rate & Mechanism & Avg.\ price change/round & Offer sequence \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{4. Analysis Plan}
+
+\subsection{Primary Analysis}
+
+Compare deal rates across three conditions using logistic regression with condition as a categorical predictor. With 30+ sessions per condition, we have reasonable power to detect a 20+ percentage point difference in deal rates.
+
+\subsection{Secondary Analyses}
+
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Deal price $|$ deal:} OLS regression of final price on condition indicators, conditional on reaching a deal. Tests whether information structure shifts bargaining power.
+\item \textbf{Mechanism check:} Compare first-offer distances and concession rates across conditions. If posturing mediates the info$\to$outcome relationship, first offers should be more extreme under greater uncertainty.
+\item \textbf{Rounds to agreement:} Survival analysis of agreement timing on condition.
+\end{itemize}
+
+\subsection{Power Considerations}
+
+Six rounds per session provides moderate within-session variation, but the primary outcome (deal rate) is session-level. Recommend \textbf{30--50 sessions per condition} (90--150 total). Binary outcomes require more observations than continuous ones. Expected effect sizes are uncertain (exploratory), but Myerson--Satterthwaite predicts a meaningful gap between full-info and two-sided conditions.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{plots/predictions.pdf}
+\caption{Predicted outcome space (pre-data). Circles/squares = plausible centers; bars = range of plausible outcomes; ? = direction unknown (exploratory). Dotted line = null hypothesis.}
+\label{fig:predictions}
+\end{figure}
+
+\section{5. Game Implementations}
+
+\begin{table}[h!]
+\centering\small
+\begin{tabular}{lll}
+\toprule
+\textbf{Condition} & \textbf{Game folder} & \textbf{Key difference} \\
+\midrule
+Full Info (Control) & \texttt{games/bargain\_full\_info/} & Both valuations public \\
+One-Sided (Treatment 1) & \texttt{games/bargain\_one\_sided/} & AI valuation private \\
+Two-Sided (Treatment 2) & \texttt{games/bargain\_two\_sided/} & Both valuations private \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+To generate each game, run \texttt{/create-2-player-game} with the corresponding spec from the \texttt{/create-game} output.
+
+\section{6. Limitations}
+
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{LLM counterpart, not human.} The AI follows a fixed concession schedule regardless of information structure. We test how \emph{humans} respond to info asymmetry against a mechanical opponent---findings may not generalize to human--human bargaining.
+\item \textbf{Fixed AI strategy across conditions.} By design (for identification), the AI doesn't adapt to what it ``knows.'' In real bargaining, an informed party would exploit their advantage.
+\item \textbf{Within-session learning.} With 6 rounds, later-round behavior may reflect learned beliefs about the AI. Consider analyzing Round 1 separately as a ``clean'' measure.
+\item \textbf{LLM behavioral consistency.} Token-level randomness may introduce noise despite fixed strategy and temperature settings.
+\item \textbf{Single ZOPA.} Results are for one valuation pair (\$8/\$6, surplus = \$2). Different surplus sizes or asymmetric ZOPAs could yield different patterns.
+\end{itemize}
+
+\end{document}

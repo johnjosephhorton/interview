@@ -1,0 +1,143 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx, booktabs, hyperref, enumitem, xcolor, titlesec, parskip, amsmath}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{Research Design Memo v2:\\The Information Precision Valley Under Tight Bargaining}}\\[0.5em]
+{\large \today \quad $\cdot$ \quad Status: Pre-experiment \quad $\cdot$ \quad Iteration of v1}
+\end{center}
+
+%% --- 1. RESEARCH QUESTION ---
+\section*{Research Question}
+
+Does tightening the zone of possible agreement (ZOPA) reveal an ``information valley'' in deal rates --- where range information about opponent valuations \emph{reduces} deal rates below both exact-information and no-information baselines?
+
+The v1 experiment (\texttt{info\_precision\_bargaining}) tested this hypothesis under generous ZOPAs (\$10--\$25) and found 100\% deal rates across all conditions --- a ceiling effect. However, it also found a large, significant monotonic price gradient ($F(2,27) = 7.99$, $p = 0.002$, $d = 1.54$), confirming that information precision shifts surplus. The v2 design shrinks the ZOPA to \$2--\$5 and reduces rounds from 6 to 3, creating a regime where aggressive offers can cause impasse.
+
+The core mechanism is \textbf{feasibility uncertainty}: when a buyer is told the seller's cost is \$35--\$50 but the buyer only values the item at \$42, the range includes values (\$43+) where no deal is profitable. This makes the buyer doubt whether a deal even exists, leading to pessimistic anchoring and demands outside the true ZOPA.
+
+%% --- 2. CAUSAL MODEL ---
+\section*{Causal Model}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{plots/dag.pdf}
+\caption{Causal DAG. Information precision (X) affects deal rate (Y) through feasibility uncertainty (M1: range spans infeasible values) and offer aggressiveness (M2: anchoring on range extremes). ZOPA size (Z) moderates X$\to$M1: under tight ZOPA, feasibility uncertainty dominates; under generous ZOPA (v1), it is irrelevant.}
+\end{figure}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{@{}llp{5.5cm}@{}}
+\toprule
+Variable & Type & Operationalization \\
+\midrule
+Info Precision (X) & Treatment & None / Range (\$35--\$50) / Exact \\
+Feasibility Uncertainty (M1) & Mediator & Range includes infeasible seller costs ($>$ buyer value) \\
+Offer Aggressiveness (M2) & Mediator & First offer distance from ZOPA midpoint \\
+Deal Rate (Y1) & Outcome & Binary: deal reached within 3 rounds \\
+Deal Price (Y2) & Outcome & Continuous: agreed price (if deal) \\
+ZOPA Size (Z) & Moderator & \$2 ($b_v$=42) or \$5 ($b_v$=45) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Testable Implications}
+
+\begin{enumerate}[nosep]
+    \item \textbf{Valley in deal rates:} Range Info deal rate $<$ No Info deal rate $<$ Exact Info deal rate
+    \item \textbf{No-info resilience:} Uninformed buyers still reach deals at moderate rates (they don't anchor on infeasible values)
+    \item \textbf{Exact-info efficiency:} Exact-info pairs converge quickly to ZOPA midpoint, highest deal rate
+    \item \textbf{ZOPA moderation:} Valley is deeper under \$2 ZOPA than \$5 ZOPA (more of the range is infeasible)
+\end{enumerate}
+
+\subsection*{Identification Strategy}
+
+\begin{itemize}[nosep]
+    \item \textbf{Randomize:} Info precision (between-subjects, 3 game folders). ZOPA size (within-subject, buyer\_value sequence)
+    \item \textbf{Hold constant:} Seller cost (\$40), rounds (3), alternating offers, AI goal and guardrails, price range (\$0--\$100)
+    \item \textbf{Rules out:} Differences in game mechanics, AI behavior, or round count as confounds
+    \item \textbf{Key design choice:} Ranges \$35--\$50 (buyer about seller) and \$38--\$55 (seller about buyer) are fixed to span infeasible values when $b_v = 42$
+\end{itemize}
+
+%% --- 3. EXPERIMENTAL DESIGN ---
+\section*{Experimental Design}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{plots/design_matrix.pdf}
+\caption{Design matrix. Yellow cells indicate the treatment manipulation (information disclosure). All other parameters are held constant across conditions. Key v1$\to$v2 changes: ZOPA shrunk to \$2/\$5, rounds reduced to 3.}
+\end{figure}
+
+\subsection*{Condition Descriptions}
+
+\textbf{No Info} (\texttt{bargain\_tight\_none}): Neither player knows the other's valuation. The buyer knows only their own value (\$42 or \$45); the seller knows only their cost (\$40). Neither is given any information about the opponent.
+
+\textbf{Range Info} (\texttt{bargain\_tight\_range}): The buyer is told the seller's cost is somewhere between \$35 and \$50 (true cost: \$40). The seller is told the buyer's value is somewhere between \$38 and \$55. Critically, when $b_v = 42$, the buyer's range includes \$43--\$50 where no profitable deal exists. This is the ``feasibility uncertainty'' mechanism.
+
+\textbf{Exact Info} (\texttt{bargain\_tight\_exact}): Both players know both values. The buyer knows the seller's cost is \$40; the seller knows the buyer's value. The ZOPA (\$2 or \$5) and fair price are common knowledge.
+
+\subsection*{Outcome Measures}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+Outcome & Type & Measurement \\
+\midrule
+Deal rate & Binary (primary) & GAME OVER with positive earnings \\
+Deal price & Continuous & Agreed price from transcript \\
+Rounds to deal & Count & Round number when deal closes \\
+AI opening offer & Continuous & First price offered by AI \\
+Surplus efficiency & Ratio & Total surplus / ZOPA \\
+Buyer surplus share & Ratio & Buyer earnings / total surplus \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% --- 4. ANALYSIS PLAN ---
+\section*{Analysis Plan}
+
+\textbf{Primary analysis:} Logistic regression of deal rate on info-condition dummies (Range, Exact, with No Info as baseline) and ZOPA-size indicator, plus interaction terms. The valley prediction requires $\beta_{\text{Range}} < 0$ (Range worse than No Info) and $\beta_{\text{Exact}} > 0$ (Exact better than No Info).
+
+\textbf{Secondary analyses:} (1)~Conditional deal price analysis (OLS on deals only). (2)~AI opening offer by condition. (3)~Fisher's exact test for deal rate pairwise comparisons. (4)~ZOPA $\times$ info interaction on deal rate.
+
+\textbf{Power:} With $N = 15$ per cell (30 per condition, 90 total), assuming deal rates of 65\% (No Info), 35\% (Range), 80\% (Exact) under tight ZOPA, a chi-squared test has $\approx 80\%$ power to detect the Range vs.\ No Info difference at $\alpha = 0.05$.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{plots/predictions.pdf}
+\caption{Pre-data predictions. (A)~The core ``valley'' prediction: Range Info yields the lowest deal rate, with the valley deepest under \$2 ZOPA (dark bars). The v1 ceiling (100\%) is shown for reference. (B)~Deal price conditional on deal: compressed range due to tight ZOPA, but same directional pattern as v1. No fake data --- bars represent plausible ranges.}
+\end{figure}
+
+%% --- 5. GAME IMPLEMENTATIONS ---
+\section*{Game Implementations}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+Game folder & Condition & Treatment \\
+\midrule
+\texttt{bargain\_tight\_none} & No Info & Neither knows opponent's value \\
+\texttt{bargain\_tight\_range} & Range Info & Ranges spanning infeasible values \\
+\texttt{bargain\_tight\_exact} & Exact Info & Full information \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent All three share: seller\_cost = fixed(40), buyer\_value = sequence([42, 45]), zopa = derived, fair\_price = derived. Max 3 rounds, alternating offers (AI odd, human even).
+
+%% --- 6. LIMITATIONS ---
+\section*{Limitations}
+
+\begin{itemize}[nosep]
+    \item \textbf{LLM rationality:} AI agents may compute optimal offers directly, muting the aspiration-inflation mechanism that depends on heuristic anchoring.
+    \item \textbf{Fixed ranges:} The \$35--\$50 and \$38--\$55 ranges are not randomly drawn. Different range boundaries might produce different results.
+    \item \textbf{3-round limit:} With only 3 rounds (2 AI offers, 1 human offer), the game is almost an ultimatum --- there is minimal room for negotiation dynamics.
+    \item \textbf{Extreme ZOPA:} A \$2 ZOPA (\$40--\$42) may produce high impasse rates across \emph{all} conditions, masking the treatment effect. If baseline deal rates are $<$30\%, the valley cannot be detected.
+    \item \textbf{Simulated humans:} gpt-5-nano may not exhibit the behavioral heuristics (anchoring, loss aversion) that drive the feasibility uncertainty mechanism in human subjects.
+\end{itemize}
+
+\end{document}

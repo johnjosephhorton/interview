@@ -35,8 +35,8 @@ This skill handles the **"why"** — from hypothesis to causal model. It does **
 ### 0a. Locate and read the results memo
 
 Search for the prior experiment's results memo:
-- `writeup/designs/<experiment_name>_results.tex`
-- If not found, try `writeup/designs/*<experiment_name>*.tex` (excluding `_hypothesis.tex`)
+- `experiments/<experiment_name>/results.tex`
+- If not found, try `experiments/<experiment_name>/*results*.tex`
 - If still not found, report "No results memo found for <experiment_name>" and fall back to fresh hypothesis mode
 
 Read the full `.tex` file.
@@ -193,7 +193,7 @@ Turn the hypothesis formalization, triviality scorecard, and causal DAG into a s
 
 ### 4a. Generate the DAG figure
 
-Generate **one** publication-quality figure using Python (matplotlib). Save as PDF to `writeup/plots/`. Use the venv Python (`venv/bin/python`).
+Generate **one** publication-quality figure using Python (matplotlib). Save as PDF to `experiments/<name>/plots/`. Use the venv Python (`venv/bin/python`).
 
 #### Figure: Causal DAG (`dag_<name>.pdf`)
 
@@ -216,10 +216,9 @@ Use matplotlib to draw the DAG (no networkx layout — use manual positions for 
 ### 4b. Write the LaTeX memo
 
 **Filename convention:**
-- Fresh hypothesis: `writeup/designs/<name>_hypothesis.tex`
-- Iteration v2: `writeup/designs/<name>_hypothesis_v2.tex`
-- Iteration v3: `writeup/designs/<name>_hypothesis_v3.tex`
-- General rule: check for existing `<name>_hypothesis*.tex` files and increment the version number
+- Fresh hypothesis: `experiments/<name>/hypothesis.tex`
+- Iteration creates a new experiment directory: `experiments/<name>_v2/hypothesis.tex`
+- General rule: each iteration gets its own directory (`<name>_v2/`, `<name>_v3/`, etc.)
 
 Write the LaTeX document that embeds the DAG figure inline. The memo should compile to ~2–3 pages.
 
@@ -242,29 +241,29 @@ Write the LaTeX document that embeds the DAG figure inline. The memo should comp
 
 #### Figure placement
 
-Use `[h!]` placement. The figure gets a `\caption{}` that is self-contained — readable without the surrounding text. Reference figure relative to plots dir: `\includegraphics[width=\textwidth]{../plots/<filename>.pdf}`.
+Use `[h!]` placement. The figure gets a `\caption{}` that is self-contained — readable without the surrounding text. Reference figure relative to plots dir: `\includegraphics[width=\textwidth]{plots/dag.pdf}`.
 
 ### 4c. Compile and open
 
 ```bash
-cd writeup/designs && pdflatex -interaction=nonstopmode <name>_hypothesis.tex
-open <name>_hypothesis.pdf
+cd experiments/<name> && pdflatex -interaction=nonstopmode hypothesis.tex
+open hypothesis.pdf
 ```
 
 Clean up auxiliary files:
 ```bash
-rm -f <name>_hypothesis.aux <name>_hypothesis.log <name>_hypothesis.out
+rm -f hypothesis.aux hypothesis.log hypothesis.out
 ```
 
 Report:
 
 ```
 Hypothesis memo generated:
-  writeup/designs/<name>_hypothesis[_vN].pdf    (single PDF, DAG inline)
+  experiments/<name>/hypothesis.pdf    (single PDF, DAG inline)
 
 Source files:
-  writeup/designs/<name>_hypothesis[_vN].tex
-  writeup/plots/dag_<name>[_vN].pdf
+  experiments/<name>/hypothesis.tex
+  experiments/<name>/plots/dag.pdf
 
 Next: run /design-experiment to map this hypothesis to a game design.
 Or: run /hypothesize iterate <experiment> to iterate after results.
@@ -299,8 +298,8 @@ Or: run /hypothesize iterate <experiment> to iterate after results.
 ### Memo and figure rules
 - **One PDF output.** The deliverable is a single compiled PDF with the DAG figure inline.
 - **Use venv Python.** Run figure generation scripts with `venv/bin/python`.
-- **Figure is PDF, saved to `writeup/plots/`.** LaTeX `\includegraphics` references it via relative path `../plots/`.
+- **Figure is PDF, saved to `experiments/<name>/plots/`.** LaTeX `\includegraphics` references it via relative path `plots/`.
 - **The DAG is the centerpiece.** Spend the most effort making the figure clean and readable.
 - **Figure caption must be self-contained.** The caption should be understandable without reading the body text.
-- **Create directories if needed.** `writeup/plots/` and `writeup/designs/` may not exist yet.
+- **Create directories if needed:** `mkdir -p experiments/<name>/plots`
 - **Clean LaTeX aux files** after successful compilation.

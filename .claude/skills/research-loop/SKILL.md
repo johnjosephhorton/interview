@@ -81,13 +81,13 @@ Also parse:
 On iteration 2+, invoke with iteration context:
 `/hypothesize iterate <experiment-name>`
 
-This reads the machine-readable block from the prior results memo (`writeup/designs/<name>_results.tex`) and refines the hypothesis based on what was learned.
+This reads the machine-readable block from the prior results memo (`experiments/<name>/results.tex`) and refines the hypothesis based on what was learned.
 
 **Gate:** Check the triviality score from the hypothesis memo.
 - Score ≥ 15 → proceed to Stage 2
 - Score < 15 → the hypothesis is too trivial even after sharpening. Report: "Hypothesis too trivial to pursue. Consider a different research question." **Stop the loop.**
 
-**Output:** `writeup/designs/<name>_hypothesis.tex` + `.pdf`
+**Output:** `experiments/<name>/hypothesis.tex` + `.pdf`
 
 ---
 
@@ -104,7 +104,7 @@ The hypothesis memo is in context from Stage 1, so `/design-experiment` will pic
 
 If the design memo is missing any of these, something went wrong. Report and stop.
 
-**Output:** `writeup/designs/<name>.tex` + `.pdf`, 12-item specs ready for game creation
+**Output:** `experiments/<name>/design.tex` + `.pdf`, 12-item specs ready for game creation
 
 ---
 
@@ -200,11 +200,11 @@ Key finding: Deal rate crossover interaction (β₃ = -0.34, p = 0.02).
              Two-sided+talk: 48% vs two-sided+no-talk: 65% (-17pp).
 
 Artifacts:
-  Hypothesis memo:  writeup/designs/cheap_talk_info_asymmetry_hypothesis.pdf
-  Design memo:      writeup/designs/cheap_talk_info_asymmetry.pdf
-  Results memo:     writeup/designs/cheap_talk_info_asymmetry_results.pdf
-  Data:             writeup/data/cheap_talk_info_asymmetry_data.csv
-  Figures:          writeup/plots/results_cheap_talk_info_asymmetry_*.pdf
+  Hypothesis memo:  experiments/cheap_talk_info_asymmetry/hypothesis.pdf
+  Design memo:      experiments/cheap_talk_info_asymmetry/design.pdf
+  Results memo:     experiments/cheap_talk_info_asymmetry/results.pdf
+  Data:             experiments/cheap_talk_info_asymmetry/data/data.csv
+  Figures:          experiments/cheap_talk_info_asymmetry/plots/results_*.pdf
   Transcripts:      transcripts/bargain_*s_*talk/
 
 Next step: Run with human subjects to validate the LLM-derived finding.
@@ -214,7 +214,7 @@ Next step: Run with human subjects to validate the LLM-derived finding.
 
 ## Iteration state tracking
 
-The **experiment manifest** (`writeup/designs/<name>.manifest.toml`) is the persistent state across iterations. It is:
+The **experiment manifest** (`experiments/<name>/manifest.toml`) is the persistent state across iterations. It is:
 - **Created** by `/design-experiment` (Stage 2) with hypothesis, conditions, predictions
 - **Read** by `/run-experiment` (Stage 4) for condition discovery and prediction-aware quick peek
 - **Updated** by `/analyze-results` (Stage 5) with results artifact paths
@@ -229,7 +229,7 @@ Iteration 1 of 3:
   Hypothesis: [from manifest or freshly generated]
   Prior result: [none — first iteration]
   Entry point: Stage 1 (hypothesize)
-  Manifest: writeup/designs/cheap_talk_info_asymmetry.manifest.toml
+  Manifest: experiments/cheap_talk_info_asymmetry/manifest.toml
 
 Iteration 2 of 3:
   Hypothesis: [refined — from machine-readable block in prior results memo]
@@ -237,8 +237,8 @@ Iteration 2 of 3:
   Diagnosis: DESIGN — game too short for bargaining dynamics to emerge
   Change: REFINE — increase to 10 rounds, adjust AI concession rate
   Entry point: Stage 3 (create game with modified design)
-  Prior manifest: writeup/designs/cheap_talk_info_asymmetry.manifest.toml
-  New manifest: writeup/designs/cheap_talk_info_asymmetry_v2.manifest.toml
+  Prior manifest: experiments/cheap_talk_info_asymmetry/manifest.toml
+  New manifest: experiments/cheap_talk_info_asymmetry_v2/manifest.toml
 ```
 
 ---

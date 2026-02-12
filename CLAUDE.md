@@ -22,11 +22,11 @@ This project is building toward a fully automated social science pipeline for tw
 
 ### Pipeline steps
 
-1. **Hypothesize** — Generate a testable hypothesis about strategic behavior, formalize as a Pearlean causal DAG, score for triviality (`/hypothesize`)
-2. **Design** — Map the hypothesis to a two-player economic game with treatment conditions and analysis plan (`/design-experiment`)
+1. **Hypothesize** — Generate a testable hypothesis about strategic behavior, formalize as a Pearlean causal DAG, score for triviality (`/hypothesize`). Output: `experiments/<name>/hypothesis.pdf`
+2. **Design** — Map the hypothesis to a two-player economic game with treatment conditions and analysis plan (`/design-experiment`). Output: `experiments/<name>/design.pdf` + `manifest.toml`
 3. **Create** — Generate the 4-file game implementation: config.toml, manager.md, player.md, sim_human.md (`/create-2-player-game`)
 4. **Simulate** — Run N in-silico games with experimental randomization (`interview simulate --seed --design factorial`)
-5. **Analyze** — Extract structured data, run statistical tests, produce a results memo with verdict and diagnosis (`/analyze-results`)
+5. **Analyze** — Extract structured data, run statistical tests, produce a results memo with verdict and diagnosis (`/analyze-results`). Output: `experiments/<name>/results.pdf` + `data/data.csv`
 6. **Iterate** — Feed results back into `/hypothesize iterate` to refine the hypothesis and run the next experiment
 
 ### Key design principles
@@ -74,6 +74,19 @@ games/                # Game definitions (one folder per game)
   TEMPLATE_PLAYER.md  # Template for new player prompts
   TEMPLATE_CONFIG.md  # Template for new config files
   DESIGN_NOTES.md     # Running log of bugs and lessons learned
+
+experiments/          # Per-experiment output directories
+  <name>/             # One directory per experiment
+    manifest.toml     # Machine-readable experiment metadata
+    hypothesis.tex    # Hypothesis memo (LaTeX source)
+    hypothesis.pdf    # Hypothesis memo (compiled)
+    design.tex        # Design memo (LaTeX source)
+    design.pdf        # Design memo (compiled)
+    results.tex       # Results memo (LaTeX source)
+    results.pdf       # Results memo (compiled)
+    plots/            # All figures (PDF) + generator scripts (Python)
+    data/             # Extracted data (CSV) + extraction/analysis scripts
+  _archive/           # Abandoned or superseded experiments
 
 prompts/              # Prompt files (.md)
   interviewer_default.md

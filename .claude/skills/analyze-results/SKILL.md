@@ -30,8 +30,8 @@ From the argument or context, determine the experiment scope. **Always check for
 
 **Resolution order:**
 
-1. **Experiment manifest** — Check if `writeup/designs/<arg>.manifest.toml` exists. If yes, read it — it contains everything: hypothesis, predictions, condition list, primary outcome, variable definitions, and links to upstream artifacts. This is the **preferred** path.
-2. **Single condition** (one game folder, e.g., `bargain_1s_notalk`) — analyze that game alone. Check if any manifest in `writeup/designs/*.manifest.toml` lists this game in its `[conditions]` to get the broader experiment context.
+1. **Experiment manifest** — Check if `experiments/<arg>/manifest.toml` exists. If yes, read it — it contains everything: hypothesis, predictions, condition list, primary outcome, variable definitions, and links to upstream artifacts. This is the **preferred** path.
+2. **Single condition** (one game folder, e.g., `bargain_1s_notalk`) — analyze that game alone. Check if any manifest in `experiments/*/manifest.toml` lists this game in its `[conditions]` to get the broader experiment context.
 3. **Multi-condition experiment** (e.g., `cheap_talk_info_asymmetry`) — find all related game folders via manifest, design memo, or prefix matching.
 
 ### 1b. Read the upstream materials
@@ -40,8 +40,8 @@ From the argument or context, determine the experiment scope. **Always check for
 
 ```toml
 [artifacts]
-hypothesis_memo = "writeup/designs/<name>_hypothesis.pdf"
-design_memo = "writeup/designs/<name>.pdf"
+hypothesis_memo = "experiments/<name>/hypothesis.pdf"
+design_memo = "experiments/<name>/design.pdf"
 ```
 
 From the manifest, extract and carry forward:
@@ -54,9 +54,8 @@ From the manifest, extract and carry forward:
 - `[predictions]` — named predictions to evaluate against results
 
 **If no manifest exists**, fall back to searching:
-- **Hypothesis memo:** `writeup/designs/*_hypothesis.tex` matching the experiment
-- **Design memo:** `writeup/designs/*.tex` matching the experiment
-- **Pilot writeup:** `writeup/pilot_*.md` matching the experiment
+- **Hypothesis memo:** `experiments/*/hypothesis.tex` matching the experiment
+- **Design memo:** `experiments/*/design.tex` matching the experiment
 - **Game files:** For each condition, read `games/<name>/config.toml`, `games/<name>/manager.md`, `games/<name>/player.md`
 
 If no hypothesis or design memo exists AND no manifest exists, reconstruct the hypothesis and design from the game files alone. The writeup still needs a hypothesis section — infer it from the game structure, treatment variation, and parameterization.
@@ -119,7 +118,7 @@ Build a Python list of dicts (one per transcript) with all extracted fields. Use
 
 **IMPORTANT:** Write the extraction as a Python script and execute it. Do NOT try to manually read and parse dozens of transcripts. Use the `json` module to load each file, regex or string matching to extract outcomes from the message text, and produce a clean CSV.
 
-Save the extracted data as `writeup/data/<experiment_name>_data.csv`.
+Save the extracted data as `experiments/<experiment_name>/data/data.csv`.
 
 ---
 
@@ -176,7 +175,7 @@ Synthesize 3-5 key findings from the data. For each finding:
 
 ## Phase 4: Generate figures
 
-Create publication-quality figures using matplotlib. Save as PDF to `writeup/plots/`. Generate figures using venv Python.
+Create publication-quality figures using matplotlib. Save as PDF to `experiments/<experiment_name>/plots/`. Generate figures using venv Python.
 
 ### Required figures (adapt per game type):
 
@@ -196,7 +195,7 @@ Create publication-quality figures using matplotlib. Save as PDF to `writeup/plo
 
 ### Figure conventions (match existing project style):
 - Use PDF output format
-- Save to `writeup/plots/results_<experiment_name>_<figure_name>.pdf`
+- Save to `experiments/<experiment_name>/plots/results_<figure_name>.pdf`
 - Clean, minimal style (no chartjunk)
 - Label axes clearly with units
 - Include figure captions in the LaTeX document
@@ -207,7 +206,7 @@ Create publication-quality figures using matplotlib. Save as PDF to `writeup/plo
 
 ## Phase 5: Write the research memo PDF
 
-Produce a LaTeX document at `writeup/designs/<experiment_name>_results.tex` and compile to PDF. This is the main deliverable.
+Produce a LaTeX document at `experiments/<experiment_name>/results.tex` and compile to PDF. This is the main deliverable.
 
 ### Document structure
 
@@ -346,13 +345,13 @@ next_hypothesis_sketch: <rough hypothesis for the next iteration>
 ### Compilation
 
 ```bash
-cd writeup/designs && pdflatex <name>_results.tex && pdflatex <name>_results.tex
+cd experiments/<name> && pdflatex results.tex && pdflatex results.tex
 ```
 
 Clean up aux files (`.aux`, `.log`, `.out`) after successful compilation. Open the PDF for the user:
 
 ```bash
-open writeup/designs/<name>_results.pdf
+open experiments/<name>/results.pdf
 ```
 
 ---
@@ -373,14 +372,14 @@ After the PDF is generated, print a concise summary to the terminal:
 ### Directory structure
 
 ```
-writeup/
-  designs/<experiment>_results.tex    # LaTeX source
-  designs/<experiment>_results.pdf    # Compiled PDF
-  data/<experiment>_data.csv          # Extracted structured data
-  plots/results_<experiment>_*.pdf    # Figures
+experiments/<experiment>/
+  results.tex                         # LaTeX source
+  results.pdf                         # Compiled PDF
+  data/data.csv                       # Extracted structured data
+  plots/results_*.pdf                 # Figures
 ```
 
-Create `writeup/data/` if it doesn't exist.
+Create directories if needed: `mkdir -p experiments/<name>/{plots,data}`
 
 ### Python execution environment
 
@@ -411,14 +410,14 @@ If a transcript has `overall_passed: false` in its checker result, flag it but s
 
 ## Phase 6b: Update the experiment manifest
 
-If a manifest exists (`writeup/designs/<experiment>.manifest.toml`), append the results artifact path to the `[artifacts]` section:
+If a manifest exists (`experiments/<experiment>/manifest.toml`), append the results artifact path to the `[artifacts]` section:
 
 ```toml
 [artifacts]
-hypothesis_memo = "writeup/designs/<name>_hypothesis.pdf"
-design_memo = "writeup/designs/<name>.pdf"
-results_memo = "writeup/designs/<name>_results.pdf"    # ← added by /analyze-results
-data_csv = "writeup/data/<name>_data.csv"              # ← added by /analyze-results
+hypothesis_memo = "experiments/<name>/hypothesis.pdf"
+design_memo = "experiments/<name>/design.pdf"
+results_memo = "experiments/<name>/results.pdf"    # ← added by /analyze-results
+data_csv = "experiments/<name>/data/data.csv"      # ← added by /analyze-results
 ```
 
 This keeps the manifest as a single index of all experiment artifacts for `/research-loop` and future iterations.
@@ -432,7 +431,7 @@ This keeps the manifest as a single index of all experiment artifacts for `/rese
 3. **Figures are required.** At minimum, generate Figure 1 (main outcome by condition). Skip Figure 2/3 only if genuinely not applicable.
 4. **Honest evaluation.** The Evaluation section must explicitly state whether the finding is interesting. Do not hedge with "further research is needed" without saying what specifically.
 5. **Actionable next steps.** The Next Experiment section must name a specific hypothesis, game, or command to run. Not "we could explore..." but "Run `/hypothesize [X]`."
-6. **Match existing style.** Follow the LaTeX conventions from existing memos in `writeup/designs/` (same packages, same section styling, same figure caption format).
+6. **Match existing style.** Follow the LaTeX conventions from existing memos in `experiments/` (same packages, same section styling, same figure caption format).
 7. **No fake data.** Never fabricate statistics. If the sample is too small for inference, say so. Report descriptive statistics even if N is too small for p-values.
 8. **Clean up.** Remove LaTeX aux files after compilation. Remove temporary Python scripts after they've run successfully.
 9. **Manifest is source of truth.** If a manifest exists, use it for hypothesis, predictions, conditions, and primary outcome. Do not reconstruct these from LaTeX memos when the manifest is available.

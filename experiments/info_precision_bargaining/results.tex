@@ -1,0 +1,216 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx, booktabs, hyperref, enumitem, xcolor, titlesec, parskip, amsmath}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{Experiment Results:\\The Information Precision Valley in Bargaining}}\\[0.5em]
+{\large \today \quad $\cdot$ \quad Status: Post-analysis}
+\end{center}
+
+%% --- 1. RESEARCH QUESTION ---
+\section*{Research Question}
+
+Does partial information about opponent valuations create an ``information valley'' --- reducing deal rates below both full-information and no-information baselines? The hypothesis (triviality score: 21/25) predicted a non-monotonic relationship: range information inflates aspirations without providing focal points for coordination, yielding fewer deals than either extreme. The causal model posits two competing mechanisms: \emph{aspiration inflation} (range info $\to$ aggressive anchoring $\to$ impasse) and \emph{focal point availability} (exact info $\to$ ZOPA midpoint coordination $\to$ efficient deals).
+
+%% --- 2. EXPERIMENTAL DESIGN ---
+\section*{Experimental Design}
+
+Three between-subjects conditions varied the precision of information each player received about the other's valuation, crossed with a within-condition ZOPA size manipulation:
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+Condition & Buyer knows about seller & Seller knows about buyer \\
+\midrule
+No Info   & Nothing                    & Nothing \\
+Range Info & Cost is \$30--\$50          & Value is \$45--\$75 \\
+Exact Info & Cost is exactly \$40        & Value is exactly \$X \\
+\bottomrule
+\end{tabular}
+\caption{Information conditions. Seller cost fixed at \$40 in all conditions.}
+\end{table}
+
+\noindent ZOPA was manipulated within-condition via a buyer value sequence: \$50 (tight ZOPA = \$10) and \$65 (wide ZOPA = \$25). Alternating offers over 6 rounds; AI sells, human (simulated) buys. Both agents are earnings maximizers with no scripted strategies.
+
+%% --- 3. DATA OVERVIEW ---
+\section*{Data Overview}
+
+\textbf{Sample:} 30 simulations total (10 per condition, 5 per ZOPA cell). Factorial design with seed-free production run.
+
+\textbf{Checker results:} 21/30 nominal pass rate. 8 of the 9 failures were false positives from the \texttt{arithmetic\_correctness} checker (self-contradicting: ``incorrectly \$0.00 instead of \$0.00''). One genuine failure (premature termination in No Info condition). Substantive pass rate: 29/30 (97\%). No transcripts excluded from analysis.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Condition & $N$ & Deal Rate & Avg Price & Buyer Earn & Seller Earn \\
+\midrule
+No Info    & 10 & 100\% & \$52.80 & \$4.70  & \$12.80 \\
+Range Info & 10 & 100\% & \$50.00 & \$7.50  & \$10.00 \\
+Exact Info & 10 & 100\% & \$45.65 & \$11.85 & \$5.65  \\
+\bottomrule
+\end{tabular}
+\caption{Summary statistics by information condition.}
+\end{table}
+
+%% --- 4. RESULTS ---
+\section*{Results}
+
+\subsection*{Primary Outcome: Deal Rate}
+
+The hypothesis predicted that range information would reduce deal rates below both no-information and exact-information baselines. \textbf{We observed 100\% deal rates across all conditions} (30/30 sessions). There is zero variance in the primary outcome, precluding the planned logistic regression. The ``information valley'' did not emerge --- the ZOPA was generous enough (\$10--\$25) that all negotiations reached agreement regardless of information precision. This is a ceiling effect attributable to the design, not evidence against the underlying mechanism.
+
+\subsection*{Secondary Outcome: Deal Price}
+
+While deal rates showed no variation, deal prices revealed a striking pattern. Information precision had a \textbf{large, monotonic effect on deal price} (Figure~\ref{fig:price}).
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.85\textwidth]{plots/results_price_by_condition.pdf}
+\caption{Deal price by information condition. Box plots with individual observations. More precise buyer information about seller cost monotonically reduces deal price, shifting surplus toward the buyer. ANOVA: $F(2,27) = 7.99$, $p = 0.002$.}
+\label{fig:price}
+\end{figure}
+
+One-way ANOVA: $F(2,27) = 7.99$, $p = 0.002$. Pairwise comparisons:
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Comparison & $\Delta$ Price & $t$ & $p$ \\
+\midrule
+No Info vs.\ Exact  & \$7.15 & 3.44 & 0.003 \\
+Range vs.\ Exact    & \$4.35 & 2.90 & 0.010 \\
+No Info vs.\ Range  & \$2.80 & 1.57 & 0.133 \\
+\bottomrule
+\end{tabular}
+\caption{Pairwise $t$-tests on deal price. Cohen's $d$ (No Info vs.\ Exact) = 1.54.}
+\end{table}
+
+\noindent The effect is large: buyers with exact information about seller cost pay \$7.15 less on average than buyers with no information ($d = 1.54$). Range information produces an intermediate effect (\$2.80 reduction vs.\ no info) that does not reach significance at $N=10$.
+
+\subsection*{Surplus Split}
+
+The information gradient translates directly into surplus allocation (Figure~\ref{fig:surplus}). Buyers capture:
+\begin{itemize}[nosep]
+    \item \textbf{21.8\%} of surplus with no information
+    \item \textbf{33.0\%} with range information
+    \item \textbf{63.0\%} with exact information
+\end{itemize}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{plots/results_surplus_split.pdf}
+\caption{Average earnings by role, information condition, and ZOPA size. With exact information, the buyer captures the majority of surplus. With no information, the seller dominates. The pattern holds across both ZOPA sizes but the absolute magnitude is larger under wide ZOPA.}
+\label{fig:surplus}
+\end{figure}
+
+\noindent Under no information, the seller (AI) captures 78\% of surplus; under exact information, the buyer captures 63\%. This is consistent with standard bargaining theory: \emph{knowing the opponent's reservation price confers negotiating power}.
+
+\subsection*{Parameter Effects: ZOPA Size Interaction}
+
+The information effect on price is moderated by ZOPA size:
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{@{}lccc@{}}
+\toprule
+ZOPA & No Info Price & Exact Price & $\Delta$ \\
+\midrule
+Tight (\$10) & \$49.00 & \$44.80 & \$4.20 \\
+Wide (\$25)  & \$56.60 & \$46.50 & \$10.10 \\
+\bottomrule
+\end{tabular}
+\caption{Info effect by ZOPA size. The information advantage is 2.4$\times$ larger under wide ZOPA.}
+\end{table}
+
+\noindent Under tight ZOPA, prices cluster near the buyer's value (\$50) regardless of information, leaving little room for the information advantage to manifest. Under wide ZOPA, the uninformed buyer pays \$56.60 (giving the seller \$16.60 of the \$25 surplus) while the informed buyer pays \$46.50 (a near-even split). This interaction is expected: the value of information scales with the size of the surplus at stake.
+
+\subsection*{Negotiation Dynamics}
+
+AI opening offers follow the same monotonic pattern: \$58.12 (No Info), \$55.62 (Range), \$52.14 (Exact). The ANOVA is marginally significant ($F(2,27) = 3.47$, $p = 0.051$). When the AI seller has less information about the buyer's value, it opens more aggressively --- consistent with the need to ``test'' the buyer's reservation price via high anchors.
+
+No-information games resolve fastest (1.3 rounds on average vs.\ 2.5 for Range and 2.4 for Exact). This is because the uninformed buyer quickly accepts near their value --- they lack the information needed to negotiate effectively (Figure~\ref{fig:dynamics}).
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{plots/results_dynamics.pdf}
+\caption{(A)~AI opening offers by condition. (B)~Distribution of rounds to deal. No-info games close fastest, with buyers accepting high offers early due to inability to assess the seller's position.}
+\label{fig:dynamics}
+\end{figure}
+
+%% --- 5. EVALUATION ---
+\section*{Evaluation}
+
+\subsection*{Did We Learn Something Interesting?}
+
+\textbf{Partially.} The primary hypothesis (information valley in deal rates) was not supported --- all conditions produced 100\% deals. However, we found a statistically significant and substantively large information-advantage effect on deal price ($F(2,27) = 7.99$, $p = 0.002$, $d = 1.54$).
+
+\begin{itemize}[nosep]
+    \item \textbf{Prediction surprise:} The monotonic price gradient is theoretically expected (information advantage is textbook). Score: 2/5.
+    \item \textbf{Literature gap:} The result replicates standard bargaining theory predictions. Novel contribution is limited. Score: 2/5.
+    \item \textbf{Mechanism specificity:} We see the downstream effect (price) but cannot distinguish aspiration inflation from focal point coordination --- both predict lower prices with more info. Score: 2/5.
+    \item \textbf{Boundary conditions:} The ZOPA size interaction (info effect 2.4$\times$ larger under wide ZOPA) is mildly interesting. Score: 3/5.
+    \item \textbf{Evidence quality:} Clean data (97\% substantive checker pass rate), large effect size, significant test. But $N=10$ per condition is small. Score: 3/5.
+\end{itemize}
+
+\textbf{Diagnosis: DESIGN problem.} The ZOPA was too generous --- even the tight condition (\$10) left enough room for any reasonable deal to close. The valley hypothesis requires games where deals sometimes \emph{fail}, which means the ZOPA must be narrow enough (or rounds few enough) that aggressive offers lead to impasse. The 100\% deal rate is a ceiling effect that prevents us from testing the hypothesis.
+
+\subsection*{Limitations}
+
+\begin{itemize}[nosep]
+    \item \textbf{Ceiling effect:} 100\% deal rate prevents any analysis of the primary outcome.
+    \item \textbf{Small $N$:} 10 sessions per condition (5 per cell). Range vs.\ No Info comparison underpowered ($p = 0.13$).
+    \item \textbf{Simulated humans:} The sim\_human (gpt-5-nano, temperature 1.0) may not capture real human bargaining heuristics (e.g., anger, face-saving, risk aversion).
+    \item \textbf{Asymmetric info design:} The buyer receives information about the seller but not vice versa. The surplus-shift finding could partly reflect this asymmetry rather than information precision per se.
+    \item \textbf{AI seller behavior:} The AI seller (gpt-5) may respond differently to information than human sellers --- LLMs may be more ``rational'' or more anchored to computed midpoints.
+\end{itemize}
+
+%% --- 6. NEXT EXPERIMENT ---
+\section*{Next Experiment}
+
+\textbf{Archetype: REFINE} --- same hypothesis, tighter design to create impasse risk.
+
+The valley hypothesis requires a regime where (a) deals sometimes fail and (b) information precision affects the failure rate. Two design changes can achieve this:
+
+\begin{enumerate}[nosep]
+    \item \textbf{Shrink the ZOPA:} Set buyer value = \$42 or \$44 (ZOPA of \$2--\$4). With a razor-thin surplus, even slightly aggressive offers lead to impasse.
+    \item \textbf{Reduce rounds:} Cut from 6 rounds to 2 or 3. Fewer rounds mean fewer chances to converge, amplifying the cost of bad opening offers.
+\end{enumerate}
+
+The refined hypothesis: \emph{Under tight bargaining conditions (ZOPA $\leq$ \$5, $\leq$ 3 rounds), range information about opponent valuations reduces deal rates below both exact and no-information baselines, because it inflates aspirations beyond the narrow ZOPA without providing a focal point for coordination.}
+
+\textbf{Next step:} Run \texttt{/hypothesize iterate info\_precision\_bargaining} to formalize the refined hypothesis and design a v2 experiment with tighter parameters.
+
+\subsection*{Prior Experiment Context (Machine-Readable)}
+\begin{verbatim}
+prior_hypothesis: Partial information (range) about opponent valuations
+  reduces deal rates below both full-information and no-information
+  baselines, because it inflates aspirations without enabling focal
+  point coordination.
+verdict: PARTIALLY
+diagnosis: DESIGN
+key_finding: No deal rate variation (100% across all conditions) but
+  significant monotonic information-price gradient (F(2,27)=7.99,
+  p=0.002, d=1.54)
+key_statistic: deal_rate=100% all conditions; price No Info $52.80 vs
+  Exact $45.65 (p=0.003)
+dag_variables: X=info_precision(none/range/exact),
+  M=aspiration_inflation+focal_point, Y=deal_rate+deal_price,
+  Z=zopa_size(tight/wide)
+testable_implications_results: deal_rate_exact_vs_none=REFUTED,
+  deal_rate_range_vs_none=REFUTED, deal_rate_range_vs_exact=REFUTED,
+  opening_aggressiveness_range=REFUTED, price_dispersion_exact=PARTIAL,
+  deal_rate_gap_tight_wide=UNTESTABLE
+next_archetype: REFINE
+proposed_changes: Shrink ZOPA to $2-$4 (buyer_value=42-44), reduce
+  rounds to 2-3, increase N to 15+ per cell
+next_hypothesis_sketch: Under tight bargaining (ZOPA<=5, <=3 rounds),
+  range info reduces deal rates below exact and no-info baselines
+  via aspiration inflation exceeding the narrow ZOPA
+\end{verbatim}
+
+\end{document}

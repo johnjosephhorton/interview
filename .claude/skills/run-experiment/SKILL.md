@@ -29,9 +29,9 @@ Determine what to run and how many conditions are involved.
 
 From the argument or conversation context:
 
-1. **Experiment manifest** — Check if `writeup/designs/<arg>.manifest.toml` exists. If yes, read it — it contains the full experiment context: all condition game folders, hypothesis, predictions, primary outcome. This is the **preferred** resolution path.
-2. **Direct game name** — Check if `games/<arg>/config.toml` exists. If yes, single-condition experiment. Look for a manifest that lists this game in its `[conditions]` to get the broader experiment context.
-3. **Experiment name** — Search for a design memo in `writeup/designs/` matching the argument. If found, read the Game Implementations table to get all condition game folders.
+1. **Experiment manifest** — Check if `experiments/<arg>/manifest.toml` exists. If yes, read it — it contains the full experiment context: all condition game folders, hypothesis, predictions, primary outcome. This is the **preferred** resolution path.
+2. **Direct game name** — Check if `games/<arg>/config.toml` exists. If yes, single-condition experiment. Look for a manifest that lists this game in its `[conditions]` (search `experiments/*/manifest.toml`) to get the broader experiment context.
+3. **Experiment name** — Search for a design memo in `experiments/` matching the argument. If found, read the Game Implementations table to get all condition game folders.
 4. **Related game folders** — If no manifest or design memo, look for game folders sharing a common prefix. Example: argument `bargain_1s` matches `bargain_1s_notalk`, `bargain_1s_talk`. Confirm by reading their configs.
 5. **Context inference** — If no argument, check if `/create-2-player-game` just produced game files. Use those.
 
@@ -214,7 +214,7 @@ Transcripts saved to:
 
 Before handing off, print a 1-table preview of the data so the user sees results immediately. Extract the primary outcome for each condition.
 
-**If a manifest exists** (`writeup/designs/<experiment>.manifest.toml`), use it to:
+**If a manifest exists** (`experiments/<experiment>/manifest.toml`), use it to:
 - Know what the **primary outcome** is (e.g., `deal_rate`, `contribution`, `acceptance_rate`)
 - Label conditions with their human-readable labels from `[conditions.*.label]`
 - Compare results against **predictions** from `[predictions]` — mark each prediction as CONFIRMED, REFUTED, or UNCLEAR
