@@ -1,0 +1,24 @@
+name = "Bargaining — Opponent-Claimed Information (Unverified)"
+description = "Bilateral bargaining — AI seller voluntarily claims cost range before offers begin"
+
+[canned]
+opening_instruction = """Explain the game rules from the Game Rules section clearly so someone with no prior knowledge could understand. Include: what the game is (a price negotiation between a buyer and a seller), that the human is the buyer and the AI is the seller, the buyer's valuation for the item (${{buyer_value}}), that the seller has some cost for the item but the buyer does not know what it is, the alternating offer structure (AI offers on odd rounds, human on even rounds), the maximum of 6 rounds, valid price range ($0.00–$100.00), that the human can accept or counteroffer each round, what happens if no deal is reached (both earn $0), and how earnings are computed (deal at price P: buyer earns ${{buyer_value}} minus P, seller earns P minus their cost).
+After presenting the rules, include a message from the AI seller: "Before we start negotiating, I want to be upfront with you — my cost for this item is around ${{info_range_low}} to ${{info_range_high}}."
+Then immediately present Round 1 with the AI's opening offer and ask: "Do you accept, or would you like to make a counteroffer?"
+
+Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start."""
+last_question = "This is the final round. Make your last decision."
+end_of_session = "The bargaining session has ended. Thank you for participating."
+
+[settings]
+max_tokens = 4096
+opening_max_tokens = 8192
+
+[variables]
+buyer_value = { type = "fixed", value = 80 }
+seller_cost = { type = "fixed", value = 50 }
+opening_price = { type = "fixed", value = 70 }
+accept_threshold = { type = "derived", formula = "seller_cost + 5" }
+buyer_accept_threshold = { type = "derived", formula = "buyer_value - 5" }
+info_range_low = { type = "derived", formula = "seller_cost - 5" }
+info_range_high = { type = "derived", formula = "seller_cost + 5" }

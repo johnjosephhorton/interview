@@ -1,0 +1,174 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, graphicx, booktabs, hyperref, enumitem, xcolor, titlesec, parskip}
+
+\definecolor{accentblue}{HTML}{2563EB}
+\definecolor{mutedgray}{HTML}{6B7280}
+\definecolor{treatyellow}{HTML}{FDE68A}
+
+\hypersetup{colorlinks=true, linkcolor=accentblue, urlcolor=accentblue}
+
+\title{\textbf{Research Design Memo:} \\ Same Information, Different Source --- \\ Does Cheap Talk Outperform Verified Disclosure in Bargaining?}
+\author{Pre-registration draft}
+\date{February 2026}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\noindent\textit{Status: Ready for game implementation via \texttt{/create-2-player-game}}
+
+%% ─────────────────────────────────────────────
+\section{Research Question}
+
+\textbf{Does the source of partial information about the bargaining zone --- game-verified disclosure vs.\ the opponent's unverified claim --- have opposite effects on deal rates, even when the information content is identical?}
+
+We test a \emph{source-channel reversal}: game-verified disclosure of the opponent's approximate cost activates exploitative anchoring (the informed buyer pushes toward the seller's limit), \emph{reducing} deal rates relative to a no-information baseline. Conversely, the same information conveyed as the opponent's voluntary, unverified claim activates reciprocal trust (the opponent ``chose to share,'' creating cooperative obligation), \emph{increasing} deal rates. If confirmed, this implies that the behavioral channel (reciprocity vs.\ exploitation) dominates the informational channel (content accuracy) --- less credible information can produce better outcomes.
+
+%% ─────────────────────────────────────────────
+\section{Causal Model}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{../plots/dag_info_source_bargaining.pdf}
+    \caption{Pearlean causal DAG. The treatment (blue) is information source: none, game-verified, or opponent-claimed. Two competing mediators (gray): game disclosure activates exploitative anchoring ($M_1$, red arrow, negative effect), while opponent claims activate reciprocal trust ($M_2$, green arrow, positive effect). Outcome (green) is deal rate. ZOPA size and information content (dashed border) are held constant. The key prediction: identical information content produces opposite effects depending on source.}
+    \label{fig:dag}
+\end{figure}
+
+\subsection*{Variable Definitions}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{@{}llp{3.8cm}p{4.2cm}@{}}
+\toprule
+\textbf{Variable} & \textbf{Type} & \textbf{Operationalization} & \textbf{Game Measurement} \\
+\midrule
+$X$ & Treatment & Information source: (1) none, (2) game-verified disclosure, (3) opponent's unverified claim & Three game variants; only the information channel differs \\[0.3em]
+$M_1$ & Mediator & Exploitative anchoring: buyer's first offer relative to seller's true cost & Anchoring index: $(offer_1 - V_s) / ZOPA$; lower $=$ more exploitative \\[0.3em]
+$M_2$ & Mediator & Reciprocal trust: speed of concession across rounds & Rounds to deal (conditional on dealing); concession \$/round \\[0.3em]
+$Y$ & Outcome & Deal reached (binary); surplus captured (continuous) & Transcript: accept/reject; final price if deal \\[0.3em]
+$Z$ & Control & ZOPA size (\$30); info content (``\$45--\$55'' range); AI strategy; payoffs & Identical across all three conditions \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Testable Implications}
+
+\begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=3pt]
+    \item \textbf{Source-channel reversal:} Deal rate ranks: opponent-claimed $>$ no-info (baseline) $>$ game-disclosed. Same content, opposite directions by source.
+    \item \textbf{Anchoring mechanism:} First offers in the game-disclosed condition are significantly closer to the seller's true cost (\$50) than in the other two conditions, indicating exploitative anchoring.
+    \item \textbf{Reciprocity mechanism:} Concession speed (rounds to deal, conditional on dealing) is fastest in the opponent-claimed condition, consistent with cooperative obligation from voluntary disclosure.
+    \item \textbf{Mediation:} Controlling for first-offer anchoring attenuates the game-disclosed $\to$ lower deal rate path. Controlling for concession speed attenuates the opponent-claimed $\to$ higher deal rate path.
+\end{enumerate}
+
+\subsection*{Identification Strategy}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt]
+    \item \textbf{Randomized:} Information source (3-level between-subjects) via game variant assignment.
+    \item \textbf{Held constant:} Buyer valuation (\$80), seller cost (\$50), ZOPA (\$30), information content (``\$45--\$55''), round count (6), AI strategy (anchored concession, identical \texttt{player.md}), payoff formula. The AI does \emph{not} change behavior based on condition.
+    \item \textbf{Content equivalence:} In both informed conditions, the buyer learns the same range (``\$45--\$55''). The only difference is \emph{who says it}: the game rules (Condition B) or the AI opponent (Condition C). This isolates the source channel.
+    \item \textbf{Confounds ruled out:} Random assignment eliminates selection. Identical ZOPA eliminates difficulty differences. Identical AI strategy eliminates behavioral adaptation. Content equivalence isolates source from content.
+    \item \textbf{Limitations:} (1)~AI's ``voluntary'' disclosure in Condition C is scripted, not truly spontaneous. (2)~Beliefs are unobservable --- only offers reveal trust/exploitation. (3)~Human--AI bargaining may differ from human--human. (4)~Three conditions require $\sim$50+ sessions/cell for adequate power.
+\end{itemize}
+
+%% ─────────────────────────────────────────────
+\section{Experimental Design}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{../plots/design_matrix_info_source.pdf}
+    \caption{Design matrix for the three-condition experiment. Yellow cells indicate elements that \textbf{differ} across conditions (the treatment manipulation); white cells indicate elements \textbf{held constant} (controls). The only differences are: (1) whether the buyer receives information about the seller's cost, (2) the source of that information (game rules vs.\ opponent claim), and (3) whether a pre-offer chat phase exists. All other game mechanics, payoffs, and AI behavior are identical.}
+    \label{fig:design}
+\end{figure}
+
+\subsection*{Condition A: No Information (Baseline)}
+
+The buyer knows their own valuation (\$80) and that the seller has some cost, but receives no information about the seller's cost. No chat phase. Standard alternating offers for 6 rounds.
+
+\textit{Folder:} \texttt{games/bargain\_source\_none/}
+
+\subsection*{Condition B: Game-Disclosed (Verified)}
+
+Identical to Condition A, except the game rules include: \textit{``The seller's cost is approximately \$45--\$55.''} This is stated as a game fact (verified, certain). No chat phase. The buyer can use this information when formulating offers.
+
+\textit{Folder:} \texttt{games/bargain\_source\_verified/}
+
+\subsection*{Condition C: Opponent-Claimed (Unverified)}
+
+Identical to Condition A in terms of game rules (no information about seller's cost). However, before offers begin, the AI opponent sends a single message: \textit{``I want to be upfront with you --- my cost is around \$45--\$55.''} The human then proceeds to standard alternating offers. The information content is identical to Condition B; only the source and credibility differ.
+
+\textit{Folder:} \texttt{games/bargain\_source\_claimed/}
+
+\subsection*{Outcome Measures}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{@{}llp{6cm}@{}}
+\toprule
+\textbf{Measure} & \textbf{Type} & \textbf{Operationalization} \\
+\midrule
+Deal rate & Primary & Binary: did the pair reach agreement within 6 rounds? \\
+First-offer anchoring & Mechanism & Buyer's first offer as fraction of ZOPA: $(offer_1 - 50) / 30$ \\
+Concession speed & Mechanism & Rounds to deal (conditional); \$/round concession rate \\
+Surplus captured & Secondary & Price minus seller cost (seller surplus); buyer value minus price (buyer surplus) \\
+Offer variance & Exploratory & Std.\ deviation of human offers across rounds \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% ─────────────────────────────────────────────
+\section{Analysis Plan}
+
+\textbf{Primary analysis:} Logistic regression of deal rate on treatment condition (2 dummy variables: game-disclosed and opponent-claimed vs.\ no-info baseline). Test: (1) game-disclosed coefficient is negative (fewer deals than baseline), (2) opponent-claimed coefficient is positive (more deals than baseline), (3) the two coefficients differ in sign (the reversal).
+
+\textbf{Secondary analyses:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt]
+    \item \textbf{Mechanism --- anchoring:} OLS regression of first-offer anchoring index on treatment. Expect game-disclosed $<$ baseline $\approx$ opponent-claimed.
+    \item \textbf{Mechanism --- concession:} OLS regression of concession rate on treatment (conditional on $\geq$2 rounds). Expect opponent-claimed $>$ baseline $>$ game-disclosed.
+    \item \textbf{Mediation:} Causal mediation analysis (Baron \& Kenny or Imai et al.\ 2010). Path 1: game-disclosed $\to$ anchoring $\to$ lower deal rate. Path 2: opponent-claimed $\to$ concession speed $\to$ higher deal rate.
+    \item \textbf{Surplus (conditional on deal):} Among deals, compare price and surplus split across conditions. Expect game-disclosed deals (when they happen) to favor the buyer more (exploitative offers that happened to succeed).
+\end{itemize}
+
+\textbf{Power considerations:} With 3 conditions and a primary binary outcome, detecting a 15--20 percentage-point difference in deal rates (e.g., 60\% vs.\ 45\% vs.\ 75\%) at $\alpha = 0.05$, $\beta = 0.80$ requires approximately 60--80 sessions per condition ($\sim$200 total). With 6 rounds per session, each session provides multiple offers for mechanism analyses.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{../plots/predictions_info_source.pdf}
+    \caption{Pre-data predictions across three conditions. \textbf{Left:} Deal rate --- game-disclosed (blue) is predicted to fall below baseline (gray), while opponent-claimed (green) is predicted to rise above it (the source-channel reversal). \textbf{Center:} First-offer anchoring --- game-disclosed buyers anchor exploitatively (lower index), while baseline and opponent-claimed buyers anchor cooperatively. \textbf{Right:} Rounds to deal --- opponent-claimed pairs converge faster (fewer rounds), consistent with reciprocal trust. Bars represent plausible ranges, not simulated data. Center dots are point predictions.}
+    \label{fig:predictions}
+\end{figure}
+
+%% ─────────────────────────────────────────────
+\section{Game Implementations}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Condition} & \textbf{Game Folder} & \textbf{Key Difference} \\
+\midrule
+A (No Info) & \texttt{games/bargain\_source\_none/} & No cost info, no chat \\
+B (Game-Disclosed) & \texttt{games/bargain\_source\_verified/} & Game rules state cost range, no chat \\
+C (Opponent-Claimed) & \texttt{games/bargain\_source\_claimed/} & AI claims cost range in pre-offer chat \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Each folder contains four files (\texttt{config.toml}, \texttt{manager.md}, \texttt{player.md}, \texttt{sim\_human.md}). The \texttt{player.md} (AI strategy) is \emph{identical} across all three conditions. The \texttt{manager.md} and \texttt{config.toml} differ only in the information display rules and chat phase presence.
+
+%% ─────────────────────────────────────────────
+\section{Limitations}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+    \item \textbf{Scripted disclosure.} In Condition C, the AI's ``voluntary'' claim is scripted into the game flow, not a genuine strategic choice. The reciprocity mechanism assumes the human perceives it as voluntary --- if they recognize it as scripted, the effect may attenuate.
+    \item \textbf{Unobservable beliefs.} We cannot measure whether the buyer \emph{trusts} the AI's claim or \emph{believes} the game's disclosure. We infer trust from offer behavior, which is indirect.
+    \item \textbf{AI opponent.} Players know they face an AI, which may dampen both exploitation (``it's just a program'') and reciprocity (``I don't owe a machine''). Effects may be larger with human opponents.
+    \item \textbf{Content equivalence imperfect.} The game-disclosed range is presented as a rule (``The seller's cost is approximately \$45--\$55''); the opponent-claimed range is a conversational statement (``My cost is around \$45--\$55''). Framing differences beyond source are hard to eliminate entirely.
+    \item \textbf{Single ZOPA size.} We test with ZOPA = \$30. The reversal may depend on ZOPA size --- exploitative anchoring matters less when surplus is large. A follow-up experiment varying ZOPA would test this boundary condition.
+    \item \textbf{Three conditions, one treatment dimension.} We cannot decompose the opponent-claimed effect into ``information'' vs.\ ``social act of sharing.'' A fourth condition --- opponent shares irrelevant information --- could isolate the social channel but increases sample requirements.
+\end{itemize}
+
+\end{document}
