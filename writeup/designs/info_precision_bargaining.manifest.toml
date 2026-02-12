@@ -44,3 +44,5 @@ deal_rate_gap_range_exact_tight_vs_wide = "larger under tight ZOPA"
 [artifacts]
 hypothesis_memo = "writeup/designs/info_precision_bargaining_hypothesis.pdf"
 design_memo = "writeup/designs/info_precision_bargaining.pdf"
+results_memo = "writeup/designs/info_precision_bargaining_results.pdf"
+data_csv = "writeup/data/info_precision_bargaining_data.csv"

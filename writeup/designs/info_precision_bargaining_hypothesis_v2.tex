@@ -1,0 +1,116 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx, booktabs, hyperref, enumitem, xcolor, titlesec, parskip}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{Hypothesis Memo v2:\\The Information Precision Valley Under Tight Bargaining}}\\[0.5em]
+{\large \today \quad $\cdot$ \quad Status: Pre-design \quad $\cdot$ \quad Iteration of \texttt{info\_precision\_bargaining}}
+\end{center}
+
+%% --- PRIOR EXPERIMENT CONTEXT ---
+\section*{Prior Experiment Context}
+
+\textbf{Experiment:} \texttt{info\_precision\_bargaining} (v1). Three information conditions (None / Range / Exact) in a 6-round alternating-offer bargaining game, crossed with ZOPA size (\$10 or \$25).
+
+\textbf{Key finding:} 100\% deal rate across all conditions --- a ceiling effect from the generous ZOPA. However, information precision had a large, monotonic effect on deal price ($F(2,27) = 7.99$, $p = 0.002$, $d = 1.54$): buyers with exact info paid \$7.15 less than uninformed buyers. Uninformed buyers capitulated fastest (1.3 rounds vs.\ 2.5 for others), accepting high offers early because they lacked the information to push back.
+
+\textbf{Verdict:} PARTIALLY. \textbf{Diagnosis:} DESIGN --- the ZOPA was too generous to create impasse risk.
+
+\textbf{What this iteration changes:} This hypothesis \emph{refines} the prior by shrinking the ZOPA to \$2--\$5 and reducing rounds to 3, creating a regime where aggressive offers can actually cause impasse. The prior result --- that range-info buyers negotiate more aggressively --- becomes the mechanism that drives deal failure under tight conditions.
+
+%% --- RESEARCH QUESTION ---
+\section*{Research Question}
+
+Given that information precision shifted surplus but not deal rates under generous ZOPAs (v1), does tightening the ZOPA to the point of impasse risk reveal the predicted \emph{information valley} --- where range information about opponent valuations \emph{reduces} deal rates below both exact-information and no-information baselines?
+
+The motivation is both theoretical and practical. Standard bargaining theory predicts that more information always weakly improves outcomes. But range information is qualitatively different from exact information: it tells the buyer that the seller's cost \emph{might} be very high (possibly above the buyer's own value), creating \textbf{feasibility uncertainty} --- doubt about whether a profitable deal even exists. Under tight conditions, this uncertainty should cause buyers to anchor on pessimistic estimates, demand prices outside the true ZOPA, and fail to reach agreement. This is the ``valley'': partial information is \emph{worse} than no information because it introduces the \emph{specter of impossibility}.
+
+%% --- INTERESTINGNESS ARGUMENT ---
+\section*{Interestingness Argument}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{@{}lcp{8.5cm}@{}}
+\toprule
+Dimension & Score & Reasoning \\
+\midrule
+Prediction surprise & 4 & Range info \emph{reducing} deal rates below no-info is counter-intuitive. Most predict more info $\to$ better outcomes. The valley prediction (partial info is \emph{worst}) contradicts the monotonic information-value assumption. \\
+Literature gap & 3 & Winner's curse and curse of knowledge are studied in auctions, but the specific ``feasibility uncertainty'' mechanism in bilateral bargaining with range information under tight ZOPAs has no direct experimental precedent. v1 provides novel price-gradient evidence as a foundation. \\
+Mechanism specificity & 4 & The mechanism is precise: range spans infeasible values $\to$ buyer doubts deal exists $\to$ pessimistic anchoring $\to$ demands outside true ZOPA $\to$ impasse. This is distinct from generic ``aspiration inflation'' (v1) and can be tested by varying whether the range includes infeasible values. \\
+Boundary conditions & 5 & The prediction is explicitly conditional: the valley emerges \emph{only} under tight ZOPA ($\leq$\$5). v1 showed no valley under generous ZOPA. This clean interaction (info $\times$ ZOPA tightness $\to$ deal rate) is the core claim. \\
+Testability & 5 & Deal rate is directly observable (binary, per game). Tight ZOPA creates natural variation. Each negotiation either reaches a deal or doesn't. No noisy proxy measures needed. \\
+\midrule
+\textbf{Total} & \textbf{21/25} & \\
+\bottomrule
+\end{tabular}
+\caption{Triviality scorecard. Score $\geq 18$: proceed without sharpening.}
+\end{table}
+
+\noindent The score benefits from the interaction-effect structure (boundary condition = 5) and the clean observability of the outcome (testability = 5). The v1 experiment provides both empirical grounding (the price gradient is real) and a clear diagnosis (ZOPA too generous). The v2 hypothesis is a directed refinement, not a fishing expedition.
+
+%% --- CAUSAL MODEL ---
+\section*{Causal Model}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{../plots/dag_info_precision_bargaining_v2.pdf}
+\caption{Causal DAG for v2. Information precision (X) affects deal outcomes (Y) through two mediating pathways: \emph{feasibility uncertainty} (range info spans infeasible values, making the buyer doubt a deal is possible) and \emph{opening offer aggressiveness} (anchoring on range extremes). ZOPA size (Z) moderates the X$\to$M1 path: under tight ZOPA, feasibility uncertainty dominates; under generous ZOPA (v1), it is irrelevant. Dashed direct path represents focal-point coordination under exact info.}
+\label{fig:dag}
+\end{figure}
+
+\subsection*{Variable Definitions}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{@{}llp{5cm}p{4cm}@{}}
+\toprule
+Variable & Type & Operationalization & Game measurement \\
+\midrule
+Info Precision (X) & Treatment & None: no info about opponent's value. Range: told a range (e.g., \$35--\$50). Exact: told exact value & Between-subjects game variant \\
+Feasibility Uncertainty (M1) & Mediator & Whether the range includes values where no deal is possible (seller cost $>$ buyer value) & Buyer's first offer relative to ZOPA midpoint (proxy) \\
+Offer Aggressiveness (M2) & Mediator & Opening and subsequent offer positions & Distance of first offer from buyer's own value \\
+Deal Rate (Y1) & Outcome & Whether agreement is reached & Binary: GAME OVER with positive earnings \\
+Deal Price (Y2) & Outcome & Agreed price & Continuous: extracted from transcript \\
+ZOPA Size (Z) & Moderator & Buyer value $-$ seller cost & Within-condition sequence: \$2 vs.\ \$5 \\
+Rounds (Z2) & Control & Maximum negotiation rounds & Fixed at 3 across all conditions \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Testable Implications}
+
+\begin{enumerate}[nosep]
+    \item \textbf{Valley in deal rates:} Deal rate under Range Info should be \emph{lower} than both No Info and Exact Info. This is the core prediction. Under v1's generous ZOPA, all were 100\%; under tight ZOPA, the valley should appear.
+    \item \textbf{No-info resilience:} Uninformed buyers should still reach deals at moderate rates --- they have no reason to believe a deal is impossible, so they accept reasonable offers quickly (as observed in v1's fast convergence).
+    \item \textbf{Exact-info efficiency:} Exact-info pairs should converge to the ZOPA midpoint quickly, yielding the highest deal rate and most equal surplus split (consistent with v1's focal-point pattern).
+    \item \textbf{ZOPA moderation:} The valley should be \emph{deeper} under very tight ZOPA (\$2) than moderate tight (\$5), because a \$2 ZOPA makes the range info more likely to include infeasible values relative to the available surplus.
+\end{enumerate}
+
+\subsection*{Identification Strategy}
+
+\begin{itemize}[nosep]
+    \item \textbf{Randomize:} Info precision (between-subjects, via separate game folders). ZOPA size (within-subject, via buyer\_value sequence).
+    \item \textbf{Hold constant:} Seller cost (\$40), round count (3), alternating-offer structure, AI earnings-maximization goal and guardrails, valid price range (\$0--\$100).
+    \item \textbf{Rules out:} Differences in game mechanics, AI strategy, or round count as confounds. Each condition differs only in what information is disclosed.
+    \item \textbf{Limitations:} (1)~LLM agents may be more ``rational'' than humans, muting the aspiration-inflation mechanism. (2)~The range values are fixed (not randomly drawn), so the exact range boundaries may matter. (3)~With 3 rounds, there is limited room for negotiation dynamics --- the test is primarily about whether the opening offer falls inside the ZOPA.
+\end{itemize}
+
+%% --- NEXT STEPS ---
+\section*{Next Steps}
+
+This hypothesis is ready for \texttt{/design-experiment} to map to a concrete game design. Key design parameters:
+
+\begin{itemize}[nosep]
+    \item Seller cost: \$40 (fixed, same as v1)
+    \item Buyer values: \$42 and \$45 (ZOPA of \$2 and \$5)
+    \item Rounds: 3 (down from 6)
+    \item Range info: buyer told seller cost is \$35--\$50; seller told buyer value is \$38--\$55
+    \item Three conditions: None / Range / Exact (same structure as v1)
+    \item $N$: $\geq$15 per cell (30+ per condition) for adequate power on the binary outcome
+\end{itemize}
+
+\noindent Run \texttt{/design-experiment} to produce the full design memo and game specs.
+
+\end{document}

@@ -1,0 +1,20 @@
+name = "Bargain Tight (Range Info)"
+description = "Tight ZOPA bargaining — both players told ranges about opponent's valuation"
+
+[canned]
+opening_instruction = """Explain the game rules from the Game Rules section clearly so someone with no prior knowledge could understand. Include: what the game is (a price negotiation over an item), that you are the buyer and the AI is the seller, that you value the item at ${{buyer_value}}, that the seller's cost is somewhere between $35 and $50 (you don't know the exact value), that the seller has been told your value is somewhere between $38 and $55, the alternating offer structure (AI offers on odd rounds, human on even rounds), the maximum of 3 rounds, valid price range ($0.00–$100.00), that you can accept or counteroffer each round, what happens if no deal is reached (both earn $0), and how earnings are computed (deal: you earn ${{buyer_value}} minus agreed price; seller earns agreed price minus their cost).
+Then immediately present Round 1 with the AI's opening offer and ask: "Do you accept, or would you like to make a counteroffer?"
+
+Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start."""
+last_question = "This is the final round. Make your last decision."
+end_of_session = "The bargaining session has ended. Thank you for participating."
+
+[settings]
+max_tokens = 4096
+opening_max_tokens = 8192
+
+[variables]
+seller_cost = { type = "fixed", value = 40 }
+buyer_value = { type = "sequence", values = [42, 45] }
+zopa = { type = "derived", formula = "buyer_value - seller_cost" }
+fair_price = { type = "derived", formula = "seller_cost + (buyer_value - seller_cost) / 2", round_to = 0.5 }
