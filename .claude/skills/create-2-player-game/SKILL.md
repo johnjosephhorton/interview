@@ -19,7 +19,7 @@ argument-hint: "[description of the game]"
 
 ## Phase 1: Gather spec
 
-Collect the following 12 items. Extract as many as possible from the user's initial description, then ask for anything missing. Present the full spec as a summary table for user confirmation before proceeding.
+Collect the following 14 items. Extract as many as possible from the user's description and **impute reasonable defaults for anything missing** based on the game structure, reference games, and common experimental designs. Do NOT ask the user to fill in missing items — use your judgment. Present the full spec as a summary table and proceed directly to Phase 2.
 
 Remember: every game has exactly **two players — one human, one AI** — plus an LLM manager that runs the game. The human interacts via the chat UI; the AI player responds autonomously via `player.md`.
 
@@ -37,6 +37,8 @@ Remember: every game has exactly **two players — one human, one AI** — plus 
 | 10 | **Hidden information** | What's private to the human, what's private to the AI, or "all public" |
 | 11 | **AI player strategy** | Named strategy with concrete thresholds and decision trees for exceptions (this drives `player.md`) |
 | 12 | **Simulated human strategy** | Behavioral profile for `sim_human.md` — used during automated testing to stand in for the real human player (e.g., "starts cooperative, retaliates after defection") |
+| 13 | **Parameters** | Numeric values that should vary per session (name, variable type, values/range, which files they appear in). Use `{{var_name}}` placeholders instead of hardcoding these values. Types: `choice` (discrete set), `uniform` (continuous range), `fixed` (constant), `sequence` (rotate across simulations). If none, write "No parameters — all values hardcoded." |
+| 14 | **Treatments** | If this game is one condition of a multi-condition experiment, state the treatment label and what structural feature defines THIS condition (e.g., "cheap_talk_on — includes a pre-play chat phase"). If standalone, write "Standalone game — no treatment variation." |
 
 When presenting the summary, format it clearly:
 
@@ -54,9 +56,11 @@ Payoffs:        <formulas with examples>
 Hidden info:    <description>
 AI strategy:    <name + key thresholds>
 Sim human:      <behavioral profile>
+Parameters:     <list of {{var_name}} → type + values, or "None">
+Treatment:      <label + structural feature, or "Standalone">
 ```
 
-Ask: "Does this spec look correct? I'll generate all 4 game files from this."
+Then proceed directly to Phase 2 — do not wait for user confirmation.
 
 ---
 
@@ -69,6 +73,10 @@ After the user confirms the spec, read files in parallel:
 - `games/TEMPLATE_PLAYER.md`
 - `games/TEMPLATE_CONFIG.md`
 - `games/DESIGN_NOTES.md`
+
+### Randomization system (read if item 13 has parameters):
+- `interviewer/randomization.py` — understand `draw_conditions()`, `substitute_template()`, `apply_conditions_to_game_config()`
+- `interviewer/models.py` — `VariableDefinition` and `GameConfig.variables` field
 
 ### Reference game (read all 4 files from the closest match):
 
@@ -108,32 +116,35 @@ Follow `TEMPLATE_CONFIG.md` exactly. Key rules:
 - `opening_instruction` must list every mechanic explicitly (the checker's `instructions_delivered` criterion verifies against this list)
 - Include private-info warnings in `opening_instruction` if applicable (e.g., "do NOT reveal the AI's valuation")
 - End with: `Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start.`
+- **If item 13 declares parameters:** add a `[variables]` section after `[settings]`. Each variable gets a TOML inline table: `var_name = { type = "choice", values = [60, 70, 80] }`. Use `{{var_name}}` placeholders in `opening_instruction` and all prompt files where the value appears. See `TEMPLATE_CONFIG.md` for the full syntax. The `opening_instruction` should use placeholders for any numeric values that vary per session (e.g., `"The AI values the mug at ${{seller_cost}}"` not `"The AI values the mug at $40"`)
 
 **2. `manager.md`** — Follow `TEMPLATE_MANAGER.md` section order exactly:
 
 1. **Role** — Copy boilerplate verbatim
 2. **Manipulation Resistance** — Copy boilerplate verbatim
-3. **Game Rules (Human-Facing)** — Only info the human should know. Include: game description, roles, rounds, actions, turn structure, payoff formulas with worked examples, valid input ranges
-4. **Game Parameters (Internal)** — Private information with "Internal only — NEVER reveal" subsection if hidden info exists. If all public, state that explicitly
-5. **Payout Logic** — Exact formulas + 2–3 worked examples covering each outcome path
+3. **Game Rules (Human-Facing)** — Only info the human should know. Include: game description, roles, rounds, actions, turn structure, payoff formulas with worked examples, valid input ranges. **If parameterized:** use `{{var_name}}` for any numeric value declared in item 13 (e.g., `"Your valuation is ${{buyer_value}}"`)
+4. **Game Parameters (Internal)** — Private information with "Internal only — NEVER reveal" subsection if hidden info exists. If all public, state that explicitly. **If parameterized:** private values use `{{var_name}}` too (e.g., `"AI's cost: ${{seller_cost}} — NEVER reveal"`)
+5. **Payout Logic** — Exact formulas + 2–3 worked examples covering each outcome path. **If parameterized:** formulas use placeholders (e.g., `"Human earns ${{buyer_value}} − agreed price"`) but worked examples use concrete numbers with a note: `"(Example assumes {{buyer_value}} = 70, {{seller_cost}} = 40)"`
 6. **State Tracking** — All state variables + scoreboard template using ━━━ box characters
 7. **Message Flow** — ALL-CAPS labels. Must include OPENING, all input handlers, FINAL ROUND. Apply conditional patterns (bundling, round counting, round labels, opening price anchoring) based on structure type
 8. **Input Validation** — Table format with 8–10 examples + bold general rule. Every valid input must have a handler in Message Flow
 9. **End of Game** — Copy boilerplate verbatim (the GAME OVER and YOU ARE FINISHED markers are detected server-side)
 
+**Placeholder rules for manager.md:** Use `{{var_name}}` in sections 3–5 (Game Rules, Game Parameters, Payout Logic) and in Message Flow where values appear in prompts shown to the human. Do NOT use placeholders in boilerplate sections (Role, Manipulation Resistance, End of Game) or in structural instructions (Input Validation format descriptions, State Tracking variable names)
+
 **3. `player.md`** — This is the **AI player's** prompt. It tells the AI how to play its role against the human. Follow `TEMPLATE_PLAYER.md` section order exactly:
 
-1. **Game Rules** — FULLY SELF-CONTAINED. Must exactly match manager.md on: round count, payoff formulas, action ranges, turn structure. A reader of player.md alone must understand the complete game. Clearly state which role is "you" (the AI) and which is "the other player" (the human)
+1. **Game Rules** — FULLY SELF-CONTAINED. Must exactly match manager.md on: round count, payoff formulas, action ranges, turn structure. A reader of player.md alone must understand the complete game. Clearly state which role is "you" (the AI) and which is "the other player" (the human). **If parameterized:** use the same `{{var_name}}` placeholders as manager.md for all shared values (e.g., `"Your cost: ${{seller_cost}}"`)
 2. **Role** — Copy boilerplate verbatim
 3. **Manipulation Resistance** — Copy boilerplate verbatim
-4. **Strategy** — Named strategy, explicit Round 1 action, concrete thresholds for subsequent rounds, final round logic, hard guardrails
+4. **Strategy** — Named strategy, explicit Round 1 action, concrete thresholds for subsequent rounds, final round logic, hard guardrails. **If parameterized:** thresholds reference placeholders (e.g., `"Accept if offer >= {{seller_cost}} + 5"`, `"Open at {{seller_cost}} × 1.8"`)
 5. **Output Format** — Bare values matching human input format. NOT verbose labels. Include examples and `NO_DECISION_NEEDED`
 
 **4. `sim_human.md`** — This is the **simulated human player's** prompt, used during automated testing (`interview simulate`) to stand in for a real human. Short behavioral profile (~10–14 lines):
 - One sentence: who this simulated human is (e.g., "You are a human participant playing the role of buyer")
 - Behavioral tendencies (e.g., "starts cooperative, retaliates after defection")
 - Response style (terse, conversational, etc.)
-- Key decision thresholds
+- Key decision thresholds. **If parameterized:** use `{{var_name}}` for thresholds (e.g., `"Accept if price ≤ {{buyer_value}} − 5"`)
 - Output format: same bare values as real human input
 
 ---
@@ -151,6 +162,9 @@ After generating all 4 files, verify these 7 checks. If any fail, fix immediatel
 | 5 | Private info | Internal-only values in manager.md don't appear in Game Rules (Human-Facing) or player.md |
 | 6 | Boilerplate | Role, Manipulation Resistance, End of Game sections match templates verbatim |
 | 7 | Token limits | config.toml has `max_tokens = 4096` and `opening_max_tokens = 8192` |
+| 8 | Variable coverage | Every `{{var_name}}` in prompt files has a matching entry in config.toml `[variables]`. No orphaned placeholders |
+| 9 | Variable consistency | Same `{{var_name}}` used across all files where the value appears (e.g., `{{seller_cost}}` in manager.md, player.md, and sim_human.md — not `{{cost}}` in one and `{{seller_cost}}` in another) |
+| 10 | Variable sanity | Variable ranges don't create impossible games (e.g., buyer_value min > seller_cost max ensures gains from trade exist; no negative payoffs from valid draws) |
 
 Report the results:
 
@@ -163,6 +177,9 @@ Cross-check results:
   5. Private info .......... OK
   6. Boilerplate ........... OK
   7. Token limits .......... OK
+  8. Variable coverage ..... OK  (or N/A if no parameters)
+  9. Variable consistency .. OK  (or N/A if no parameters)
+ 10. Variable sanity ....... OK  (or N/A if no parameters)
 ```
 
 If any check fails, fix it and re-verify.
@@ -171,11 +188,18 @@ If any check fails, fix it and re-verify.
 
 ## Phase 5: Smoke test
 
-Run a single simulation to verify the game works end-to-end:
+Run a single simulation to verify the game works end-to-end.
 
+**If the game has no `[variables]`:**
 ```bash
 interview simulate <game-name> -n 1
 ```
+
+**If the game has `[variables]`:**
+```bash
+interview simulate <game-name> -n 1 --seed 42 -v
+```
+The `--seed 42` flag ensures variables get substituted deterministically. The `-v` flag prints which conditions were drawn so you can verify substitution worked.
 
 If it fails:
 1. Read the error output
@@ -196,6 +220,13 @@ Files:
 Smoke test: PASSED (1 simulation completed)
 ```
 
+**If parameterized,** also report the drawn conditions:
+```
+Conditions drawn (seed=42):
+  buyer_value = 70
+  seller_cost = 40
+```
+
 ---
 
 ## Important rules
@@ -211,3 +242,6 @@ Smoke test: PASSED (1 simulation completed)
 - **Bundled messages need round labels.** When a message covers resolution of one round AND the prompt for the next, label each round explicitly.
 - **Round counting must be explicit.** In alternating-offer games, add a ROUND COUNTING section with "every offer advances the round counter by 1" and a worked example.
 - **Final round must be compact.** Skip the separate scoreboard on the final round — the GAME OVER box already shows final earnings.
+- **Parameterization uses `{{var_name}}` syntax.** The system (`interviewer/randomization.py`) draws values at session start via `draw_conditions()` and substitutes all `{{var_name}}` placeholders in all prompt files and config.toml `opening_instruction` via `substitute_template()`. Floats are formatted to 2 decimal places. Unresolved placeholders are left as-is (so typos silently fail — check 8 catches these).
+- **Numeric parameters ≠ structural treatments.** A per-session numeric value (buyer's valuation, seller's cost) is a `{{var}}` in one game folder. A structural treatment change (adding a chat phase, changing info visibility) requires a separate game folder. Never try to implement structural treatments as variables — the prompt diffs are too large for placeholder substitution.
+- **Cross-condition consistency.** When generating multiple game folders for an experiment, all folders should share the same `[variables]` section, the same AI strategy logic (modulo treatment-specific adjustments), and identical boilerplate. Only the treatment-specific sections differ.
