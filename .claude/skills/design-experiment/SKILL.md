@@ -110,8 +110,8 @@ Game spec: <display_name>
 8.  Turn structure: <simultaneous/alternating/sequential>
 9.  Payoffs:        <exact formulas with worked examples>
 10. Hidden info:    <what's private, tied to identification strategy>
-11. AI strategy:    <named strategy with thresholds — must be IDENTICAL across treatment conditions for clean identification>
-12. Sim human:      <behavioral profile for automated testing>
+11. AI goal:        Maximize own earnings (guardrails: <hard constraints preventing dominated moves> — must be IDENTICAL across treatment conditions for clean identification)
+12. Sim human goal: Maximize own earnings (guardrails: <hard constraints> — symmetric with AI goal)
 ```
 
 If the hypothesis requires **multiple game variants** (treatment vs. control), produce a spec for each, noting explicitly what differs and what's held constant.
@@ -250,7 +250,7 @@ Run /create-2-player-game for each condition. The specs above contain all 12 ite
 ## Important rules
 
 ### Design rules
-- **AI strategy must be identical across conditions.** The treatment is the game rules/parameters, not the AI's behavior. If AI strategy varies between conditions, you can't identify the treatment effect.
+- **AI goal and guardrails must be identical across conditions.** The treatment is the game rules/parameters, not the AI's behavior. Both agents are earnings maximizers — their goal section (objective, payoff reminder, reasoning instruction, guardrails) must be the same across conditions for clean identification.
 - **One treatment at a time.** Each pair of game variants should differ on exactly one dimension. If the user wants to test multiple treatments, design them as separate experiments (separate game pairs).
 - **Payoffs must create the right incentive structure.** The game's payoff formulas must make the hypothesized behavior individually rational (or tempting) — otherwise you're testing whether people follow instructions, not testing the hypothesis.
 - **Statistical power matters for round count.** One-shot games need many sessions for power. Repeated games get multiple observations per session but introduce learning/reputation effects. Flag this tradeoff.

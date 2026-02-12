@@ -283,10 +283,29 @@ Follow this section structure exactly:
 %   (c) DEEPEN: Keep the same game, but test a mechanism/moderator
 %   (d) PIVOT: Different game/hypothesis entirely (if current one is a dead end)
 %   (e) HUMAN-TEST: Run the same game with real human subjects
+%   (f) REFINE: Same hypothesis, better game design
 %
 % State which archetype and why.
-% End with a concrete next step: "Run /hypothesize [hypothesis]" or
+% End with a concrete next step: "Run /hypothesize iterate <experiment>" or
 % "Run /create-2-player-game [game-name]" or "Run interview simulate ..."
+
+%% --- MACHINE-READABLE CONTEXT (for /hypothesize iterate) ---
+% This block is parsed by /hypothesize Phase 0 to enable automated iteration.
+% It MUST be included in every results memo.
+
+\subsection*{Prior Experiment Context (Machine-Readable)}
+\begin{verbatim}
+prior_hypothesis: <the hypothesis that was tested>
+verdict: <YES_INTERESTING / PARTIALLY / NO_NULL / NO_UNINFORMATIVE>
+diagnosis: <DESIGN / POWER / IMPLEMENTATION / HYPOTHESIS / NA>
+key_finding: <one-sentence summary>
+key_statistic: <the single most important number, e.g., "deal rate = 100% across all conditions">
+dag_variables: <X=treatment, M=mechanism, Y=outcome, Z=control>
+testable_implications_results: <prediction1=CONFIRMED/REFUTED, prediction2=CONFIRMED/REFUTED, ...>
+next_archetype: <EXTEND / DEEPEN / REPLICATE / REFINE / PIVOT / HUMAN-TEST>
+proposed_changes: <specific changes for the next experiment>
+next_hypothesis_sketch: <rough hypothesis for the next iteration>
+\end{verbatim}
 
 \end{document}
 ```
@@ -300,6 +319,7 @@ Follow this section structure exactly:
 - **The Next Experiment section must be actionable.** It should contain enough detail to immediately run `/hypothesize` or `/design-experiment` on the follow-up.
 - **Tables > prose** for presenting data. Use booktabs-style tables.
 - **Figures in the document** — reference them inline, don't just append them.
+- **Machine-readable block is mandatory.** Every results memo must include the "Prior Experiment Context (Machine-Readable)" `\begin{verbatim}` block in the Next Experiment section. This is the interface that `/hypothesize iterate` parses to enable automated iteration. Fill in every field — use `NA` for fields that don't apply.
 
 ### Compilation
 

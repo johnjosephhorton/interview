@@ -82,7 +82,7 @@ interview chat public_goods        # Public goods game
 | Flag | Short | Default | Description |
 |------|-------|---------|-------------|
 | `--system-prompt` | `-s` | — | Override the manager prompt (path to `.md` file or inline text) |
-| `--model` | `-m` | `gpt-4o-mini` | OpenAI model |
+| `--model` | `-m` | `gpt-5` | OpenAI model |
 | `--temperature` | `-t` | `0.7` | Sampling temperature |
 | `--max-tokens` | | `200` | Max tokens per response |
 | `--save` | | | Save transcript to file (`.json` or `.csv`) |
@@ -103,7 +103,7 @@ This runs 10 parallel simulations of the bargaining game and saves results to CS
 |------|-------|---------|-------------|
 | `--interviewer-prompt` | `-i` | — | Override manager prompt |
 | `--respondent-prompt` | `-r` | — | Override simulated human prompt |
-| `--model` | `-m` | `gpt-4o-mini` | OpenAI model |
+| `--model` | `-m` | `gpt-5` | OpenAI model |
 | `--max-turns` | | `5` | Max conversation turns |
 | `--num-simulations` | `-n` | `1` | Number of parallel simulations |
 | `--save` | `-o` | **(required)** | Output CSV file |

@@ -72,7 +72,7 @@ Numeric parameters that vary per session. Each variable is an inline TOML table.
 | `sequence` | `{ type = "sequence", values = ["A", "B", "C"] }` | Rotate through values across simulations (sim 0→A, sim 1→B, sim 2→C, sim 3→A, ...) |
 | `derived` | `{ type = "derived", formula = "cost + 0.7 * (value - cost)", round_to = 1.0 }` | Python expression evaluated after all base variables are drawn. Can reference any base or earlier-derived variable. `round_to` is optional (rounds to nearest multiple). |
 
-**Why `derived`?** LLMs cannot reliably compute multi-step arithmetic. If a strategy says "open at seller_cost + 0.7 × (buyer_value − seller_cost)", the LLM will get it wrong. Pre-compute the result as a derived variable and inject the final number via `{{opening_price}}`.
+**Why `derived`?** LLMs cannot reliably compute multi-step arithmetic. If a prompt needs to display a computed value (ZOPA, fair split, midpoint, maximum possible earnings), the LLM will get the math wrong. Pre-compute the result as a derived variable and inject the final number via `{{var_name}}`. Derived variables are for display values and guardrail bounds — not strategy thresholds (agents are earnings maximizers and choose their own tactics).
 
 **Example:**
 
@@ -80,12 +80,14 @@ Numeric parameters that vary per session. Each variable is an inline TOML table.
 [variables]
 buyer_value = { type = "choice", values = [60, 70, 80] }
 seller_cost = { type = "choice", values = [30, 40, 50] }
-opening_price = { type = "derived", formula = "seller_cost + 0.7 * (buyer_value - seller_cost)", round_to = 1.0 }
-accept_threshold = { type = "derived", formula = "seller_cost + 5" }
+zopa = { type = "derived", formula = "buyer_value - seller_cost" }
+fair_split = { type = "derived", formula = "seller_cost + (buyer_value - seller_cost) / 2", round_to = 1.0 }
 endowment = { type = "fixed", value = 100 }
 ```
 
-Then use `{{buyer_value}}`, `{{seller_cost}}`, `{{opening_price}}`, `{{accept_threshold}}`, and `{{endowment}}` in manager.md, player.md, sim_human.md, and `opening_instruction`.
+Then use `{{buyer_value}}`, `{{seller_cost}}`, `{{zopa}}`, `{{fair_split}}`, and `{{endowment}}` in manager.md, player.md, sim_human.md, and `opening_instruction`.
+
+**Note:** Strategy variables (e.g., `opening_price`, `accept_threshold`, `concession_step`) are no longer needed. Agents are earnings maximizers — they choose their own tactics. Only define variables for game parameters (valuations, costs, endowments) and display values (ZOPA, fair split) that appear in prompts.
 
 ### [settings] — respondent_temperature (optional)
 

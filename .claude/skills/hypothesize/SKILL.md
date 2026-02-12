@@ -1,31 +1,104 @@
 ---
 name: hypothesize
-description: Formalize a research hypothesis into a Pearlean causal DAG, evaluate its interestingness, and produce a self-contained hypothesis memo PDF
-argument-hint: "[research hypothesis or question]"
+description: Formalize a research hypothesis into a Pearlean causal DAG, evaluate its interestingness, and produce a self-contained hypothesis memo PDF. Supports iteration — can ingest prior experiment results and refine the hypothesis.
+argument-hint: "[hypothesis or question] OR iterate <experiment-name>"
 ---
 
 # /hypothesize — Hypothesis → Causal Model → Triviality Test → Hypothesis Memo PDF
 
 **Meta-goal:** Turn a research hypothesis — vague or specific — into a formal causal model (Pearlean DAG), rigorously evaluate whether it's trivial, auto-sharpen if needed, and produce a self-contained hypothesis memo PDF. A collaborator should be able to read the output PDF and understand the causal claim, why it matters, and what an experiment would need to identify.
 
+**Supports iteration:** When given prior experiment results, this skill ingests the findings, determines an iteration strategy, and produces a refined hypothesis that builds on what was learned. The pipeline is a loop:
+
+```
+/hypothesize → /design-experiment → /create-2-player-game → simulate → /analyze-results
+      ↑                                                                        │
+      └────────────────────── /hypothesize iterate ←───────────────────────────┘
+```
+
 **Run to completion. Never stop to ask the user. If input is vague, extrapolate the most interesting version. If specific, follow it closely.**
 
-This skill handles the **"why"** — from hypothesis to causal model. It does **not** design the game or produce specs. To continue to game design, run `/design-experiment` after this skill. The full chain is: `/hypothesize` → `/design-experiment` → `/create-2-player-game`.
+This skill handles the **"why"** — from hypothesis to causal model. It does **not** design the game or produce specs. To continue to game design, run `/design-experiment` after this skill.
 
 ## Usage
 
 - `/hypothesize does cheap talk improve outcomes in bargaining under asymmetric information?` — From a hypothesis
 - `/hypothesize` — Extrapolate the most interesting hypothesis from context; if no context, pick a novel hypothesis in behavioral game theory
+- `/hypothesize iterate info_source_bargaining` — Ingest prior results from the named experiment and produce a refined v2 hypothesis
+
+---
+
+## Phase 0: Ingest prior results (iteration mode only)
+
+**Skip this phase** if the user provides a fresh hypothesis (not `iterate`). **Execute this phase** if the argument starts with `iterate` followed by an experiment name.
+
+### 0a. Locate and read the results memo
+
+Search for the prior experiment's results memo:
+- `writeup/designs/<experiment_name>_results.tex`
+- If not found, try `writeup/designs/*<experiment_name>*.tex` (excluding `_hypothesis.tex`)
+- If still not found, report "No results memo found for <experiment_name>" and fall back to fresh hypothesis mode
+
+Read the full `.tex` file.
+
+### 0b. Extract structured data
+
+Look for the machine-readable `\begin{verbatim}` block in the "Next Experiment" section (added by `/analyze-results`). Extract these fields:
+
+```
+prior_hypothesis: <the hypothesis that was tested>
+verdict: <YES_INTERESTING / PARTIALLY / NO_NULL / NO_UNINFORMATIVE>
+diagnosis: <DESIGN / POWER / IMPLEMENTATION / HYPOTHESIS>
+key_finding: <one-sentence summary of what was found>
+key_statistic: <the single most important number>
+dag_variables: <X, M, Y, Z from the prior DAG>
+testable_implications_results: <which predictions were confirmed/refuted>
+next_archetype: <EXTEND / DEEPEN / REPLICATE / REFINE / PIVOT>
+proposed_changes: <specific changes recommended>
+next_hypothesis_sketch: <the rough next hypothesis>
+```
+
+If the verbatim block is missing, extract these fields manually from the prose in the Evaluation and Next Experiment sections.
+
+### 0c. Determine iteration strategy
+
+Map verdict × diagnosis to an iteration strategy:
+
+| Verdict | Diagnosis | Strategy | What changes |
+|---------|-----------|----------|-------------|
+| YES_INTERESTING | — | **EXTEND** | Add a new condition or moderator to the existing design |
+| PARTIALLY | DESIGN | **REFINE** | Same hypothesis, better game design that isolates the mechanism |
+| PARTIALLY | HYPOTHESIS | **DEEPEN** | Narrow the hypothesis to the part that worked |
+| NO_NULL | POWER | **REPLICATE** | Same design, more sessions or tighter ZOPA |
+| NO_NULL | DESIGN | **REFINE** | Same hypothesis, different game that creates more variance |
+| NO_NULL | HYPOTHESIS | **PIVOT** | Different hypothesis entirely, informed by what didn't work |
+| NO_UNINFORMATIVE | IMPLEMENTATION | **REFINE** | Fix game bugs first, then re-run |
+| NO_UNINFORMATIVE | DESIGN | **PIVOT** | The game structure can't test this; try a different approach |
+
+If the results memo specifies `next_archetype`, use that. Otherwise, infer from the verdict and diagnosis.
+
+### 0d. Produce structured handoff for Phase 1
+
+Create an internal note (not shown to user) with:
+- **Prior experiment:** name, hypothesis, verdict, diagnosis
+- **Iteration strategy:** EXTEND/DEEPEN/REPLICATE/REFINE/PIVOT
+- **What to preserve:** elements from the prior design that worked
+- **What to change:** the specific adjustment the iteration strategy implies
+- **Next hypothesis sketch:** starting point for Phase 1 formalization
+
+Proceed to Phase 1 with this context.
 
 ---
 
 ## Phase 1: Formalize the hypothesis
 
-Take whatever the user provides — a vague intuition, a research question, a formal hypothesis — and produce:
+Take whatever the user provides — a vague intuition, a research question, a formal hypothesis, or Phase 0 handoff from iteration — and produce:
 
-1. **Research question** — One clear sentence (e.g., "Does pre-play communication increase cooperative surplus in prisoner's dilemma?")
-2. **Core claim** — The directional causal claim being tested (e.g., "Cheap talk → higher cooperation rates → higher joint payoffs")
-3. **Key variables:**
+1. **Research question** — One clear sentence. **If iterating:** must reference the prior finding (e.g., "Given that information source had no effect on deal rates in bargaining with a wide ZOPA, does tightening the ZOPA reveal a hidden treatment effect?")
+2. **Core claim** — The directional causal claim being tested. **If iterating:** must address the diagnosis from Phase 0 (e.g., if diagnosis was DESIGN, the claim should target the design flaw; if HYPOTHESIS, the claim should be a new direction)
+3. **Building on** (iteration only) — One sentence: "Building on [prior experiment name], which found [key finding]."
+4. **What changed and why** (iteration only) — One sentence: "This hypothesis [extends/deepens/refines/pivots from] the prior by [specific change], because [diagnosis reason]."
+5. **Key variables:**
    - **Treatment** (X) — The experimental manipulation (what changes between conditions)
    - **Outcome** (Y) — What we measure (cooperation rate, deal price, total surplus, etc.)
    - **Mechanism** (M) — How X is hypothesized to cause Y (the mediating pathway)
@@ -142,7 +215,13 @@ Use matplotlib to draw the DAG (no networkx layout — use manual positions for 
 
 ### 4b. Write the LaTeX memo
 
-Write a LaTeX document at `writeup/designs/<name>_hypothesis.tex` that embeds the DAG figure inline. The memo should compile to ~2–3 pages.
+**Filename convention:**
+- Fresh hypothesis: `writeup/designs/<name>_hypothesis.tex`
+- Iteration v2: `writeup/designs/<name>_hypothesis_v2.tex`
+- Iteration v3: `writeup/designs/<name>_hypothesis_v3.tex`
+- General rule: check for existing `<name>_hypothesis*.tex` files and increment the version number
+
+Write the LaTeX document that embeds the DAG figure inline. The memo should compile to ~2–3 pages.
 
 #### Document setup
 
@@ -154,11 +233,12 @@ Write a LaTeX document at `writeup/designs/<name>_hypothesis.tex` that embeds th
 
 #### Required sections (in order):
 
-1. **Title** — "Hypothesis Memo: <title>" with date and status ("Pre-design")
-2. **Research Question** — one paragraph: question, motivation, why it matters
-3. **Interestingness Argument** — Contains the full triviality scorecard with all 5 dimension scores and reasoning, the total score, any sharpening moves applied, the final score after sharpening, and the argument for why this hypothesis is worth testing. Format the scorecard as a `booktabs` table in the PDF.
-4. **Causal Model** — Figure (DAG) inline, then variable definitions table (`booktabs`), testable implications (numbered), identification strategy (bulleted)
-5. **Next Steps** — brief note that this hypothesis is ready for `/design-experiment` to map to a game design
+1. **Title** — "Hypothesis Memo: <title>" with date and status ("Pre-design"). **If iterating:** add version number and "Iteration of <prior experiment>"
+2. **Prior Experiment Context** (iteration only) — Summary of what was tested, what was found, the verdict and diagnosis, and what this iteration changes. Include the key statistic from the prior results. This section is skipped for fresh hypotheses.
+3. **Research Question** — one paragraph: question, motivation, why it matters. **If iterating:** must reference the prior finding and explain why this follow-up is needed.
+4. **Interestingness Argument** — Contains the full triviality scorecard with all 5 dimension scores and reasoning, the total score, any sharpening moves applied, the final score after sharpening, and the argument for why this hypothesis is worth testing. Format the scorecard as a `booktabs` table in the PDF.
+5. **Causal Model** — Figure (DAG) inline, then variable definitions table (`booktabs`), testable implications (numbered), identification strategy (bulleted)
+6. **Next Steps** — brief note that this hypothesis is ready for `/design-experiment` to map to a game design
 
 #### Figure placement
 
@@ -180,14 +260,14 @@ Report:
 
 ```
 Hypothesis memo generated:
-  writeup/designs/<name>_hypothesis.pdf    (single PDF, DAG inline)
+  writeup/designs/<name>_hypothesis[_vN].pdf    (single PDF, DAG inline)
 
 Source files:
-  writeup/designs/<name>_hypothesis.tex
-  writeup/plots/dag_<name>.pdf
+  writeup/designs/<name>_hypothesis[_vN].tex
+  writeup/plots/dag_<name>[_vN].pdf
 
 Next: run /design-experiment to map this hypothesis to a game design.
-Or: run /hypothesize again to iterate on the hypothesis.
+Or: run /hypothesize iterate <experiment> to iterate after results.
 ```
 
 ---
@@ -208,6 +288,13 @@ Or: run /hypothesize again to iterate on the hypothesis.
 - **Push back on the obvious.** If the hypothesis is "X increases Y" and anyone in the field would say "of course," the scorecard will reflect that (low Prediction Surprise score) and auto-sharpening will fix it.
 - **Interaction effects are usually more interesting than main effects.** "X causes Y" is less publishable than "X causes Y *only when Z*" or "X causes Y *through M, not through N*."
 - **The scorecard goes in the PDF.** The reader should see exactly how the hypothesis scored, what sharpening was applied, and the final score.
+
+### Iteration rules
+- **Prior results are evidence, not constraints.** The prior experiment's findings inform the new hypothesis but do not limit it. If the prior result suggests pivoting to a completely different game, do it.
+- **Always cite the prior experiment.** The new hypothesis memo must reference the prior experiment by name and summarize what was found. The reader should understand the lineage.
+- **Version numbers are monotonic.** v1 → v2 → v3. Never overwrite a prior version's file.
+- **The iteration strategy drives the formalization.** EXTEND adds conditions, DEEPEN adds mechanism tests, REPLICATE keeps the design, REFINE changes the game, PIVOT changes the hypothesis. Follow the strategy from Phase 0c.
+- **Sharpening still applies.** Even iterated hypotheses go through the triviality scorecard. Prior results may make a hypothesis more interesting (confirmed mechanism) or less (expected result) — the score reflects this.
 
 ### Memo and figure rules
 - **One PDF output.** The deliverable is a single compiled PDF with the DAG figure inline.

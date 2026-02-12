@@ -47,38 +47,70 @@ Your decisions are based ONLY on [the history of actual game actions / actual ga
 
 (Slight wording variations are fine as long as the meaning is preserved.)
 
-## Strategy [GAME-SPECIFIC]
+## Goal [GAME-SPECIFIC]
+
+The player prompt must NOT contain a named strategy, hardcoded opening moves, fixed thresholds, decision trees, or concession rules. Instead, it gives the AI a clear earnings-maximization objective and lets it reason about optimal play.
 
 Must include:
-- **Named strategy** with a descriptive heading (e.g., "Tit-for-Tat with Forgiveness", "Bid Shading", "Conditional Cooperation")
-- **Round 1 action** — always specify explicitly what to do on the first move
-- **Subsequent rounds** — decision rules based on observed history
-  - Use concrete thresholds, not vague language ("accept if >= $7.00", not "accept reasonable offers")
-  - Specify adjustments based on human behavior patterns
-- **Final round** — often has special logic (more/less aggressive)
-- **Guardrails** — hard floors/ceilings the AI never crosses (e.g., "never offer below $6.50", "never invest more than $7.00")
+- **Objective statement** — Always: "Your goal is to maximize your total earnings across all N rounds." (or "this game" for one-shot)
+- **Payoff formula reminder** — Restate the key formula so the AI can reason about tradeoffs (e.g., "You earn: agreed price − ${{seller_cost}}. No deal = $0.")
+- **Reasoning instruction** — Tell the AI to think about what maximizes its payoff given the game structure and observed history (e.g., "Consider the tradeoff between holding out for a better price and the risk of no deal.")
+- **Guardrails** — Hard constraints that prevent dominated moves. These are NOT strategy thresholds — they are logical bounds the AI should never violate:
+  - Floors/ceilings from the payoff structure (e.g., "NEVER accept below ${{seller_cost}} — you would lose money")
+  - Feasibility constraints (e.g., "Your contribution must be between $0 and ${{endowment}}")
+- **What NOT to include:** No named strategies, no "open at $X", no "concede by $Y per round", no "accept if >= $Z", no decision trees. The AI decides its own tactics based on reasoning about the payoff structure.
 
-### Parameterized thresholds
+### Parameterized values
 
-If the game uses `[variables]`, express strategy thresholds relative to the variables rather than as hardcoded numbers:
+If the game uses `[variables]`, use `{{var_name}}` placeholders for any values that change per session — but only for game parameters and guardrail bounds, NOT for strategy thresholds (which no longer exist):
 
 ```
-## Strategy: Anchored Concession
+## Goal: Maximize Your Earnings
 
-**Round 1:** Open at ${{opening_price}}.
-**Accept threshold:** Accept any offer ≥ ${{accept_threshold}}.
-**Concession:** Lower your ask by $2.00 each round, but never below ${{floor_price}}.
-**Final round:** Accept any offer > ${{seller_cost}}.
-**Hard floor:** NEVER accept below ${{seller_cost}}.
+Your goal is to maximize your total earnings across all 6 rounds.
+
+**Your payoff:** You earn the agreed price minus your cost of ${{seller_cost}}. If no deal is reached, you earn $0 for that round.
+
+**Think about:** The tradeoff between holding out for a higher price (more profit per deal) and the risk the buyer walks away (zero profit). Pay attention to the buyer's pattern — are they conceding? Standing firm? Adjust accordingly.
+
+**Hard constraints:**
+- NEVER accept a price below ${{seller_cost}} — you would lose money
+- NEVER offer above ${{buyer_value_max}} — the buyer cannot pay more than their valuation
 ```
 
-This ensures the AI's strategy adapts to the drawn parameters each session. All thresholds that depend on a variable must use `{{var_name}}` — never hardcode a number that should change when the variable changes.
+**Do NOT include:** Named strategies ("Anchored Concession"), opening move instructions ("Open at $X"), numeric thresholds for accepting/rejecting ("Accept if >= $Y"), concession schedules ("Lower by $2 per round"), or decision trees.
 
-**CRITICAL: Use `type = "derived"` for any value that requires arithmetic.** LLMs cannot reliably compute multi-step expressions like `seller_cost + 0.7 × (buyer_value − seller_cost)`. Instead, define a derived variable in config.toml (e.g., `opening_price = { type = "derived", formula = "seller_cost + 0.7 * (buyer_value - seller_cost)", round_to = 1.0 }`) and reference the pre-computed `${{opening_price}}` in the prompt. The player should see final numbers, not formulas to evaluate.
+### Examples
 
-**LESSON LEARNED:** Vague strategy ("be fair", "consider the situation") produces inconsistent behavior. Use exact numbers and if/then rules. The LLM will follow precise instructions but interpret vague ones differently each time.
+**Bargaining (seller):**
+```
+## Goal: Maximize Your Earnings
 
-**LESSON LEARNED:** When a strategy has exceptions (e.g., "forgive one defection", "cooperate on the final round if..."), describe the decision logic as a **numbered decision tree**, not prose. Include a **worked example** showing 3–4 rounds of play. This makes the logic unambiguous to both the LLM executing the strategy and the checker LLM validating it.
+Your goal is to maximize your total earnings across all 6 rounds of negotiation.
+
+You earn: agreed price − ${{seller_cost}}. No deal = $0.
+
+Consider: Holding firm gets you a better price per deal but risks no deal. Conceding quickly secures a deal but leaves money on the table. Pay attention to what the buyer does — their offers reveal information about their willingness to pay.
+
+Hard constraints:
+- NEVER accept below ${{seller_cost}} (you'd lose money)
+```
+
+**Public goods:**
+```
+## Goal: Maximize Your Earnings
+
+Your goal is to maximize your total earnings across all 5 rounds.
+
+You earn: (${{endowment}} − your contribution) + 0.6 × (total contributions from both players). Free-riding (contributing $0) is profitable if the other player contributes, but if both free-ride, both earn only ${{endowment}}.
+
+Consider: The multiplier means mutual contribution creates surplus, but you individually benefit from contributing less than the other player. Watch what the other player does across rounds.
+
+Hard constraints:
+- Contribution must be between $0 and ${{endowment}}
+```
+
+**CRITICAL: Use `type = "derived"` for any display value that requires arithmetic.** LLMs cannot reliably compute multi-step expressions. Pre-compute display values (ZOPA, fair split, midpoint) as derived variables in config.toml and inject them via `{{var_name}}`. The player should see final numbers, not formulas to evaluate. Note: derived variables are for display/guardrail values only — strategy thresholds no longer exist.
 
 ## Output Format [BOILERPLATE]
 

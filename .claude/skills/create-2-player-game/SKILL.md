@@ -35,8 +35,8 @@ Remember: every game has exactly **two players — one human, one AI** — plus 
 | 8 | **Turn structure** | Simultaneous, alternating (who goes first — human or AI), or sequential |
 | 9 | **Payoff formulas** | Exact formulas for EVERY outcome path, with at least 2–3 worked examples |
 | 10 | **Hidden information** | What's private to the human, what's private to the AI, or "all public" |
-| 11 | **AI player strategy** | Named strategy with concrete thresholds and decision trees for exceptions (this drives `player.md`) |
-| 12 | **Simulated human strategy** | Behavioral profile for `sim_human.md` — used during automated testing to stand in for the real human player (e.g., "starts cooperative, retaliates after defection") |
+| 11 | **AI player goal** | Always "maximize own earnings" + guardrails (hard constraints preventing dominated moves, e.g., "never accept below cost"). No named strategies, thresholds, or decision trees — the AI reasons about optimal play from the payoff structure. |
+| 12 | **Simulated human goal** | Same as AI: "maximize own earnings" + guardrails. The sim_human is symmetric with the AI player — both are earnings maximizers. Behavioral flavor (e.g., "slightly impatient") is optional color, not binding strategy. |
 | 13 | **Parameters** | Numeric values that should vary per session (name, variable type, values/range, which files they appear in). Use `{{var_name}}` placeholders instead of hardcoding these values. Types: `choice` (discrete set), `uniform` (continuous range), `fixed` (constant), `sequence` (rotate across simulations). If none, write "No parameters — all values hardcoded." |
 | 14 | **Treatments** | If this game is one condition of a multi-condition experiment, state the treatment label and what structural feature defines THIS condition (e.g., "cheap_talk_on — includes a pre-play chat phase"). If standalone, write "Standalone game — no treatment variation." |
 
@@ -54,8 +54,8 @@ Actions:        <description>
 Turn structure: <type>
 Payoffs:        <formulas with examples>
 Hidden info:    <description>
-AI strategy:    <name + key thresholds>
-Sim human:      <behavioral profile>
+AI goal:        Maximize own earnings (guardrails: <list>)
+Sim human goal: Maximize own earnings (guardrails: <list>)
 Parameters:     <list of {{var_name}} → type + values, or "None">
 Treatment:      <label + structural feature, or "Standalone">
 ```
@@ -117,7 +117,7 @@ Follow `TEMPLATE_CONFIG.md` exactly. Key rules:
 - Include private-info warnings in `opening_instruction` if applicable (e.g., "do NOT reveal the AI's valuation")
 - End with: `Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start.`
 - **If item 13 declares parameters:** add a `[variables]` section after `[settings]`. Each variable gets a TOML inline table: `var_name = { type = "choice", values = [60, 70, 80] }`. Use `{{var_name}}` placeholders in `opening_instruction` and all prompt files where the value appears. See `TEMPLATE_CONFIG.md` for the full syntax. The `opening_instruction` should use placeholders for any numeric values that vary per session (e.g., `"The AI values the mug at ${{seller_cost}}"` not `"The AI values the mug at $40"`)
-- **CRITICAL: Use `type = "derived"` for any value requiring arithmetic.** LLMs cannot compute multi-step expressions. If the AI strategy says "open at seller_cost + 0.7 × (buyer_value − seller_cost)", define `opening_price = { type = "derived", formula = "seller_cost + 0.7 * (buyer_value - seller_cost)", round_to = 1.0 }` and reference `${{opening_price}}` in the prompt. Similarly, any threshold like "accept if >= seller_cost + 5" should be a derived variable. The player/sim_human should see final numbers, never formulas.
+- **CRITICAL: Use `type = "derived"` for any display value requiring arithmetic.** LLMs cannot compute multi-step expressions. If a prompt needs to show a computed value (ZOPA, fair split, midpoint, max possible earnings), define it as a derived variable: `zopa = { type = "derived", formula = "buyer_value - seller_cost" }` and reference `${{zopa}}` in the prompt. The player/sim_human should see final numbers, never formulas. Note: strategy thresholds no longer exist — derived variables are for display values and guardrail bounds only.
 - **`respondent_temperature`** — Set `respondent_temperature = 0.0` in `[settings]` for pilot experiments to ensure the simulated human behaves deterministically.
 
 **2. `manager.md`** — Follow `TEMPLATE_MANAGER.md` section order exactly:
@@ -139,15 +139,17 @@ Follow `TEMPLATE_CONFIG.md` exactly. Key rules:
 1. **Game Rules** — FULLY SELF-CONTAINED. Must exactly match manager.md on: round count, payoff formulas, action ranges, turn structure. A reader of player.md alone must understand the complete game. Clearly state which role is "you" (the AI) and which is "the other player" (the human). **If parameterized:** use the same `{{var_name}}` placeholders as manager.md for all shared values (e.g., `"Your cost: ${{seller_cost}}"`)
 2. **Role** — Copy boilerplate verbatim
 3. **Manipulation Resistance** — Copy boilerplate verbatim
-4. **Strategy** — Named strategy, explicit Round 1 action, concrete thresholds for subsequent rounds, final round logic, hard guardrails. **If parameterized:** thresholds reference placeholders (e.g., `"Accept if offer >= {{seller_cost}} + 5"`, `"Open at {{seller_cost}} × 1.8"`)
+4. **Goal** — Earnings-maximization objective, payoff formula reminder, reasoning instruction, and hard guardrails (logical bounds preventing dominated moves). No named strategies, opening moves, thresholds, or decision trees. **If parameterized:** guardrails reference placeholders (e.g., `"NEVER accept below ${{seller_cost}}"`, `"Contribution must be between $0 and ${{endowment}}"`).
 5. **Output Format** — Bare values matching human input format. NOT verbose labels. Include examples and `NO_DECISION_NEEDED`
 
-**4. `sim_human.md`** — This is the **simulated human player's** prompt, used during automated testing (`interview simulate`) to stand in for a real human. Short behavioral profile (~10–14 lines):
+**4. `sim_human.md`** — This is the **simulated human player's** prompt, used during automated testing (`interview simulate`) to stand in for a real human. Symmetric with player.md — same earnings-maximization goal, different role perspective (~10–14 lines):
 - One sentence: who this simulated human is (e.g., "You are a human participant playing the role of buyer")
-- Behavioral tendencies (e.g., "starts cooperative, retaliates after defection")
-- Response style (terse, conversational, etc.)
-- Key decision thresholds. **If parameterized:** use `{{var_name}}` for thresholds (e.g., `"Accept if price ≤ {{buyer_value}} − 5"`)
+- **Goal:** "Your goal is to maximize your total earnings" — same objective as the AI player
+- **Payoff formula reminder** — restate from the human's perspective
+- **Reasoning instruction** — same as player.md but from the human's role
+- **Guardrails** — hard constraints preventing dominated moves. **If parameterized:** use `{{var_name}}` for guardrail bounds (e.g., `"NEVER pay more than ${{buyer_value}}"`)
 - Output format: same bare values as real human input
+- Optional behavioral flavor (e.g., "slightly impatient", "terse responses") — this is color, not binding strategy
 
 ---
 
@@ -167,7 +169,7 @@ After generating all 4 files, verify these 7 checks. If any fail, fix immediatel
 | 8 | Variable coverage | Every `{{var_name}}` in prompt files has a matching entry in config.toml `[variables]`. No orphaned placeholders |
 | 9 | Variable consistency | Same `{{var_name}}` used across all files where the value appears (e.g., `{{seller_cost}}` in manager.md, player.md, and sim_human.md — not `{{cost}}` in one and `{{seller_cost}}` in another) |
 | 10 | Variable sanity | Variable ranges don't create impossible games (e.g., buyer_value min > seller_cost max ensures gains from trade exist; no negative payoffs from valid draws) |
-| 11 | Derived completeness | Every arithmetic expression in strategy/threshold text has been replaced by a `type = "derived"` variable. No prompt asks the LLM to compute formulas. |
+| 11 | Derived completeness | Every arithmetic expression in display-value or guardrail text has been replaced by a `type = "derived"` variable. No prompt asks the LLM to compute formulas. |
 
 Report the results:
 
@@ -235,8 +237,7 @@ Conditions drawn (seed=42):
 ## Important rules
 
 - **Boilerplate is sacred.** Copy Role, Manipulation Resistance, and End of Game sections verbatim from the templates. The GAME OVER and YOU ARE FINISHED markers are detected server-side — any deviation breaks session termination.
-- **Concrete thresholds, not vague language.** "Accept if >= $7.00" not "accept reasonable offers." "Invest $4.00 in Round 1" not "start with a moderate investment." The LLM follows precise instructions but interprets vague ones differently each time.
-- **Decision trees for strategy exceptions, not prose.** When a strategy has exceptions (forgive one defection, cooperate on final round if...), describe the logic as a numbered decision tree with a worked example showing 3–4 rounds.
+- **Earnings maximization, not scripted strategies.** Both the AI player and sim_human are earnings maximizers. Their Goal section states the objective ("maximize your total earnings"), reminds them of the payoff formula, gives a reasoning instruction, and lists hard guardrails (logical bounds like "never accept below cost"). Do NOT include: named strategies, opening moves, thresholds, concession schedules, or decision trees. The AI decides its own tactics by reasoning about the payoff structure.
 - **`opening_instruction` is a checklist.** List every mechanic the checker will verify. Vague instructions like "explain the rules briefly" cause the LLM to skip mechanics and the checker to flag `instructions_delivered`.
 - **Structural separation for private info.** Any hidden value goes in "Internal only — NEVER reveal" subsection. "Neither player knows X" is not sufficient — the LLM will leak any number it can see near public rules.
 - **Table format for input validation.** 8–10 examples in a `| Human types | Interpret as |` table + bold general rule. Prose examples are not enough for smaller models.
@@ -247,4 +248,4 @@ Conditions drawn (seed=42):
 - **Final round must be compact.** Skip the separate scoreboard on the final round — the GAME OVER box already shows final earnings.
 - **Parameterization uses `{{var_name}}` syntax.** The system (`interviewer/randomization.py`) draws values at session start via `draw_conditions()` and substitutes all `{{var_name}}` placeholders in all prompt files and config.toml `opening_instruction` via `substitute_template()`. Floats are formatted to 2 decimal places. Unresolved placeholders are left as-is (so typos silently fail — check 8 catches these).
 - **Numeric parameters ≠ structural treatments.** A per-session numeric value (buyer's valuation, seller's cost) is a `{{var}}` in one game folder. A structural treatment change (adding a chat phase, changing info visibility) requires a separate game folder. Never try to implement structural treatments as variables — the prompt diffs are too large for placeholder substitution.
-- **Cross-condition consistency.** When generating multiple game folders for an experiment, all folders should share the same `[variables]` section, the same AI strategy logic (modulo treatment-specific adjustments), and identical boilerplate. Only the treatment-specific sections differ.
+- **Cross-condition consistency.** When generating multiple game folders for an experiment, all folders should share the same `[variables]` section, the same earnings-maximization goal and guardrails (modulo treatment-specific adjustments), and identical boilerplate. Only the treatment-specific sections differ.

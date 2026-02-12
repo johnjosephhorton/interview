@@ -74,6 +74,11 @@ async def _chat(
     from interviewer import Transcript
 
     game_config = load_game(game_name)
+    conditions = {}
+    if game_config.variables:
+        rng = Random()
+        conditions = draw_conditions(game_config.variables, 0, rng)
+        game_config = apply_conditions_to_game_config(game_config, conditions)
 
     # Use game prompt, but allow CLI override
     prompt = game_config.interviewer_system_prompt
@@ -92,7 +97,7 @@ async def _chat(
 
     interviewer = Interviewer()
     messages: list[Message] = []
-    transcript = Transcript(interviewer_config=config)
+    transcript = Transcript(interviewer_config=config, conditions=conditions)
 
     label = game_config.name
 
@@ -190,7 +195,9 @@ async def _chat(
     # Auto-check
     try:
         checker = TranscriptChecker()
-        result = await checker.check(game_name, transcript.messages)
+        result = await checker.check(
+            game_name, transcript.messages, conditions=conditions or None
+        )
 
         status = "[green]PASS[/green]" if result.overall_passed else "[red]FAIL[/red]"
         console.print(f"\nChecker: {status}")

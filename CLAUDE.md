@@ -2,15 +2,38 @@
 
 ## Research Vision
 
-This project is building toward a fully automated social science pipeline for two-player economic games, extending the approach in *Automated Social Science: Language Models as Scientist and Subjects* (Manning, 2024 NBER). The end-to-end loop is:
+This project is building toward a fully automated social science pipeline for two-player economic games, extending the approach in *Automated Social Science: Language Models as Scientist and Subjects* (Manning, 2024 NBER). The pipeline is an explicit loop — each experiment's results feed the next hypothesis:
 
-1. **Hypothesize** — LLM generates a testable hypothesis about strategic behavior (e.g., "cheap talk increases cooperation in bargaining under asymmetric information")
-2. **Design** — LLM designs a two-player economic game that isolates the causal mechanism, with randomized conditions via `{{template}}` variables
-3. **Simulate** — Run N in-silico games (AI vs AI) with experimental randomization (`--seed`, `--design factorial`)
-4. **Analyze** — Extract structured data from transcripts, run statistical tests in R, produce paper-ready plots
-5. **Iterate** — Use results to refine hypotheses or generate new ones
+```
+    ┌─────────────────────────────────────────────────────────────┐
+    │                                                             │
+    ▼                                                             │
+1. Hypothesize  ──→  2. Design  ──→  3. Create  ──→  4. Simulate │
+   /hypothesize      /design-exp     /create-game    interview    │
+                                                     simulate    │
+                                                         │        │
+                                                         ▼        │
+                                            5. Analyze ──→ 6. Iterate
+                                               /analyze-results   │
+                                                         │        │
+                                                         └────────┘
+                                                    /hypothesize iterate
+```
 
-The focus is exclusively on **two-player economic games** (bargaining, auctions, public goods, trust, etc.). Every game supports a human-in-the-loop mode (`interview chat`) where a real person plays one side, so hypotheses validated in silico can be tested with human subjects.
+### Pipeline steps
+
+1. **Hypothesize** — Generate a testable hypothesis about strategic behavior, formalize as a Pearlean causal DAG, score for triviality (`/hypothesize`)
+2. **Design** — Map the hypothesis to a two-player economic game with treatment conditions and analysis plan (`/design-experiment`)
+3. **Create** — Generate the 4-file game implementation: config.toml, manager.md, player.md, sim_human.md (`/create-2-player-game`)
+4. **Simulate** — Run N in-silico games with experimental randomization (`interview simulate --seed --design factorial`)
+5. **Analyze** — Extract structured data, run statistical tests, produce a results memo with verdict and diagnosis (`/analyze-results`)
+6. **Iterate** — Feed results back into `/hypothesize iterate` to refine the hypothesis and run the next experiment
+
+### Key design principles
+
+- **Both agents are earnings maximizers.** The AI player and simulated human both receive an earnings-maximization objective, payoff formula, and hard guardrails — not scripted strategies. This produces naturalistic behavior sensitive to game parameters and treatment conditions. The `respondent_temperature` setting in config.toml controls sim_human variance (0.0 for deterministic pilots, higher for behavioral realism).
+- **The meta-goal is autonomous iteration.** The pipeline should be able to run `/hypothesize` → `/analyze-results` → `/hypothesize iterate` with minimal human intervention. Human involvement is for steering (choosing which hypothesis to pursue) and validation (reviewing results memos), not for mechanical steps.
+- **Two-player economic games only.** Bargaining, auctions, public goods, trust, etc. Every game supports human-in-the-loop mode (`interview chat`) so hypotheses validated in silico can be tested with human subjects.
 
 All micro-level decisions — prompt wording, game mechanics, data formats, CLI flags — should serve this macro goal of a credible, reproducible, automated research pipeline.
 
@@ -117,7 +140,7 @@ The manager prompt instructs the LLM to output `══════════ G
 ## Key Models (interviewer/models.py)
 
 - `Message(role: "interviewer" | "respondent", text: str)`
-- `AgentConfig(system_prompt: str, model: str = "gpt-4o-mini", temperature: float = 0.7, max_tokens: int = 200)`
+- `AgentConfig(system_prompt: str, model: str = "gpt-5", temperature: float = 1, max_tokens: int = 200)`
 - `LLMCallInfo(model, messages, params, input_tokens, output_tokens)`
 - `AgentResponse(text: str, llm_call_info: LLMCallInfo | None)`
 - `Transcript(messages, interviewer_config, respondent_config, started_at, ended_at, total_input_tokens, total_output_tokens, llm_calls)`

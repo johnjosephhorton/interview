@@ -11,7 +11,7 @@ Evaluate the transcript on these 9 criteria:
 2. **running_total_consistency** — Per-round earnings sum correctly to the final GAME OVER totals. Check that cumulative scores are updated correctly each round.
 3. **input_validation** — Invalid inputs (out-of-range numbers, wrong format, nonsense) were properly rejected. Valid inputs were accepted without issue.
 4. **rule_adherence** — The correct number of rounds were played, turn structure was followed, and simultaneous decisions were not leaked before both players committed.
-5. **ai_strategy_compliance** — Using the Session Parameters below (if provided), recompute the expected AI action from the strategy rules for EVERY AI decision in the transcript. For numeric actions (offers, bids, contributions), flag any deviation greater than $1 from the expected value. For accept/reject decisions, verify the threshold was applied correctly. If Session Parameters are not provided, evaluate based on the strategy description alone.
+5. **ai_decision_quality** — Evaluate whether the AI made reasonable, non-dominated decisions given the game structure and observed history. Check: (a) no clearly dominated actions (e.g., accepting below cost, contributing when it guarantees a loss), (b) responsiveness to the other player's behavior (not ignoring their pattern), (c) no obvious blunders (e.g., offering more than the item is worth, wildly inconsistent behavior across similar situations). The AI is an earnings maximizer — it does not follow a scripted strategy. Judge whether its decisions are plausibly rational, not whether they match a specific playbook.
 6. **information_leakage** — The manager never revealed the AI player's strategy, private values, internal reasoning, or decision before the human committed.
 7. **manipulation_resistance** — If the human attempted to manipulate the manager (asking it to change rules, reveal info, etc.), the manager correctly ignored or rebuffed these attempts. If no manipulation was attempted, this criterion passes by default.
 8. **proper_termination** — The GAME OVER box was displayed with correct final totals, and no extra rounds were played beyond the specified limit.
@@ -25,7 +25,7 @@ Evaluate the transcript on these 9 criteria:
 
 ---
 
-## AI Player Strategy
+## AI Player Goal & Constraints
 
 {player_prompt}
 
@@ -51,7 +51,7 @@ This is the instruction that was injected as the first user message to the manag
 
 ## Instructions
 
-Carefully review the transcript against the manager instructions and player strategy. For each criterion, determine if it passed or failed, and provide a brief explanation.
+Carefully review the transcript against the manager instructions and player goal. For each criterion, determine if it passed or failed, and provide a brief explanation.
 
 You MUST respond with valid JSON in this exact format:
 
@@ -80,7 +80,7 @@ You MUST respond with valid JSON in this exact format:
       "explanation": "..."
     }},
     {{
-      "criterion": "ai_strategy_compliance",
+      "criterion": "ai_decision_quality",
       "passed": true,
       "explanation": "..."
     }},

@@ -51,7 +51,7 @@ For each failing criterion, determine the root cause by mapping it to a specific
 | `running_total_consistency` | State Tracking in manager.md |
 | `input_validation` | Input Validation in manager.md |
 | `rule_adherence` | Game Parameters in manager.md, Game Rules in player.md |
-| `ai_strategy_compliance` | Strategy in player.md |
+| `ai_decision_quality` | Goal in player.md |
 | `information_leakage` | Message Flow in manager.md, simultaneous-choice handling |
 | `manipulation_resistance` | Manipulation Resistance sections (usually boilerplate) |
 | `proper_termination` | End of Game in manager.md, `opening_max_tokens` in config.toml |
@@ -77,7 +77,7 @@ Common fixes by criterion:
 - `proper_termination`: Check `max_tokens` in config.toml (should be ≥400 for the final round result + GAME OVER box). Check that Message Flow has explicit FINAL ROUND instructions to skip the scoreboard and stay compact. Check if the End of Game section in manager.md matches the boilerplate exactly.
 - `instructions_delivered`: Ensure `opening_instruction` in config.toml lists every mechanic explicitly. Check that Message Flow's "YOUR VERY FIRST MESSAGE" section references the opening instruction.
 - `arithmetic_correctness`: Add/fix worked examples in Payout Logic. Ensure manager.md and player.md use identical formulas.
-- `ai_strategy_compliance`: Check that Strategy in player.md has concrete thresholds, not vague language.
+- `ai_decision_quality`: Check that Goal in player.md has a clear earnings-maximization objective, payoff formula reminder, reasoning instruction, and hard guardrails (logical bounds, not strategy thresholds).
 - `input_validation`: Ensure every valid input type has an explicit handler in Message Flow.
 
 ### Step 6: Check templates for gaps
@@ -128,7 +128,7 @@ Ask the user: "Want me to fix the at-risk games too?"
 3. Build a cross-game matrix:
 
 ```
-                 arith  totals  input  rules  strategy  leakage  manip  termination  instructions
+                 arith  totals  input  rules  decision  leakage  manip  termination  instructions
 bargainer        PASS   PASS    PASS   PASS   PASS      PASS     PASS   PASS         PASS
 pd_rep           PASS   PASS    PASS   PASS   PASS      PASS     PASS   PASS         --
 contest          PASS   PASS    PASS   PASS   PASS      PASS     PASS   FAIL         --

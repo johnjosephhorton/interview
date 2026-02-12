@@ -60,7 +60,7 @@ class Interviewer:
             system_prompt=game_config.player_system_prompt,
             model=DEFAULT_AGENT_MODEL,
             temperature=config.temperature,
-            max_tokens=150,
+            max_tokens=1024,
         )
         return await player.generate_decision(messages, player_config)
 
