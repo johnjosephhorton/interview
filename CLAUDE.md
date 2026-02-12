@@ -1,5 +1,19 @@
 # CLAUDE.md
 
+## Research Vision
+
+This project is building toward a fully automated social science pipeline for two-player economic games, extending the approach in *Automated Social Science: Language Models as Scientist and Subjects* (Manning, 2024 NBER). The end-to-end loop is:
+
+1. **Hypothesize** — LLM generates a testable hypothesis about strategic behavior (e.g., "cheap talk increases cooperation in bargaining under asymmetric information")
+2. **Design** — LLM designs a two-player economic game that isolates the causal mechanism, with randomized conditions via `{{template}}` variables
+3. **Simulate** — Run N in-silico games (AI vs AI) with experimental randomization (`--seed`, `--design factorial`)
+4. **Analyze** — Extract structured data from transcripts, run statistical tests in R, produce paper-ready plots
+5. **Iterate** — Use results to refine hypotheses or generate new ones
+
+The focus is exclusively on **two-player economic games** (bargaining, auctions, public goods, trust, etc.). Every game supports a human-in-the-loop mode (`interview chat`) where a real person plays one side, so hypotheses validated in silico can be tested with human subjects.
+
+All micro-level decisions — prompt wording, game mechanics, data formats, CLI flags — should serve this macro goal of a credible, reproducible, automated research pipeline.
+
 ## Project Overview
 
 **Interviewer** is a standalone AI interviewer for qualitative research. It uses symmetric LLM agents — one plays the interviewer, one plays the respondent — both powered by OpenAI chat completions. The project has two interfaces: a CLI (Typer) and a REST API (FastAPI).
