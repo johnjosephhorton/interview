@@ -5,6 +5,13 @@ from datetime import datetime, timezone
 from .core import Interviewer
 from .models import AgentConfig, GameConfig, Message, Transcript
 
+_END_GAME_MARKERS = ("GAME OVER", "YOU ARE FINISHED")
+
+
+def _check_game_ended(text: str) -> bool:
+    """Check if the LLM response contains either end-of-game marker."""
+    return any(m in text for m in _END_GAME_MARKERS)
+
 
 class Simulation:
     """Orchestrates a multi-turn automated interview between Interviewer and SimulatedRespondent."""
@@ -63,9 +70,13 @@ class Simulation:
             game_config=game_config,
         )
         _add_message("interviewer", opening.text, opening.llm_call_info, opening.player_llm_call_info)
+        game_ended = _check_game_ended(opening.text) if game_config else False
 
         # Main conversation turns
         for _ in range(max_turns):
+            if game_ended:
+                break
+
             # Respondent replies
             resp = await respondent.generate_response(messages, respondent_config)
             _add_message("respondent", resp.text, resp.llm_call_info)
@@ -77,23 +88,28 @@ class Simulation:
             )
             _add_message("interviewer", follow_up.text, follow_up.llm_call_info, follow_up.player_llm_call_info)
 
-        # Last question
-        last_q = await interviewer.generate_response(
-            messages, interviewer_config, message_type="last_question",
-            game_config=game_config,
-        )
-        _add_message("interviewer", last_q.text, last_q.llm_call_info)
+            if game_config and _check_game_ended(follow_up.text):
+                game_ended = True
 
-        # Respondent answers last question
-        resp = await respondent.generate_response(messages, respondent_config)
-        _add_message("respondent", resp.text, resp.llm_call_info)
+        # Only send canned closing messages if the game didn't end naturally
+        if not game_ended:
+            # Last question
+            last_q = await interviewer.generate_response(
+                messages, interviewer_config, message_type="last_question",
+                game_config=game_config,
+            )
+            _add_message("interviewer", last_q.text, last_q.llm_call_info)
 
-        # End of interview
-        end = await interviewer.generate_response(
-            messages, interviewer_config, message_type="end_of_interview",
-            game_config=game_config,
-        )
-        _add_message("interviewer", end.text, end.llm_call_info)
+            # Respondent answers last question
+            resp = await respondent.generate_response(messages, respondent_config)
+            _add_message("respondent", resp.text, resp.llm_call_info)
+
+            # End of interview
+            end = await interviewer.generate_response(
+                messages, interviewer_config, message_type="end_of_interview",
+                game_config=game_config,
+            )
+            _add_message("interviewer", end.text, end.llm_call_info)
 
         transcript.ended_at = datetime.now(timezone.utc).isoformat()
         return transcript

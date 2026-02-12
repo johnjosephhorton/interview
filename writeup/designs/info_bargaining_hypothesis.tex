@@ -1,0 +1,97 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, graphicx, booktabs, hyperref, enumitem, xcolor, titlesec, parskip}
+
+\definecolor{accentblue}{HTML}{2563EB}
+\definecolor{mutedgray}{HTML}{6B7280}
+
+\hypersetup{colorlinks=true, linkcolor=accentblue, urlcolor=accentblue}
+
+\title{\textbf{Hypothesis Memo:} \\ Information Advantage as a Bargaining Curse}
+\author{Pre-design}
+\date{February 2026}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\noindent\textit{Status: Pre-design --- ready for \texttt{/design-experiment}}
+
+\section{Research Question}
+
+Does revealing the opponent's reservation price to one bargainer \textit{reduce} the overall deal rate compared to symmetric ignorance, even when a zone of possible agreement exists?
+
+Bilateral bargaining under incomplete information is a canonical setting in economics: Myerson and Satterthwaite (1983) proved that no mechanism achieves fully efficient trade when both valuations are private. The standard intuition is that \textit{more} information should make deals easier---an informed bargainer can always find mutually acceptable terms. We hypothesize the opposite: that giving one player complete knowledge of the surplus space triggers exploitative anchoring behavior that paradoxically \textit{reduces} deal rates. If confirmed, this result challenges a core assumption in mechanism design and connects the Myerson--Satterthwaite impossibility to a behavioral rather than strategic failure mode.
+
+\section{Interestingness Argument}
+
+This hypothesis is worth testing for three reasons:
+
+\begin{enumerate}[leftmargin=*, itemsep=4pt]
+    \item \textbf{Counterintuitive direction.} The na\"ive prediction is ``more information $=$ more deals.'' An informed bargainer knows the zone of agreement exists and can compute acceptable terms. Our hypothesis predicts the opposite: information advantage triggers behavioral shifts (exploitative anchoring) that reduce efficiency. A confirmed result would be a genuine surprise.
+
+    \item \textbf{Observable mechanism.} The mediating variable---offer anchoring---is directly measurable in game transcripts. We can compute where the human's first offer falls relative to (a) the opponent's reservation price and (b) the midpoint of the zone of agreement. This lets us test \textit{why} the effect occurs, not just \textit{whether} it occurs. Formal mediation analysis is feasible.
+
+    \item \textbf{Bridges theory and behavioral economics.} Myerson--Satterthwaite says incomplete information prevents efficient trade for \textit{strategic} reasons (incentive compatibility). Our hypothesis suggests that \textit{providing} information can also prevent efficient trade, for \textit{behavioral} reasons (exploitative anchoring, overconfidence). This is a distinct failure mode that the classical theory does not address.
+\end{enumerate}
+
+\section{Causal Model}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{../plots/dag_info_bargaining.pdf}
+    \caption{Causal DAG for the information-structure bargaining hypothesis. The treatment (blue) is the human player's information about the opponent's reservation price. The primary causal pathway runs through offer anchoring behavior (gray): informed players anchor offers near the opponent's limit, while uninformed players anchor toward the midpoint. The outcome (green) is whether the pair reaches a deal. A dashed arrow represents a possible direct effect of information on deal rates through channels other than anchoring (e.g., overconfidence, slower concession). ZOPA size and AI strategy (dashed border) are held constant across conditions.}
+    \label{fig:dag}
+\end{figure}
+
+\subsection{Variable Definitions}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Variable} & \textbf{Type} & \textbf{Operationalization} & \textbf{Game Measurement} \\
+\midrule
+X & Treatment & Human sees own valuation only & Game rule: display own \\
+  &           & (control) vs.\ both valuations & vs.\ both valuations \\
+  &           & (treatment) & \\
+M & Mediator & Anchoring index: & First offer from transcript; \\
+  &          & $\frac{\text{first offer} - V_s}{V_b - V_s}$ & known $V_s$, $V_b$ \\
+Y & Outcome & Deal reached (binary); & Transcript: deal/no-deal, \\
+  &         & rounds to deal; surplus captured & final price, round count \\
+Z & Control & ZOPA size ($V_b - V_s$), & Identical parameters in \\
+  &         & round count, AI strategy & both game configs \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Testable Implications}
+
+\begin{enumerate}[leftmargin=*, itemsep=2pt]
+    \item \textbf{Deal rate is lower in the informed condition.} The human who knows $V_s$ fails to reach agreement more often than the human who does not.
+    \item \textbf{First offers are closer to $V_s$ in the informed condition.} The anchoring index is lower (closer to 0) when the human knows the opponent's valuation, indicating exploitative anchoring.
+    \item \textbf{Anchoring mediates the deal-rate effect.} Controlling for the anchoring index should attenuate the treatment effect on deal rate.
+    \item \textbf{Conditional on a deal, the informed human captures more surplus.} The informed player gets a better price \textit{when} they succeed---but succeeds less often. The net effect on expected payoff is the key secondary comparison.
+\end{enumerate}
+
+\subsection{Identification Strategy}
+
+\begin{itemize}[leftmargin=*, itemsep=2pt]
+    \item \textbf{Randomized:} Information structure (treatment assignment) is randomized via game variant---each session is either control or treatment.
+    \item \textbf{Held constant:} ZOPA size (same valuation draws), round count, AI strategy (identical \texttt{player.md}), payoff structure, turn structure. The AI does not know whether the human is informed.
+    \item \textbf{Ruled out:} Confounds from AI behavioral differences (AI is identical across conditions), payoff structure differences (identical), ZOPA existence (ZOPA always exists in both conditions).
+    \item \textbf{Limitations:} (1) The AI opponent is an LLM, not a human---results speak to human--AI bargaining, which may differ from human--human bargaining. (2) The human knows they face an AI, which may alter their willingness to exploit. (3) We cannot observe beliefs directly---only offers and accept/reject decisions.
+\end{itemize}
+
+\section{Next Steps}
+
+This hypothesis is ready for \texttt{/design-experiment} to map to a concrete game design. The design phase will: select a bargaining game structure, define exact valuation distributions and payoff formulas, specify the AI's fixed strategy, and produce 12-item game specs for each condition (informed vs.\ uninformed). The key design decisions that remain:
+
+\begin{itemize}[leftmargin=*, itemsep=2pt]
+    \item Valuation distribution and ZOPA size (fixed or drawn from a distribution each session)
+    \item Number of bargaining rounds (tradeoff: more rounds $=$ more data per session but introduces learning effects)
+    \item AI strategy (must be fixed, reasonable, and identical across conditions---e.g., a concession-based strategy with aspiration levels)
+    \item Whether to include a ``no ZOPA'' condition as a manipulation check
+\end{itemize}
+
+\end{document}

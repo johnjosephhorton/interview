@@ -31,6 +31,7 @@ class AgentConfig(BaseModel):
     model: str = "gpt-5"
     temperature: float = 1
     max_tokens: int = 200
+    seed: int | None = None
 
     @classmethod
     def from_prompt(cls, prompt: str, **kwargs: Any) -> AgentConfig:
@@ -65,11 +66,13 @@ class Transcript(BaseModel):
 
 
 class VariableDefinition(BaseModel):
-    type: Literal["fixed", "choice", "uniform", "sequence"]
+    type: Literal["fixed", "choice", "uniform", "sequence", "derived"]
     value: Any | None = None        # for "fixed"
     values: list[Any] | None = None  # for "choice" and "sequence"
     min: float | None = None         # for "uniform"
     max: float | None = None         # for "uniform"
+    formula: str | None = None       # for "derived" — Python expression evaluated post-draw
+    round_to: float | None = None    # for "derived" — round result to nearest multiple
 
 
 class GameConfig(BaseModel):
@@ -84,6 +87,8 @@ class GameConfig(BaseModel):
     opening_max_tokens: int = 150
     max_tokens: int = 200
     variables: dict[str, VariableDefinition] = Field(default_factory=dict)
+    respondent_temperature: float | None = None
+    respondent_seed: int | None = None
 
 
 class CriterionResult(BaseModel):
@@ -152,6 +157,8 @@ def load_game(name: str) -> GameConfig:
         opening_max_tokens=settings.get("opening_max_tokens", 150),
         max_tokens=settings.get("max_tokens", 200),
         variables=variables,
+        respondent_temperature=settings.get("respondent_temperature"),
+        respondent_seed=settings.get("respondent_seed"),
     )
 
 

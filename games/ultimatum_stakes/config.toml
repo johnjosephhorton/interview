@@ -1,0 +1,20 @@
+name = "Ultimatum (Varying Stakes)"
+description = "One-shot ultimatum game with varying pot sizes"
+
+[canned]
+opening_instruction = """Explain the game rules from the Game Rules section clearly so someone with no prior knowledge could understand. Include: what the game is (an ultimatum game), that there is 1 round, that the AI is the proposer and the human is the responder, the pot size (${{pot_size}}), how the proposal works (AI proposes how to split the pot — the offer is how much the human gets), that the human can accept or reject, payoffs if accepted (human gets the offer, AI keeps the rest), payoffs if rejected (both earn $0), and valid responses (accept or reject).
+Then immediately present the AI's proposal and ask: "Do you accept or reject?"
+
+Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start."""
+last_question = "This is your final decision. Accept or reject?"
+end_of_session = "The game has ended. Thank you for participating."
+
+[settings]
+max_tokens = 4096
+opening_max_tokens = 8192
+
+[variables]
+pot_size = { type = "choice", values = [20, 50, 100] }
+fair_offer = { type = "derived", formula = "pot_size / 2", round_to = 1.0 }
+ai_target_offer = { type = "derived", formula = "pot_size * 0.4", round_to = 1.0 }
+min_acceptable = { type = "derived", formula = "pot_size * 0.2", round_to = 1.0 }

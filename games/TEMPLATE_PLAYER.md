@@ -65,14 +65,16 @@ If the game uses `[variables]`, express strategy thresholds relative to the vari
 ```
 ## Strategy: Anchored Concession
 
-**Round 1:** Open at {{seller_cost}} × 1.8 (rounded to nearest $0.50).
-**Accept threshold:** Accept any offer ≥ {{seller_cost}} + 5.
-**Concession:** Lower your ask by $2.00 each round, but never below {{seller_cost}} + 2.
-**Final round:** Accept any offer > {{seller_cost}}.
+**Round 1:** Open at ${{opening_price}}.
+**Accept threshold:** Accept any offer ≥ ${{accept_threshold}}.
+**Concession:** Lower your ask by $2.00 each round, but never below ${{floor_price}}.
+**Final round:** Accept any offer > ${{seller_cost}}.
 **Hard floor:** NEVER accept below ${{seller_cost}}.
 ```
 
 This ensures the AI's strategy adapts to the drawn parameters each session. All thresholds that depend on a variable must use `{{var_name}}` — never hardcode a number that should change when the variable changes.
+
+**CRITICAL: Use `type = "derived"` for any value that requires arithmetic.** LLMs cannot reliably compute multi-step expressions like `seller_cost + 0.7 × (buyer_value − seller_cost)`. Instead, define a derived variable in config.toml (e.g., `opening_price = { type = "derived", formula = "seller_cost + 0.7 * (buyer_value - seller_cost)", round_to = 1.0 }`) and reference the pre-computed `${{opening_price}}` in the prompt. The player should see final numbers, not formulas to evaluate.
 
 **LESSON LEARNED:** Vague strategy ("be fair", "consider the situation") produces inconsistent behavior. Use exact numbers and if/then rules. The LLM will follow precise instructions but interpret vague ones differently each time.
 

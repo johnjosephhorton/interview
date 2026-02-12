@@ -117,6 +117,8 @@ Follow `TEMPLATE_CONFIG.md` exactly. Key rules:
 - Include private-info warnings in `opening_instruction` if applicable (e.g., "do NOT reveal the AI's valuation")
 - End with: `Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start.`
 - **If item 13 declares parameters:** add a `[variables]` section after `[settings]`. Each variable gets a TOML inline table: `var_name = { type = "choice", values = [60, 70, 80] }`. Use `{{var_name}}` placeholders in `opening_instruction` and all prompt files where the value appears. See `TEMPLATE_CONFIG.md` for the full syntax. The `opening_instruction` should use placeholders for any numeric values that vary per session (e.g., `"The AI values the mug at ${{seller_cost}}"` not `"The AI values the mug at $40"`)
+- **CRITICAL: Use `type = "derived"` for any value requiring arithmetic.** LLMs cannot compute multi-step expressions. If the AI strategy says "open at seller_cost + 0.7 × (buyer_value − seller_cost)", define `opening_price = { type = "derived", formula = "seller_cost + 0.7 * (buyer_value - seller_cost)", round_to = 1.0 }` and reference `${{opening_price}}` in the prompt. Similarly, any threshold like "accept if >= seller_cost + 5" should be a derived variable. The player/sim_human should see final numbers, never formulas.
+- **`respondent_temperature`** — Set `respondent_temperature = 0.0` in `[settings]` for pilot experiments to ensure the simulated human behaves deterministically.
 
 **2. `manager.md`** — Follow `TEMPLATE_MANAGER.md` section order exactly:
 
@@ -165,6 +167,7 @@ After generating all 4 files, verify these 7 checks. If any fail, fix immediatel
 | 8 | Variable coverage | Every `{{var_name}}` in prompt files has a matching entry in config.toml `[variables]`. No orphaned placeholders |
 | 9 | Variable consistency | Same `{{var_name}}` used across all files where the value appears (e.g., `{{seller_cost}}` in manager.md, player.md, and sim_human.md — not `{{cost}}` in one and `{{seller_cost}}` in another) |
 | 10 | Variable sanity | Variable ranges don't create impossible games (e.g., buyer_value min > seller_cost max ensures gains from trade exist; no negative payoffs from valid draws) |
+| 11 | Derived completeness | Every arithmetic expression in strategy/threshold text has been replaced by a `type = "derived"` variable. No prompt asks the LLM to compute formulas. |
 
 Report the results:
 

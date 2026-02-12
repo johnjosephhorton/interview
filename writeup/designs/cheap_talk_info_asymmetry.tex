@@ -1,0 +1,195 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx, booktabs, hyperref, enumitem, xcolor, titlesec, parskip, amsmath}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{Research Design Memo:\\Cheap Talk $\times$ Information Asymmetry in Bilateral Bargaining}}\\[0.5em]
+{\large \today \quad $\cdot$ \quad Status: Pre-implementation}
+\end{center}
+
+%% ─── 1. RESEARCH QUESTION ───────────────────────────
+\section*{Research Question}
+
+\textbf{Does cheap talk increase deal rates under one-sided private information but \emph{decrease} deal rates under two-sided private information, in bargaining games where a mutually beneficial deal exists?}
+
+Asymmetric information causes bargaining failures even when gains from trade exist (Myerson \& Satterthwaite, 1983). A natural intervention is to allow cheap talk---costless, non-binding pre-play communication. But cheap talk creates two competing channels: \emph{credible signaling} (players reveal truthful information, facilitating agreement) and \emph{strategic misrepresentation} (players bluff about their private valuations, destroying trust). We hypothesize that the balance between these channels depends on the information structure: under one-sided asymmetry only one party can bluff, so signaling dominates and talk helps; under two-sided asymmetry both parties bluff simultaneously, misrepresentation dominates, and talk \emph{hurts}---reducing deal rates below the no-communication baseline. The triviality scorecard from the hypothesis phase scored this 22/25 (see companion hypothesis memo).
+
+%% ─── 2. CAUSAL MODEL ────────────────────────────────
+\section*{Causal Model}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{../plots/dag_cheap_talk_info_asymmetry.pdf}
+\caption{Pearlean causal DAG. Two treatments (blue)---information structure ($X_1$) and cheap talk ($X_2$)---affect deal rate ($Y$, green) through competing mediators (gray): strategic misrepresentation ($M_1$, negative pathway) and credible signaling ($M_2$, positive pathway). Under two-sided asymmetry, $M_1$ dominates; under one-sided, $M_2$ dominates. ZOPA size ($Z$, dashed) is held constant.}
+\end{figure}
+
+\subsection*{Variable Definitions}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Variable} & \textbf{Type} & \textbf{Operationalization} & \textbf{Game measurement} \\
+\midrule
+$X_1$ & Treatment & Info: one-sided vs.\ two-sided & Game variant ($V_b$ visibility) \\
+$X_2$ & Treatment & Communication: chat vs.\ none & Game variant (chat phase) \\
+$M_1$ & Mediator & Misrepresentation intensity & Transcript content coding \\
+$M_2$ & Mediator & Credible signaling intensity & Transcript content coding \\
+$Y$   & Outcome  & Deal rate (binary per game) & Accept/reject in transcript \\
+$Z$   & Control  & ZOPA size & Fixed at \$10--\$50 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Testable Implications}
+
+\begin{enumerate}[label=\arabic*.]
+\item Deal rate in (one-sided $+$ talk) $>$ (one-sided $+$ no talk), but deal rate in (two-sided $+$ talk) $<$ (two-sided $+$ no talk).
+\item Misrepresentation ($M_1$) higher in two-sided/talk than one-sided/talk.
+\item Controlling for $M_1$ attenuates the negative cheap-talk effect under two-sided asymmetry.
+\item The crossover weakens when ZOPA is very large (deals are easy regardless).
+\end{enumerate}
+
+\subsection*{Identification Strategy}
+
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Randomization:} Participants randomly assigned to one of four cells in a $2 \times 2$ between-subjects factorial.
+\item \textbf{Held constant:} Payoff structure, ZOPA distribution, number of rounds, AI seller strategy, game framing.
+\item \textbf{Confounds ruled out:} Random assignment eliminates selection effects. Identical AI strategy rules out adaptive confounds. Fixed ZOPA rules out difficulty differences.
+\item \textbf{Unidentified:} Active lying vs.\ passive confusion in chat. LLM seller vs.\ human seller generalizability.
+\end{itemize}
+
+%% ─── 3. EXPERIMENTAL DESIGN ─────────────────────────
+\section*{Experimental Design}
+
+\subsection*{Overview}
+
+A $2 \times 2$ between-subjects factorial:
+
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Factor 1 --- Information structure:} One-sided (seller sees buyer's value $V_b$; buyer does not see seller's cost $C_s$) vs.\ two-sided (both valuations private).
+\item \textbf{Factor 2 --- Communication:} No talk (offers only) vs.\ cheap talk (3-message free-text chat before offers begin).
+\end{itemize}
+
+\noindent This yields four conditions. Human participants play the Buyer role; an AI agent with an identical strategy across all conditions plays the Seller.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{../plots/design_matrix_cheap_talk_info_asymmetry.pdf}
+\caption{Design matrix for the $2 \times 2$ factorial. Yellow cells indicate treatment manipulations that vary across conditions; white cells are held constant. AI strategy, payoff structure, rounds, and ZOPA are identical in all four conditions, isolating the effects of information structure and communication.}
+\end{figure}
+
+\subsection*{Game Mechanics (All Conditions)}
+
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Valuations:} $V_b \in \{40, 50, 60, 70, 80\}$, $C_s \in \{30, 40, 50, 60, 70\}$, drawn uniformly with the constraint $V_b > C_s$ (ZOPA always positive, ranging \$10--\$50). Both players know the distributions but not the realized values (except as revealed by their condition's information structure).
+\item \textbf{Offers:} Alternating offers over 6 rounds. Buyer proposes a price; seller accepts or rejects with a counter-offer.
+\item \textbf{Payoffs:} Deal at price $P$: buyer earns $V_b - P$, seller earns $P - C_s$. No deal after 6 rounds: both earn \$0.
+\item \textbf{Chat phase} (cheap-talk conditions only): Before offers begin, players exchange 3 free-text messages each (alternating). Messages are costless and non-binding.
+\end{itemize}
+
+\subsection*{Condition Descriptions}
+
+\textbf{Condition 1: One-Sided / No Talk.} Seller sees both $V_b$ and $C_s$; buyer sees only $V_b$. No chat---players proceed directly to alternating offers. Baseline for one-sided asymmetry.
+
+\textbf{Condition 2: One-Sided / Cheap Talk.} Same information structure as Condition~1, plus a 3-message chat phase before offers. The buyer may try to learn about $C_s$; the seller, who knows both values, may signal or bluff.
+
+\textbf{Condition 3: Two-Sided / No Talk.} Both $V_b$ and $C_s$ are private. No chat. Baseline for two-sided asymmetry.
+
+\textbf{Condition 4: Two-Sided / Cheap Talk.} Both valuations private, plus 3-message chat. Both players can bluff about their private values, creating the hypothesized ``fog of misrepresentation.''
+
+\subsection*{AI Seller Strategy (Identical Across All Conditions)}
+
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Opening ask:} $C_s + 0.7 \times (\mathbb{E}[V_b] - C_s)$, where $\mathbb{E}[V_b] = 60$.
+\item \textbf{Concession:} Reduces ask by 12\% of remaining margin per round, toward a floor of $C_s + 5$.
+\item \textbf{Acceptance:} Accepts any buyer offer $\geq C_s + 5$.
+\item \textbf{Chat behavior:} Polite, non-committal (``I'm hopeful we can find a fair price''). Never reveals $C_s$. Never makes false claims about $C_s$.
+\end{itemize}
+
+\subsection*{Outcome Measures}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Measure} & \textbf{Type} & \textbf{Definition} & \textbf{Source} \\
+\midrule
+Deal rate & Primary & 1 if agreement reached, 0 otherwise & Game outcome \\
+Deal price & Secondary & Agreed price $P$ (conditional on deal) & Game outcome \\
+Surplus efficiency & Secondary & $(V_b - P) + (P - C_s)$ / ZOPA & Game outcome \\
+Rounds to deal & Secondary & Round in which agreement occurs & Game log \\
+Misrepresentation & Mechanism & False claims about own valuation & Chat transcript coding \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% ─── 4. ANALYSIS PLAN ──────────────────────────────
+\section*{Analysis Plan}
+
+\subsection*{Primary Analysis}
+
+Logistic regression of deal outcome on the two factors and their interaction:
+$$\text{logit}\bigl(P(\text{deal})\bigr) = \beta_0 + \beta_1 \cdot \text{Info} + \beta_2 \cdot \text{Talk} + \beta_3 \cdot \text{Info} \times \text{Talk}$$
+The key test is $\beta_3$: a significant negative coefficient confirms the crossover prediction---cheap talk helps under one-sided but hurts under two-sided asymmetry.
+
+\subsection*{Secondary Analyses}
+
+\begin{enumerate}[label=\arabic*.]
+\item \textbf{Mediation:} Causal mediation analysis testing whether misrepresentation ($M_1$) mediates the negative cheap-talk effect under two-sided asymmetry (Imai et al., 2010).
+\item \textbf{Deal price:} Linear regression of price on treatments (conditional on deal), to test whether cheap talk shifts surplus division.
+\item \textbf{Efficiency:} Whether cheap talk affects surplus captured differently across information structures.
+\item \textbf{Time to deal:} Survival analysis of rounds-to-agreement across conditions.
+\end{enumerate}
+
+\subsection*{Power Considerations}
+
+With 50 sessions per cell (200 total) and baseline deal rates of ${\sim}50\%$:
+\begin{itemize}[leftmargin=1.5em]
+\item A 20-percentage-point crossover interaction (e.g., $+$20pp under one-sided, $-$15pp under two-sided) yields ${>}80\%$ power at $\alpha = 0.05$.
+\item If effects are smaller (${\sim}$10pp), power drops to ${\sim}50\%$; increase to 100 sessions/cell.
+\item The 6-round within-session structure provides behavioral trajectory data but the primary outcome is session-level (one observation per game).
+\end{itemize}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.85\textwidth]{../plots/predictions_cheap_talk_info_asymmetry.pdf}
+\caption{Conceptual predictions (pre-data). Under one-sided asymmetry, cheap talk is predicted to \emph{increase} deal rates via credible signaling. Under two-sided asymmetry, cheap talk is predicted to \emph{decrease} deal rates via mutual misrepresentation. Error bars show plausible uncertainty ranges, not confidence intervals. The crossover interaction is the primary prediction.}
+\end{figure}
+
+%% ─── 5. GAME IMPLEMENTATIONS ────────────────────────
+\section*{Game Implementations}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{@{}llp{6.5cm}@{}}
+\toprule
+\textbf{Condition} & \textbf{Game folder} & \textbf{Key difference from base} \\
+\midrule
+One-sided / No talk   & \texttt{bargain\_1s\_notalk/}   & $V_b$ public to seller; no chat phase \\
+One-sided / Cheap talk & \texttt{bargain\_1s\_talk/}     & $V_b$ public to seller; 3-msg chat \\
+Two-sided / No talk   & \texttt{bargain\_2s\_notalk/}   & Both valuations private; no chat \\
+Two-sided / Cheap talk & \texttt{bargain\_2s\_talk/}     & Both valuations private; 3-msg chat \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent Each game folder contains \texttt{config.toml}, \texttt{manager.md}, \texttt{player.md}, and \texttt{sim\_human.md}. Generate with \texttt{/create-2-player-game} using the 12-item specs in the companion document.
+
+%% ─── 6. LIMITATIONS ─────────────────────────────────
+\section*{Limitations}
+
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Transcript-based mediation.} $M_1$ and $M_2$ are coded from chat transcripts, introducing measurement noise. Consider LLM-based content classifiers for consistency.
+\item \textbf{Active vs.\ passive misrepresentation.} Cannot distinguish deliberate lying from confusion (talking past each other). Both reduce deal rates but via different mechanisms.
+\item \textbf{LLM vs.\ human sellers.} Fixed AI strategy prevents strategic adaptation. Real sellers would adjust chat behavior to the information structure, potentially amplifying or dampening effects.
+\item \textbf{ZOPA always positive.} By construction, a deal is always possible. Results may not generalize to uncertain-ZOPA settings.
+\item \textbf{Single game structure.} Alternating-offer results may not transfer to sealed-bid or continuous negotiation formats.
+\end{itemize}
+
+\end{document}

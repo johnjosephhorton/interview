@@ -97,6 +97,13 @@ Ongoing log of issues found during development and testing. Reference these when
 **Fix:** Added HUMAN CHEAP TALK ENFORCEMENT section in Message Flow: extract only the game action, present it neutrally as "You offered $X.00", never quote or relay the human's surrounding text. Updated sim_human.md with CRITICAL OUTPUT RULE for bare-number-only output.
 **Rule:** When a game has asymmetric communication rules (one side can communicate freely, the other can't), the manager must actively strip the restricted side's extra text. Don't rely on the human or sim_human to self-enforce — the manager must present only the extracted action in the game record.
 
+### LLMs cannot compute multi-step arithmetic — use derived variables
+**Game:** bargain_1s_notalk
+**Symptom:** AI's opening ask should have been $54 (= 40 + 0.7 × (60 − 40)) but the LLM defaulted to $55. The sim_human saw `Accept any ask <= 60 - 5` and computed inconsistently across runs. The checker saw un-substituted `{{seller_cost}}` in the player prompt and rubber-stamped `ai_strategy_compliance` because it had no ground truth.
+**Root cause:** The pipeline substitutes variable values into prompt text but never evaluates arithmetic. Expressions like `seller_cost + 0.7 × (buyer_value − seller_cost)` are left as literal text for the LLM to compute — and LLMs fail at multi-step arithmetic.
+**Fix:** (1) Added `type = "derived"` variables in config.toml — Python expressions evaluated after base variables are drawn, producing concrete numbers injected via `{{var_name}}`. (2) Pass conditions dict to the checker so it sees concrete parameter values and can verify AI actions. (3) Added `respondent_temperature` in config.toml settings to force deterministic sim_human behavior.
+**Rule:** Never ask an LLM to evaluate arithmetic expressions. Pre-compute any value that requires math as a `type = "derived"` variable, and inject the final number via a `{{var_name}}` placeholder. The player should see `$54`, not `40 + 0.7 × 20`.
+
 ## End-of-Game Detection
 
 ### Two markers for robustness

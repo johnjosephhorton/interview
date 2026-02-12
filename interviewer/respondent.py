@@ -46,6 +46,8 @@ class SimulatedRespondent:
             "temperature": config.temperature,
             "max_completion_tokens": config.max_tokens,
         }
+        if config.seed is not None:
+            params["seed"] = config.seed
 
         response = await client.chat.completions.create(
             model=config.model,

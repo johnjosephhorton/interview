@@ -70,6 +70,9 @@ Numeric parameters that vary per session. Each variable is an inline TOML table.
 | `uniform` | `{ type = "uniform", min = 30.0, max = 50.0 }` | Draw from continuous range (formatted to 2 decimal places) |
 | `fixed` | `{ type = "fixed", value = 100 }` | Same value every session (useful for constants that might change across experiment conditions) |
 | `sequence` | `{ type = "sequence", values = ["A", "B", "C"] }` | Rotate through values across simulations (sim 0→A, sim 1→B, sim 2→C, sim 3→A, ...) |
+| `derived` | `{ type = "derived", formula = "cost + 0.7 * (value - cost)", round_to = 1.0 }` | Python expression evaluated after all base variables are drawn. Can reference any base or earlier-derived variable. `round_to` is optional (rounds to nearest multiple). |
+
+**Why `derived`?** LLMs cannot reliably compute multi-step arithmetic. If a strategy says "open at seller_cost + 0.7 × (buyer_value − seller_cost)", the LLM will get it wrong. Pre-compute the result as a derived variable and inject the final number via `{{opening_price}}`.
 
 **Example:**
 
@@ -77,10 +80,23 @@ Numeric parameters that vary per session. Each variable is an inline TOML table.
 [variables]
 buyer_value = { type = "choice", values = [60, 70, 80] }
 seller_cost = { type = "choice", values = [30, 40, 50] }
+opening_price = { type = "derived", formula = "seller_cost + 0.7 * (buyer_value - seller_cost)", round_to = 1.0 }
+accept_threshold = { type = "derived", formula = "seller_cost + 5" }
 endowment = { type = "fixed", value = 100 }
 ```
 
-Then use `{{buyer_value}}`, `{{seller_cost}}`, and `{{endowment}}` in manager.md, player.md, sim_human.md, and `opening_instruction`.
+Then use `{{buyer_value}}`, `{{seller_cost}}`, `{{opening_price}}`, `{{accept_threshold}}`, and `{{endowment}}` in manager.md, player.md, sim_human.md, and `opening_instruction`.
+
+### [settings] — respondent_temperature (optional)
+
+**respondent_temperature** — Override the sampling temperature for the simulated human (sim_human.md) during `interview simulate`. If set, this overrides the CLI `--temperature` flag for the respondent only (the manager still uses the CLI temperature). Set to `0.0` for deterministic sim_human behavior in pilot experiments.
+
+```toml
+[settings]
+max_tokens = 4096
+opening_max_tokens = 8192
+respondent_temperature = 0.0
+```
 
 **Rules:**
 - Every `{{var_name}}` in any prompt file must have a matching entry here

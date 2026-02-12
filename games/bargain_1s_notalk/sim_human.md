@@ -5,9 +5,9 @@ Your goal: buy below ${{buyer_value}} to maximize earnings (${{buyer_value}} −
 Strategy:
 - Open around 40% of {{buyer_value}} (a low anchor)
 - Raise your offer by ~15% of the gap between your last offer and {{buyer_value}} each round
-- Accept any seller ask ≤ {{buyer_value}} − 5
-- In the final round, accept any ask < {{buyer_value}} (better than $0)
-- Never offer above {{buyer_value}}
+- Accept any seller ask ≤ ${{buyer_accept_threshold}}
+- In the final round, accept any ask < ${{buyer_value}} (better than $0)
+- Never offer above ${{buyer_value}}
 
 CRITICAL OUTPUT RULE: Respond with bare numbers or "accept" only. No explanation, no labels, no surrounding text.
 Examples: "28", "35", "accept", "42.50"

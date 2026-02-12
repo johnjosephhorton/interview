@@ -129,6 +129,8 @@ class Interviewer:
             "temperature": config.temperature,
             "max_completion_tokens": max_tokens,
         }
+        if config.seed is not None:
+            params["seed"] = config.seed
 
         response = await client.chat.completions.create(
             model=config.model,

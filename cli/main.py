@@ -335,11 +335,14 @@ async def _simulate(
             temperature=temperature,
             max_tokens=effective_max_tokens,
         )
+        resp_temp = sim_gc.respondent_temperature if sim_gc.respondent_temperature is not None else temperature
+        resp_seed = sim_gc.respondent_seed
         respondent_config = AgentConfig(
             system_prompt=resp_prompt,
             model=DEFAULT_AGENT_MODEL,
-            temperature=temperature,
+            temperature=resp_temp,
             max_tokens=effective_max_tokens,
+            seed=resp_seed,
         )
 
         tasks.append(
@@ -378,7 +381,10 @@ async def _simulate(
     # Auto-check all transcripts in parallel
     try:
         checker = TranscriptChecker()
-        check_tasks = [checker.check(game_name, t.messages) for t in transcripts]
+        check_tasks = [
+            checker.check(game_name, t.messages, conditions=all_conditions[i])
+            for i, t in enumerate(transcripts)
+        ]
         results: list[CheckResult] = await asyncio.gather(*check_tasks)
 
         import json as json_mod
@@ -541,12 +547,13 @@ async def _check(
     checker = TranscriptChecker(model=model)
 
     # Parse input — JSON (single) or CSV (batch)
-    transcripts: list[tuple[int, list[Message]]] = []
+    transcripts: list[tuple[int, list[Message], dict]] = []
 
     if path.suffix == ".json":
         data = json_mod.loads(path.read_text())
         messages = [Message(**m) for m in data.get("messages", [])]
-        transcripts.append((1, messages))
+        conditions = data.get("conditions", {})
+        transcripts.append((1, messages, conditions))
     elif path.suffix == ".csv":
         with open(path, newline="") as f:
             reader = csv.DictReader(f)
@@ -554,7 +561,8 @@ async def _check(
                 sim_id = int(row["simulation_id"])
                 data = json_mod.loads(row["transcript"])
                 messages = [Message(**m) for m in data.get("messages", [])]
-                transcripts.append((sim_id, messages))
+                conditions = data.get("conditions", {})
+                transcripts.append((sim_id, messages, conditions))
     else:
         console.print(f"[red]Unsupported file format: {path.suffix}. Use .json or .csv[/red]")
         raise typer.Exit(1)
@@ -569,11 +577,14 @@ async def _check(
     )
 
     # Run checks in parallel
-    tasks = [checker.check(game_name, msgs) for _, msgs in transcripts]
+    tasks = [
+        checker.check(game_name, msgs, conditions=conds or None)
+        for _, msgs, conds in transcripts
+    ]
     results: list[CheckResult] = await asyncio.gather(*tasks)
 
     # Display results
-    for (sim_id, _), result in zip(transcripts, results):
+    for (sim_id, _, _), result in zip(transcripts, results):
         status = "[green]PASS[/green]" if result.overall_passed else "[red]FAIL[/red]"
         console.print(f"  Simulation {sim_id}: {status}")
 

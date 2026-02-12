@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
+from typing import Any
 
 from dotenv import load_dotenv
 
@@ -11,6 +12,7 @@ load_dotenv()
 from openai import AsyncOpenAI
 
 from .models import CheckResult, CriterionResult, Message, _GAMES_DIR, load_game
+from .randomization import substitute_template
 
 _CHECKER_PROMPT_PATH = Path(__file__).resolve().parent.parent / "prompts" / "checker.md"
 
@@ -67,10 +69,32 @@ class TranscriptChecker:
                 lines.append(f"[Turn {turn}] HUMAN: {msg.text}")
         return "\n\n".join(lines)
 
-    def _build_prompt(self, game_name: str, messages: list[Message]) -> str:
-        """Fill the checker template with game rules and transcript."""
+    def _build_prompt(
+        self,
+        game_name: str,
+        messages: list[Message],
+        conditions: dict[str, Any] | None = None,
+    ) -> str:
+        """Fill the checker template with game rules and transcript.
+
+        If conditions are provided, substitute {{var}} placeholders in prompts
+        and include a Session Parameters section so the checker has ground truth.
+        """
         manager_prompt, player_prompt, opening_instruction = self._load_game_prompts(game_name)
         transcript_text = self._format_transcript(messages)
+
+        # Substitute template variables so the checker sees concrete values
+        if conditions:
+            manager_prompt = substitute_template(manager_prompt, conditions)
+            player_prompt = substitute_template(player_prompt, conditions)
+            opening_instruction = substitute_template(opening_instruction, conditions)
+
+        # Build session parameters section
+        if conditions:
+            param_lines = [f"- {k} = {v}" for k, v in conditions.items()]
+            session_parameters = "## Session Parameters\n\n" + "\n".join(param_lines)
+        else:
+            session_parameters = ""
 
         template = _CHECKER_PROMPT_PATH.read_text()
         return template.format(
@@ -78,11 +102,17 @@ class TranscriptChecker:
             player_prompt=player_prompt,
             opening_instruction=opening_instruction,
             transcript_text=transcript_text,
+            session_parameters=session_parameters,
         )
 
-    async def check(self, game_name: str, messages: list[Message]) -> CheckResult:
+    async def check(
+        self,
+        game_name: str,
+        messages: list[Message],
+        conditions: dict[str, Any] | None = None,
+    ) -> CheckResult:
         """Evaluate a transcript against all criteria. Returns a CheckResult."""
-        prompt = self._build_prompt(game_name, messages)
+        prompt = self._build_prompt(game_name, messages, conditions=conditions)
         client = self._get_client()
 
         response = await client.chat.completions.create(

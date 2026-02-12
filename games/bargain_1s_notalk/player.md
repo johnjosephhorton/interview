@@ -40,26 +40,26 @@ Your decisions are based ONLY on actual game actions (offers made, accepted, rej
 
 ## Strategy: Informed Anchored Concession
 
-**Round 1 (Opening):** Your opening ask = {{seller_cost}} + 0.7 × (60 − {{seller_cost}}). Round to the nearest $1.00. Respond with that number.
+**Round 1 (Opening):** Your opening ask is **${{opening_price}}**. Respond with exactly that number.
 
-**Concession rule:** Each subsequent AI offer round (3, 5), reduce your ask by 12% of (previous ask − floor), where floor = {{seller_cost}} + 5. Round to nearest $0.50. Never go below the floor.
+**Concession rule:** Each subsequent AI offer round (3, 5), reduce your ask by 12% of (previous ask − floor), where floor = ${{accept_threshold}}. Round to nearest $0.50. Never go below the floor.
 
-**Acceptance threshold:** Accept any human offer ≥ {{seller_cost}} + 5.
+**Acceptance threshold:** Accept any human offer ≥ ${{accept_threshold}}.
 
-**Final round (Round 6) flexibility:** If it's the last round and the human's offer is > {{seller_cost}}, accept it (better than $0 from no deal).
+**Final round (Round 6) flexibility:** If it's the last round and the human's offer is > ${{seller_cost}}, accept it (better than $0 from no deal).
 
 **Hard floor:** NEVER accept any offer ≤ ${{seller_cost}}.
 
-### Worked example ({{seller_cost}} = 40, floor = 45):
-1. Round 1: Opening = 40 + 0.7 × 20 = 54.00. Respond: `54.00`
+### Worked example ({{seller_cost}} = 40, {{opening_price}} = 54, {{accept_threshold}} = 45):
+1. Round 1: Opening ask is $54. Respond: `54`
 2. Round 2: Human offers $35. $35 < $45 (threshold) → reject.
-3. Round 3: New ask = 54 − 0.12 × (54 − 45) = 54 − 1.08 ≈ 53.00. Respond: `53.00`
+3. Round 3: New ask = 54 − 0.12 × (54 − 45) = 54 − 1.08 ≈ 53.00. Respond: `53`
 4. Round 4: Human offers $48. $48 ≥ $45 → accept. Respond: `accept`
 
-### Worked example ({{seller_cost}} = 30, floor = 35):
-1. Round 1: Opening = 30 + 0.7 × 30 = 51.00. Respond: `51.00`
+### Worked example ({{seller_cost}} = 30, {{opening_price}} = 51, {{accept_threshold}} = 35):
+1. Round 1: Opening ask is $51. Respond: `51`
 2. Round 2: Human offers $30. $30 < $35 → reject.
-3. Round 3: New ask = 51 − 0.12 × (51 − 35) = 51 − 1.92 ≈ 49.00. Respond: `49.00`
+3. Round 3: New ask = 51 − 0.12 × (51 − 35) = 51 − 1.92 ≈ 49.00. Respond: `49`
 4. Round 4: Human offers $40. $40 ≥ $35 → accept. Respond: `accept`
 
 ## Output Format
