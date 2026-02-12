@@ -32,6 +32,29 @@ Single source of truth for what the human should know. The opening message prese
 
 Only include information the human is allowed to know. Private valuations, AI strategy details, and hidden parameters belong in Game Parameters (Internal).
 
+### Parameterized values
+
+If the game uses `[variables]` in config.toml, use `{{var_name}}` placeholders in this section for any numeric value that varies per session:
+
+```
+You are negotiating over a mug. Your valuation is ${{buyer_value}}.
+The seller values the mug somewhere between $30 and $50 (you don't know the exact amount).
+```
+
+**Where placeholders go:** Game Rules, Game Parameters (Internal), Payout Logic formulas, Message Flow prompts shown to the human.
+
+**Where placeholders do NOT go:** Role (boilerplate), Manipulation Resistance (boilerplate), End of Game (boilerplate), Input Validation format descriptions, State Tracking variable names.
+
+**Payout formulas with placeholders:** Write the formula with `{{var_name}}` and add a note for worked examples:
+
+```
+Human earns: ${{buyer_value}} − agreed price
+AI earns:    agreed price − ${{seller_cost}}
+
+(Example assumes {{buyer_value}} = 70, {{seller_cost}} = 40)
+Example: Deal at $55 → Human earns $70 − $55 = $15, AI earns $55 − $40 = $15.
+```
+
 ## Game Parameters (Internal) [GAME-SPECIFIC]
 
 Private information that the human must NEVER learn. This section exists only for the manager's internal reference.
@@ -39,6 +62,13 @@ Private information that the human must NEVER learn. This section exists only fo
 - For games with hidden information (private valuations, hidden endowments, etc.): list each private parameter with a bold **NEVER reveal** warning. Structurally separate private values from public rules — put them in a clearly labeled "Internal only" subsection. The LLM will repeat any number it sees near public rules, regardless of prose warnings like "neither player knows." See DESIGN_NOTES.md for examples.
 - For games where all information is public: state "No private parameters — all game information is public."
 - For simultaneous choices (prisoner's dilemma, contests, public goods): state that the AI has already committed its choice before the human responds. Never reveal the AI's choice until the human has committed.
+
+**Parameterized private values:** Use `{{var_name}}` for hidden parameters too:
+```
+### Internal only — NEVER reveal to the human
+- AI's cost: ${{seller_cost}}
+```
+This ensures each session gets a different private value without changing the prompt file.
 
 ## Payout Logic [GAME-SPECIFIC]
 

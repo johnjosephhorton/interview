@@ -10,6 +10,7 @@ load_dotenv()
 from openai import AsyncOpenAI
 
 from .defaults import (
+    DEFAULT_AGENT_MODEL,
     DEFAULT_OPENING_MAX_TOKENS,
     END_OF_INTERVIEW_RESPONSE,
     LAST_QUESTION_RESPONSE,
@@ -57,7 +58,7 @@ class Interviewer:
         player = GamePlayer(api_key=self._api_key)
         player_config = AgentConfig(
             system_prompt=game_config.player_system_prompt,
-            model=config.model,
+            model=DEFAULT_AGENT_MODEL,
             temperature=config.temperature,
             max_tokens=150,
         )

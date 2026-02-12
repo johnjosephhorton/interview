@@ -1,0 +1,18 @@
+name = "Bargainer (One-Sided, No Talk)"
+description = "Bilateral bargaining — seller sees buyer's value, no pre-play chat"
+
+[canned]
+opening_instruction = """Explain the game rules from the Game Rules section clearly so someone with no prior knowledge could understand. Include: what the game is (a price negotiation between a buyer and a seller), that the human is the buyer and the AI is the seller, the buyer's valuation for the item (${{buyer_value}}), that the seller's cost is one of $30, $40, or $50 (the buyer does not know which — do NOT reveal the seller's actual cost of ${{seller_cost}}), that the seller CAN see the buyer's valuation, the alternating offer structure (AI offers on odd rounds, human on even rounds), the maximum of 6 rounds, valid price range ($0.00–$100.00), that the human can accept or counteroffer each round, what happens if no deal is reached (both earn $0), and how earnings are computed (deal at price P: buyer earns ${{buyer_value}} minus P, seller earns P minus their cost).
+Then immediately present Round 1 with the AI's opening offer and ask: "Do you accept, or would you like to make a counteroffer?"
+
+Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start."""
+last_question = "This is the final round. Make your last decision."
+end_of_session = "The bargaining session has ended. Thank you for participating."
+
+[settings]
+max_tokens = 4096
+opening_max_tokens = 8192
+
+[variables]
+buyer_value = { type = "choice", values = [60, 70, 80] }
+seller_cost = { type = "choice", values = [30, 40, 50] }

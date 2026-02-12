@@ -21,6 +21,7 @@ Must include:
 - **Full payout logic** with formulas AND worked examples (at least 2–3)
   - Cover each distinct outcome (accept, reject, win, lose, tie, deal, no deal)
   - Show exact dollar amounts in examples
+  - **If parameterized:** use `{{var_name}}` in formulas (e.g., `"You earn: agreed price − ${{seller_cost}}"`)
 - **Information structure:**
   - What the AI knows (its own valuation, the game history)
   - What the AI does NOT know (human's valuation, etc.)
@@ -56,6 +57,22 @@ Must include:
   - Specify adjustments based on human behavior patterns
 - **Final round** — often has special logic (more/less aggressive)
 - **Guardrails** — hard floors/ceilings the AI never crosses (e.g., "never offer below $6.50", "never invest more than $7.00")
+
+### Parameterized thresholds
+
+If the game uses `[variables]`, express strategy thresholds relative to the variables rather than as hardcoded numbers:
+
+```
+## Strategy: Anchored Concession
+
+**Round 1:** Open at {{seller_cost}} × 1.8 (rounded to nearest $0.50).
+**Accept threshold:** Accept any offer ≥ {{seller_cost}} + 5.
+**Concession:** Lower your ask by $2.00 each round, but never below {{seller_cost}} + 2.
+**Final round:** Accept any offer > {{seller_cost}}.
+**Hard floor:** NEVER accept below ${{seller_cost}}.
+```
+
+This ensures the AI's strategy adapts to the drawn parameters each session. All thresholds that depend on a variable must use `{{var_name}}` — never hardcode a number that should change when the variable changes.
 
 **LESSON LEARNED:** Vague strategy ("be fair", "consider the situation") produces inconsistent behavior. Use exact numbers and if/then rules. The LLM will follow precise instructions but interpret vague ones differently each time.
 

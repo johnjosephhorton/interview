@@ -61,6 +61,15 @@ class Transcript(BaseModel):
     total_input_tokens: int = 0
     total_output_tokens: int = 0
     llm_calls: list[LLMCallInfo] = Field(default_factory=list)
+    conditions: dict[str, Any] = Field(default_factory=dict)
+
+
+class VariableDefinition(BaseModel):
+    type: Literal["fixed", "choice", "uniform", "sequence"]
+    value: Any | None = None        # for "fixed"
+    values: list[Any] | None = None  # for "choice" and "sequence"
+    min: float | None = None         # for "uniform"
+    max: float | None = None         # for "uniform"
 
 
 class GameConfig(BaseModel):
@@ -74,6 +83,7 @@ class GameConfig(BaseModel):
     end_of_session_response: str
     opening_max_tokens: int = 150
     max_tokens: int = 200
+    variables: dict[str, VariableDefinition] = Field(default_factory=dict)
 
 
 class CriterionResult(BaseModel):
@@ -126,6 +136,10 @@ def load_game(name: str) -> GameConfig:
     canned = cfg.get("canned", {})
     settings = cfg.get("settings", {})
 
+    # Parse [variables] section into VariableDefinition objects
+    raw_vars = cfg.get("variables", {})
+    variables = {k: VariableDefinition(**v) for k, v in raw_vars.items()}
+
     return GameConfig(
         name=cfg.get("name", name),
         description=cfg.get("description", ""),
@@ -137,6 +151,7 @@ def load_game(name: str) -> GameConfig:
         end_of_session_response=canned.get("end_of_session", ""),
         opening_max_tokens=settings.get("opening_max_tokens", 150),
         max_tokens=settings.get("max_tokens", 200),
+        variables=variables,
     )
 
 

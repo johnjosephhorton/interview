@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import csv
 from pathlib import Path
+from random import Random
 from typing import Optional
 
 import typer
@@ -11,6 +12,7 @@ from rich.panel import Panel
 from rich.text import Text
 
 from interviewer import (
+    DEFAULT_AGENT_MODEL,
     DEFAULT_MODEL,
     AgentConfig,
     CheckResult,
@@ -24,6 +26,11 @@ from interviewer import (
     load_game,
     load_prompt,
     save_transcript,
+)
+from interviewer.randomization import (
+    apply_conditions_to_game_config,
+    draw_conditions,
+    generate_factorial_design,
 )
 
 app = typer.Typer(name="interview", help="AI Interviewer CLI")
@@ -230,12 +237,14 @@ def simulate(
     num_simulations: int = typer.Option(1, "--num-simulations", "-n", help="Number of simulations to run in parallel"),
     save: Optional[str] = typer.Option(None, "--save", "-o", help="Additional CSV export path"),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Print conversation to terminal"),
+    seed: Optional[int] = typer.Option(None, "--seed", help="Random seed for reproducible condition assignment"),
+    design: str = typer.Option("random", "--design", help="Randomization design: 'random' or 'factorial'"),
 ):
     """Fully automated simulation — both sides are AI."""
     asyncio.run(
         _simulate(
             game, interviewer_prompt, respondent_prompt, model, temperature, max_tokens,
-            max_turns, num_simulations, save, verbose,
+            max_turns, num_simulations, save, verbose, seed, design,
         )
     )
 
@@ -267,33 +276,29 @@ async def _simulate(
     num_simulations: int,
     save_path: str | None,
     verbose: bool,
+    seed: int | None = None,
+    design: str = "random",
 ):
     game_config = load_game(game_name)
-
-    # Use game prompts, allow CLI overrides
-    int_prompt = game_config.interviewer_system_prompt
-    if interviewer_prompt_override:
-        int_prompt = load_prompt(interviewer_prompt_override)
-
-    resp_prompt = game_config.respondent_system_prompt
-    if respondent_prompt_override:
-        resp_prompt = load_prompt(respondent_prompt_override)
 
     # Use game-specific max_tokens if user didn't override via CLI
     effective_max_tokens = game_config.max_tokens if max_tokens == 200 else max_tokens
 
-    interviewer_config = AgentConfig(
-        system_prompt=int_prompt,
-        model=model,
-        temperature=temperature,
-        max_tokens=effective_max_tokens,
-    )
-    respondent_config = AgentConfig(
-        system_prompt=resp_prompt,
-        model=model,
-        temperature=temperature,
-        max_tokens=effective_max_tokens,
-    )
+    # Draw conditions for each simulation BEFORE asyncio.gather (no RNG concurrency)
+    rng = Random(seed)
+    has_variables = bool(game_config.variables)
+
+    if has_variables and design == "factorial":
+        factorial_cells = generate_factorial_design(game_config.variables)
+        all_conditions = [factorial_cells[i % len(factorial_cells)] for i in range(num_simulations)]
+        if seed is not None:
+            rng.shuffle(all_conditions)
+    elif has_variables:
+        all_conditions = [
+            draw_conditions(game_config.variables, i, rng) for i in range(num_simulations)
+        ]
+    else:
+        all_conditions = [{} for _ in range(num_simulations)]
 
     label = game_config.name
     on_message = None
@@ -310,15 +315,48 @@ async def _simulate(
                 console.print(Text("Respondent: ", style="bold green"), end="")
             console.print(msg.text)
 
-    # Run simulations in parallel
-    tasks = [
-        _run_one_simulation(
-            i, interviewer_config, respondent_config, max_turns,
-            on_message, game_config=game_config,
+    # Build per-simulation configs with substituted prompts
+    tasks = []
+    for i in range(num_simulations):
+        sim_gc = apply_conditions_to_game_config(game_config, all_conditions[i]) if has_variables else game_config
+
+        # Use game prompts, allow CLI overrides
+        int_prompt = sim_gc.interviewer_system_prompt
+        if interviewer_prompt_override:
+            int_prompt = load_prompt(interviewer_prompt_override)
+
+        resp_prompt = sim_gc.respondent_system_prompt
+        if respondent_prompt_override:
+            resp_prompt = load_prompt(respondent_prompt_override)
+
+        interviewer_config = AgentConfig(
+            system_prompt=int_prompt,
+            model=model,
+            temperature=temperature,
+            max_tokens=effective_max_tokens,
         )
-        for i in range(num_simulations)
-    ]
+        respondent_config = AgentConfig(
+            system_prompt=resp_prompt,
+            model=DEFAULT_AGENT_MODEL,
+            temperature=temperature,
+            max_tokens=effective_max_tokens,
+        )
+
+        tasks.append(
+            _run_one_simulation(
+                i, interviewer_config, respondent_config, max_turns,
+                on_message, game_config=sim_gc,
+            )
+        )
     transcripts = await asyncio.gather(*tasks)
+
+    # Attach conditions to each transcript
+    for i, transcript in enumerate(transcripts):
+        transcript.conditions = all_conditions[i]
+
+    if verbose and has_variables:
+        for i, conds in enumerate(all_conditions):
+            console.print(f"  Sim {i + 1} conditions: {conds}")
 
     total_input = sum(t.total_input_tokens for t in transcripts)
     total_output = sum(t.total_output_tokens for t in transcripts)

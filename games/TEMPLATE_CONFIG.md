@@ -57,3 +57,46 @@ Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your 
 **max_tokens** — Token limit for non-opening messages (round results, game-over, etc.). Default is 200, but games should set this to 400 to ensure the final round result + GAME OVER box fits without truncation. The GAME OVER box alone is ~130 tokens; add round result overhead and 200 is too tight.
 
 **opening_max_tokens** — Token limit for the opening message. Should be generous enough for a full rules explanation + Round 1 prompt. Typical range: 500–800.
+
+### [variables] (optional)
+
+Numeric parameters that vary per session. Each variable is an inline TOML table. The system draws values at session start (`draw_conditions()`) and substitutes all `{{var_name}}` placeholders in prompt files and `opening_instruction` before the game begins.
+
+**Variable types:**
+
+| Type | Syntax | Behavior |
+|------|--------|----------|
+| `choice` | `{ type = "choice", values = [60, 70, 80] }` | Randomly pick one value per session |
+| `uniform` | `{ type = "uniform", min = 30.0, max = 50.0 }` | Draw from continuous range (formatted to 2 decimal places) |
+| `fixed` | `{ type = "fixed", value = 100 }` | Same value every session (useful for constants that might change across experiment conditions) |
+| `sequence` | `{ type = "sequence", values = ["A", "B", "C"] }` | Rotate through values across simulations (sim 0→A, sim 1→B, sim 2→C, sim 3→A, ...) |
+
+**Example:**
+
+```toml
+[variables]
+buyer_value = { type = "choice", values = [60, 70, 80] }
+seller_cost = { type = "choice", values = [30, 40, 50] }
+endowment = { type = "fixed", value = 100 }
+```
+
+Then use `{{buyer_value}}`, `{{seller_cost}}`, and `{{endowment}}` in manager.md, player.md, sim_human.md, and `opening_instruction`.
+
+**Rules:**
+- Every `{{var_name}}` in any prompt file must have a matching entry here
+- Variable names should be descriptive: `buyer_value` not `v1`, `seller_cost` not `c`
+- Ensure variable ranges don't create impossible games (e.g., if buyer_value and seller_cost can overlap, some sessions may have no gains from trade — decide if that's intentional)
+- Floats are formatted to 2 decimal places during substitution; integers stay as integers
+- Unresolved placeholders (typos) are left as-is in the output — the cross-check in Phase 4 catches these
+
+**Running with variables:**
+```bash
+# Random draw each session
+interview simulate <game> -n 50
+
+# Reproducible draws with a seed
+interview simulate <game> -n 50 --seed 42
+
+# Full factorial crossing of all choice/sequence variables
+interview simulate <game> --design factorial
+```

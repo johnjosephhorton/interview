@@ -4,6 +4,7 @@ from .checker import TranscriptChecker
 from .core import Interviewer
 from .player import GamePlayer
 from .defaults import (
+    DEFAULT_AGENT_MODEL,
     DEFAULT_INTERVIEWER_SYSTEM_PROMPT,
     DEFAULT_MAX_TOKENS,
     DEFAULT_MODEL,
@@ -20,9 +21,16 @@ from .models import (
     LLMCallInfo,
     Message,
     Transcript,
+    VariableDefinition,
     list_games,
     load_game,
     load_prompt,
+)
+from .randomization import (
+    apply_conditions_to_game_config,
+    draw_conditions,
+    generate_factorial_design,
+    substitute_template,
 )
 from .respondent import SimulatedRespondent
 from .simulation import Simulation
@@ -32,6 +40,7 @@ __all__ = [
     "AgentResponse",
     "CheckResult",
     "CriterionResult",
+    "DEFAULT_AGENT_MODEL",
     "DEFAULT_INTERVIEWER_SYSTEM_PROMPT",
     "DEFAULT_MAX_TOKENS",
     "DEFAULT_MODEL",
@@ -46,9 +55,14 @@ __all__ = [
     "Simulation",
     "Transcript",
     "TranscriptChecker",
+    "VariableDefinition",
+    "apply_conditions_to_game_config",
     "auto_save_transcript",
+    "draw_conditions",
+    "generate_factorial_design",
     "list_games",
     "load_game",
     "load_prompt",
     "save_transcript",
+    "substitute_template",
 ]

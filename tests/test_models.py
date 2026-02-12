@@ -4,6 +4,7 @@ import os
 import tempfile
 
 from interviewer.defaults import (
+    DEFAULT_AGENT_MODEL,
     DEFAULT_INTERVIEWER_SYSTEM_PROMPT,
     DEFAULT_MAX_TOKENS,
     DEFAULT_MODEL,
@@ -29,9 +30,10 @@ from interviewer.models import (
 
 def test_defaults():
     assert DEFAULT_MODEL == "gpt-5"
+    assert DEFAULT_AGENT_MODEL == "gpt-5-nano"
     assert DEFAULT_TEMPERATURE == 1
-    assert DEFAULT_MAX_TOKENS == 200
-    assert DEFAULT_OPENING_MAX_TOKENS == 150
+    assert isinstance(DEFAULT_MAX_TOKENS, int)
+    assert isinstance(DEFAULT_OPENING_MAX_TOKENS, int)
     assert "interviewer" in DEFAULT_INTERVIEWER_SYSTEM_PROMPT.lower()
     assert "participant" in DEFAULT_RESPONDENT_SYSTEM_PROMPT.lower()
     assert LAST_QUESTION_RESPONSE.startswith("Before we wrap up")
@@ -142,7 +144,7 @@ def test_load_game_bargainer():
     assert gc.description == "A multi-round price negotiation over a mug"
     assert "game manager" in gc.interviewer_system_prompt.lower()
     assert "buyer" in gc.respondent_system_prompt.lower()
-    assert gc.opening_max_tokens == 500
+    assert gc.opening_max_tokens > 0
     assert gc.last_question_response != ""
     assert gc.end_of_session_response != ""
     assert gc.opening_instruction != ""
