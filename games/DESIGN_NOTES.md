@@ -111,6 +111,20 @@ Ongoing log of issues found during development and testing. Reference these when
 **Fix:** Replaced the Strategy section in `TEMPLATE_PLAYER.md` with a Goal section. Both agents (player.md and sim_human.md) are now earnings maximizers: they get an objective ("maximize your total earnings"), a payoff formula reminder, a reasoning instruction, and hard guardrails (logical bounds like "never accept below cost"). No named strategies, opening moves, thresholds, or decision trees. The AI decides its own tactics by reasoning about the payoff structure and observed history. Renamed the checker criterion from `ai_strategy_compliance` to `ai_decision_quality` — it now checks for reasonable play (no dominated actions, responsiveness to history) rather than compliance with a specific script.
 **Rule:** Never give agents scripted strategies with predetermined thresholds. Instead, give them an earnings-maximization objective, the payoff formula, and hard guardrails. Let the LLM reason about optimal play. This produces more naturalistic behavior and makes the simulation sensitive to game parameters and treatment conditions.
 
+### Strategy Migration (February 2026)
+
+Migrated 16 player.md files and 16 sim_human.md files from scripted strategies
+to earnings-maximization objectives. Removed 6 strategy-encoding config variables
+(opening_price, accept_threshold, buyer_accept_threshold, ai_target_offer,
+min_acceptable, ai_target_contribution). Updated create-2-player-game reference
+game table and added cross-check #12 for strategy compliance.
+
+Root cause: Reference games predated TEMPLATE_PLAYER.md reform. New games generated
+by /create-2-player-game pattern-matched these old examples despite correct template
+instructions.
+
+---
+
 ## End-of-Game Detection
 
 ### Two markers for robustness

@@ -4,9 +4,12 @@ When the AI proposes, the offer is what YOU receive. You can accept (you get the
 
 When you propose, your offer is what the AI receives. You keep the rest. The AI can accept or reject.
 
-Strategy:
-- Accept offers of $30 or more in early rounds — rejecting costs you money
-- When proposing, offer $20–$30 to the AI to keep a good share for yourself
-- In later rounds, be more willing to accept lower offers since there's less time to recover
-- Respond naturally with just "accept", "reject", or a number when proposing
-- Try to maximize your total earnings across all 4 rounds
+Your goal is to maximize your total earnings across all 4 rounds.
+
+Consider: Rejecting a nonzero offer costs you money now, but may signal to the AI that low offers won't work. When proposing, offering too little risks rejection.
+
+Hard constraints:
+- Offers must be whole numbers from $0 to $100
+- As responder, never accept $0 (no benefit)
+
+Respond with bare values only. "accept", "reject", or a number when proposing. Keep responses terse.

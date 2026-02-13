@@ -40,8 +40,8 @@ From the argument or context, determine the experiment scope. **Always check for
 
 ```toml
 [artifacts]
-hypothesis_memo = "experiments/<name>/hypothesis.pdf"
-design_memo = "experiments/<name>/design.pdf"
+hypothesis_memo = "experiments/<name>/hypothesis.md"
+design_memo = "experiments/<name>/design.md"
 ```
 
 From the manifest, extract and carry forward:
@@ -54,8 +54,8 @@ From the manifest, extract and carry forward:
 - `[predictions]` — named predictions to evaluate against results
 
 **If no manifest exists**, fall back to searching:
-- **Hypothesis memo:** `experiments/*/hypothesis.tex` matching the experiment
-- **Design memo:** `experiments/*/design.tex` matching the experiment
+- **Hypothesis memo:** `experiments/*/hypothesis.md` matching the experiment (fall back to `.tex` for legacy experiments)
+- **Design memo:** `experiments/*/design.md` matching the experiment (fall back to `.tex` for legacy experiments)
 - **Game files:** For each condition, read `games/<name>/config.toml`, `games/<name>/manager.md`, `games/<name>/player.md`
 
 If no hypothesis or design memo exists AND no manifest exists, reconstruct the hypothesis and design from the game files alone. The writeup still needs a hypothesis section — infer it from the game structure, treatment variation, and parameterization.
@@ -414,8 +414,8 @@ If a manifest exists (`experiments/<experiment>/manifest.toml`), append the resu
 
 ```toml
 [artifacts]
-hypothesis_memo = "experiments/<name>/hypothesis.pdf"
-design_memo = "experiments/<name>/design.pdf"
+hypothesis_memo = "experiments/<name>/hypothesis.md"
+design_memo = "experiments/<name>/design.md"
 results_memo = "experiments/<name>/results.pdf"    # ← added by /analyze-results
 data_csv = "experiments/<name>/data/data.csv"      # ← added by /analyze-results
 ```

@@ -87,7 +87,7 @@ This reads the machine-readable block from the prior results memo (`experiments/
 - Score ≥ 15 → proceed to Stage 2
 - Score < 15 → the hypothesis is too trivial even after sharpening. Report: "Hypothesis too trivial to pursue. Consider a different research question." **Stop the loop.**
 
-**Output:** `experiments/<name>/hypothesis.tex` + `.pdf`
+**Output:** `experiments/<name>/hypothesis.md`
 
 ---
 
@@ -104,7 +104,7 @@ The hypothesis memo is in context from Stage 1, so `/design-experiment` will pic
 
 If the design memo is missing any of these, something went wrong. Report and stop.
 
-**Output:** `experiments/<name>/design.tex` + `.pdf`, 12-item specs ready for game creation
+**Output:** `experiments/<name>/design.md`, 12-item specs ready for game creation
 
 ---
 
@@ -200,8 +200,8 @@ Key finding: Deal rate crossover interaction (β₃ = -0.34, p = 0.02).
              Two-sided+talk: 48% vs two-sided+no-talk: 65% (-17pp).
 
 Artifacts:
-  Hypothesis memo:  experiments/cheap_talk_info_asymmetry/hypothesis.pdf
-  Design memo:      experiments/cheap_talk_info_asymmetry/design.pdf
+  Hypothesis memo:  experiments/cheap_talk_info_asymmetry/hypothesis.md
+  Design memo:      experiments/cheap_talk_info_asymmetry/design.md
   Results memo:     experiments/cheap_talk_info_asymmetry/results.pdf
   Data:             experiments/cheap_talk_info_asymmetry/data/data.csv
   Figures:          experiments/cheap_talk_info_asymmetry/plots/results_*.pdf

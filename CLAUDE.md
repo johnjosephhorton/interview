@@ -22,8 +22,8 @@ This project is building toward a fully automated social science pipeline for tw
 
 ### Pipeline steps
 
-1. **Hypothesize** — Generate a testable hypothesis about strategic behavior, formalize as a Pearlean causal DAG, score for triviality (`/hypothesize`). Output: `experiments/<name>/hypothesis.pdf`
-2. **Design** — Map the hypothesis to a two-player economic game with treatment conditions and analysis plan (`/design-experiment`). Output: `experiments/<name>/design.pdf` + `manifest.toml`
+1. **Hypothesize** — Generate a testable hypothesis about strategic behavior, formalize as a Pearlean causal DAG, score for triviality (`/hypothesize`). Output: `experiments/<name>/hypothesis.md`
+2. **Design** — Map the hypothesis to a two-player economic game with treatment conditions and analysis plan (`/design-experiment`). Output: `experiments/<name>/design.md` + `manifest.toml`
 3. **Create** — Generate the 4-file game implementation: config.toml, manager.md, player.md, sim_human.md (`/create-2-player-game`)
 4. **Simulate** — Run N in-silico games with experimental randomization (`interview simulate --seed --design factorial`)
 5. **Analyze** — Extract structured data, run statistical tests, produce a results memo with verdict and diagnosis (`/analyze-results`). Output: `experiments/<name>/results.pdf` + `data/data.csv`
@@ -78,10 +78,8 @@ games/                # Game definitions (one folder per game)
 experiments/          # Per-experiment output directories
   <name>/             # One directory per experiment
     manifest.toml     # Machine-readable experiment metadata
-    hypothesis.tex    # Hypothesis memo (LaTeX source)
-    hypothesis.pdf    # Hypothesis memo (compiled)
-    design.tex        # Design memo (LaTeX source)
-    design.pdf        # Design memo (compiled)
+    hypothesis.md     # Hypothesis memo (markdown)
+    design.md         # Design memo (markdown)
     results.tex       # Results memo (LaTeX source)
     results.pdf       # Results memo (compiled)
     plots/            # All figures (PDF) + generator scripts (Python)

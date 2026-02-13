@@ -1,12 +1,12 @@
 ---
 name: design-experiment
-description: Take a hypothesis and causal DAG, map it to a game design with 12-item specs, produce a full research memo PDF, and hand off to /create-2-player-game
+description: Take a hypothesis and causal DAG, map it to a game design with 12-item specs, produce a full research memo markdown, and hand off to /create-2-player-game
 argument-hint: "[hypothesis name or description]"
 ---
 
-# /design-experiment — Hypothesis + DAG → Game Design → Specs → Research Memo PDF
+# /design-experiment — Hypothesis + DAG → Game Design → Specs → Research Memo
 
-**Meta-goal:** Take a formalized hypothesis and causal DAG (from `/hypothesize` or provided directly) and turn it into a concrete game design: select the right game structure, design the treatment manipulation, produce 12-item specs for each condition, and generate a complete research memo PDF with publication-quality figures. The output PDF is the full "why + how" document — a collaborator should be able to read it and understand both the hypothesis and the experimental design.
+**Meta-goal:** Take a formalized hypothesis and causal DAG (from `/hypothesize` or provided directly) and turn it into a concrete game design: select the right game structure, design the treatment manipulation, produce 12-item specs for each condition, and generate a complete research memo in markdown. The output memo is the full "why + how" document — a collaborator should be able to read it and understand both the hypothesis and the experimental design.
 
 This skill handles the **"how"** — from causal model to game design. It expects the "why" (hypothesis, DAG, variables) to already exist. The full chain is: `/hypothesize` → `/design-experiment` → `/create-2-player-game`.
 
@@ -22,7 +22,7 @@ This skill handles the **"how"** — from causal model to game design. It expect
 Pull the hypothesis, causal DAG, and variable definitions from one of these sources (in priority order):
 
 1. **Conversation context** — If `/hypothesize` was just run, extract the research question, core claim, key variables (X/Y/M/Z), DAG, testable implications, and identification strategy from the conversation
-2. **Hypothesis memo** — If the user points to a `<name>_hypothesis.pdf` or `.tex` file, read the `.tex` source and extract the same elements
+2. **Hypothesis memo** — If the user points to a hypothesis memo file, read `hypothesis.md` (or fall back to `.tex` for legacy experiments) and extract the same elements
 3. **User description** — If neither exists, ask the user to provide the hypothesis elements (or suggest running `/hypothesize` first)
 
 ### Validation checklist
@@ -111,18 +111,18 @@ Game spec: <display_name>
 9.  Payoffs:        <exact formulas with worked examples>
 10. Hidden info:    <what's private, tied to identification strategy>
 11. AI goal:        Maximize own earnings (guardrails: <hard constraints preventing dominated moves> — must be IDENTICAL across treatment conditions for clean identification)
-12. Sim human goal: Maximize own earnings (guardrails: <hard constraints> — symmetric with AI goal)
+12. Sim human goal: Maximize own earnings (guardrails: <hard constraints> — symmetric with AI goal). Do NOT include named strategies, specific opening moves, numeric thresholds for accepting/rejecting, or step-by-step tactical instructions. Behavioral flavor (e.g., "slightly impatient") is optional color, not binding strategy.
 ```
 
 If the hypothesis requires **multiple game variants** (treatment vs. control), produce a spec for each, noting explicitly what differs and what's held constant.
 
-Present the spec(s) and ask: "Ready to generate the research memo? I'll create figures and compile a PDF."
+Present the spec(s) and ask: "Ready to generate the research memo?"
 
 ---
 
-## Phase 4: Generate full research memo PDF
+## Phase 4: Write research memo (markdown)
 
-Turn the full design (hypothesis + DAG + game specs + experimental design) into a single polished PDF with publication-quality figures embedded inline. This is the **superset** memo — it covers both "why" (hypothesis) and "how" (design).
+Turn the full design (hypothesis + DAG + game specs + experimental design) into a single markdown memo. This is the **superset** memo — it covers both "why" (hypothesis) and "how" (design).
 
 ### 4a. Extract the design elements
 
@@ -138,97 +138,35 @@ Gather from the work in Phases 1–3:
 8. **Analysis plan** — primary/secondary comparisons
 9. **Power considerations** — rounds, sessions, effect size expectations
 
-### 4b. Generate figures
+### 4b. Write the markdown memo
 
-Generate **three** publication-quality figures using Python (matplotlib). Save all as PDF to `experiments/<name>/plots/`. Use the venv Python (`venv/bin/python`).
+Write a markdown document at `experiments/<name>/design.md`.
 
-#### Figure 1: Causal DAG (`dag_<name>.pdf`)
-
-Use matplotlib to draw the DAG (no networkx layout — use manual positions for clean results):
-- **Node styling by type:**
-  - Treatment (X): blue rounded box, bold white label
-  - Mediator (M): gray rounded box
-  - Outcome (Y): green rounded box, bold white label
-  - Control (Z): white rounded box, dashed border
-- **Edge styling:**
-  - Causal paths: solid black arrows
-  - Direct effects: dashed arrows
-  - Control paths: thin gray arrows
-- Layout: left-to-right (treatment on left, outcome on right)
-- Clean white background, no grid, no axis
-- Title: the research question
-- Font: serif, 11pt for labels
-- Legend in bottom-right corner
-
-#### Figure 2: Design matrix (`design_matrix_<name>.pdf`)
-
-A table-as-figure showing conditions side by side:
-- Rows: design elements (varies per experiment)
-- Columns: each condition
-- Color-code cells: **yellow** for elements that DIFFER across conditions, white for held constant
-- Blue header row with white text for condition names
-- This makes the treatment manipulation visually obvious at a glance
-
-#### Figure 3: Prediction space (`predictions_<name>.pdf`)
-
-A conceptual figure showing expected outcome space:
-- Panel per primary outcome measure
-- X-axis: conditions (categorical)
-- Y-axis: outcome measure
-- Show plausible ranges as thick semi-transparent bars with center point markers
-- If exploratory, show "?" above each bar
-- Include null hypothesis dotted line
-- No fake data — this is pre-data conceptual figure
-
-### 4c. Write the LaTeX memo
-
-Write a LaTeX document at `experiments/<name>/design.tex` that embeds the three figures inline. The memo should compile to ~3–5 pages.
-
-#### Document setup
-
-```latex
-\documentclass[11pt]{article}
-\usepackage[margin=1in]{geometry}
-\usepackage{graphicx, booktabs, hyperref, enumitem, xcolor, titlesec, parskip}
-```
+**Create the experiment directory if needed:** `mkdir -p experiments/<name>`
 
 #### Required sections (in order):
 
-1. **Title** — "Research Design Memo: <title>" with date and status
+1. **Title** — `# Research Design Memo: <title>` with date and status on the next line
 2. **Research Question** — one paragraph: question, motivation, why it matters
-3. **Causal Model** — Figure 1 (DAG) inline, then variable definitions table (`booktabs`), testable implications (numbered), identification strategy (bulleted)
-4. **Experimental Design** — Figure 2 (design matrix) inline, then condition descriptions (bold names + paragraph each), outcome measures table (`booktabs`)
-5. **Analysis Plan** — primary analysis, secondary analyses, power considerations, then Figure 3 (predictions) inline
-6. **Game Implementations** — small table mapping conditions to game folders
+3. **Causal Model** — Text DAG in a fenced code block, then variable definitions as a markdown table, testable implications (numbered list), identification strategy (bulleted list)
+4. **Experimental Design** — Design matrix as a markdown table (**bold** cell text for elements that DIFFER across conditions, plain for held constant), then condition descriptions (bold names + paragraph each), outcome measures as a markdown table
+5. **Analysis Plan** — primary analysis, secondary analyses, power considerations, then predictions as a markdown table (columns: prediction, expected direction, test)
+6. **Game Implementations** — small markdown table mapping conditions to game folders
 7. **Limitations** — bulleted list of threats to validity
 
-#### Figure placement
-
-Use `[h!]` placement. Each figure gets a `\caption{}` that is self-contained — readable without the surrounding text. Reference figures relative to plots dir: `\includegraphics[width=\textwidth]{plots/<filename>.pdf}`.
-
-### 4d. Compile and open
+### 4c. Open and report
 
 ```bash
-cd experiments/<name> && pdflatex -interaction=nonstopmode design.tex
-open design.pdf
-```
-
-Clean up auxiliary files:
-```bash
-rm -f design.aux design.log design.out
+open experiments/<name>/design.md
 ```
 
 Report:
 
 ```
 Research memo generated:
-  experiments/<name>/design.pdf    (single PDF, figures inline)
+  experiments/<name>/design.md
 
-Source files:
-  experiments/<name>/design.tex
-  experiments/<name>/plots/dag.pdf
-  experiments/<name>/plots/design_matrix.pdf
-  experiments/<name>/plots/predictions.pdf
+Next: run /create-2-player-game for each condition.
 ```
 
 ---
@@ -280,8 +218,8 @@ treatment_values = { info = "one-sided", talk = "chat" }
 # deal_rate_interaction = "crossover"
 
 [artifacts]
-hypothesis_memo = "experiments/<name>/hypothesis.pdf"
-design_memo = "experiments/<name>/design.pdf"
+hypothesis_memo = "experiments/<name>/hypothesis.md"
+design_memo = "experiments/<name>/design.md"
 # results_memo is added by /analyze-results after analysis
 ```
 
@@ -314,13 +252,9 @@ Run /create-2-player-game for each condition. The specs above contain all 12 ite
 - **Statistical power matters for round count.** One-shot games need many sessions for power. Repeated games get multiple observations per session but introduce learning/reputation effects. Flag this tradeoff.
 - **Name games by condition.** Use descriptive names that make the comparison obvious: `pd_cheap_talk` vs `pd_no_talk`, `trust_public` vs `trust_private`.
 
-### Memo and figure rules
-- **One PDF output.** The deliverable is a single compiled PDF with figures inline — not separate files. The `.tex` and individual figure PDFs are source files, not deliverables.
-- **Use venv Python.** Run figure generation scripts with `venv/bin/python`.
-- **Figures are PDF, saved to `experiments/<name>/plots/`.** LaTeX `\includegraphics` references them via relative path `plots/`.
-- **The DAG is the centerpiece.** Spend the most effort making Figure 1 clean and readable.
-- **Color-coding in the design matrix must highlight differences.** Yellow for treatment manipulation, white for held constant.
-- **No fake data in predictions figure.** Pre-data only — show directional hypotheses or uncertainty ranges, not simulated results.
-- **Figure captions must be self-contained.** Each caption should be understandable without reading the body text.
-- **Create directories if needed:** `mkdir -p experiments/<name>/plots`
-- **Clean LaTeX aux files** after successful compilation.
+### Memo rules
+- **One markdown file output.** The deliverable is `experiments/<name>/design.md` — no figures, no LaTeX, no compilation.
+- **The text DAG is the centerpiece.** The fenced code block DAG is the visual anchor. Make it clean and readable.
+- **Bold highlights in the design matrix.** Use **bold** for elements that differ across conditions, plain text for held constant — this makes the treatment manipulation visually obvious.
+- **No fake data in predictions table.** Pre-data only — show directional hypotheses, not simulated results.
+- **Create directories if needed:** `mkdir -p experiments/<name>`

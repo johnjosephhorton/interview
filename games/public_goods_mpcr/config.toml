@@ -18,4 +18,3 @@ endowment = { type = "fixed", value = 10 }
 multiplier = { type = "choice", values = [2, 3, 4] }
 mpcr = { type = "derived", formula = "multiplier / 2", round_to = 0.01 }
 social_optimum_earnings = { type = "derived", formula = "endowment * multiplier", round_to = 1.0 }
-ai_target_contribution = { type = "derived", formula = "endowment * (multiplier - 1) / multiplier", round_to = 1.0 }

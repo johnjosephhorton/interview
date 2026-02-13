@@ -1,12 +1,12 @@
 ---
 name: hypothesize
-description: Formalize a research hypothesis into a Pearlean causal DAG, evaluate its interestingness, and produce a self-contained hypothesis memo PDF. Supports iteration — can ingest prior experiment results and refine the hypothesis.
+description: Formalize a research hypothesis into a Pearlean causal DAG, evaluate its interestingness, and produce a self-contained hypothesis markdown memo. Supports iteration — can ingest prior experiment results and refine the hypothesis.
 argument-hint: "[hypothesis or question] OR iterate <experiment-name>"
 ---
 
-# /hypothesize — Hypothesis → Causal Model → Triviality Test → Hypothesis Memo PDF
+# /hypothesize — Hypothesis → Causal Model → Triviality Test → Hypothesis Memo
 
-**Meta-goal:** Turn a research hypothesis — vague or specific — into a formal causal model (Pearlean DAG), rigorously evaluate whether it's trivial, auto-sharpen if needed, and produce a self-contained hypothesis memo PDF. A collaborator should be able to read the output PDF and understand the causal claim, why it matters, and what an experiment would need to identify.
+**Meta-goal:** Turn a research hypothesis — vague or specific — into a formal causal model (Pearlean DAG), rigorously evaluate whether it's trivial, auto-sharpen if needed, and produce a self-contained hypothesis markdown memo. A collaborator should be able to read the output memo and understand the causal claim, why it matters, and what an experiment would need to identify.
 
 **Supports iteration:** When given prior experiment results, this skill ingests the findings, determines an iteration strategy, and produces a refined hypothesis that builds on what was learned. The pipeline is a loop:
 
@@ -139,15 +139,15 @@ Score the hypothesis on 5 dimensions (1–5 each):
 - **Flip the obvious prediction:** "More information improves outcomes" → "More information about the opponent's weakness *reduces* joint surplus because it enables exploitation"
 - **Add a surprising moderator:** "Cheap talk is effective" → "Cheap talk is effective *only when players can't verify claims — verifiable communication crowds out trust*"
 
-### Output format (included in PDF, not shown as a checkpoint)
+### Output format (included in memo, not shown as a checkpoint)
 
-The scorecard, dimension-by-dimension reasoning, total score, any sharpening applied, and final score all appear in the PDF memo under the "Interestingness Argument" section. Do not present these to the user as a checkpoint — just proceed.
+The scorecard, dimension-by-dimension reasoning, total score, any sharpening applied, and final score all appear in the memo under the "Interestingness Argument" section. Do not present these to the user as a checkpoint — just proceed.
 
 ---
 
 ## Phase 3: Build the causal DAG
 
-Construct a Pearlean DAG that represents the causal model. Build it and proceed directly to PDF generation.
+Construct a Pearlean DAG that represents the causal model. Build it and proceed directly to memo generation.
 
 ### Text DAG (always)
 
@@ -183,87 +183,45 @@ Explain how a game design could identify the causal effect:
 - What potential confounds would be ruled out by the design
 - What remains unidentified (limitations)
 
-Proceed directly to PDF generation after building the DAG.
+Proceed directly to memo generation after building the DAG.
 
 ---
 
-## Phase 4: Generate hypothesis memo PDF
+## Phase 4: Write hypothesis memo (markdown)
 
-Turn the hypothesis formalization, triviality scorecard, and causal DAG into a single polished PDF.
+Turn the hypothesis formalization, triviality scorecard, and causal DAG into a single markdown memo.
 
-### 4a. Generate the DAG figure
-
-Generate **one** publication-quality figure using Python (matplotlib). Save as PDF to `experiments/<name>/plots/`. Use the venv Python (`venv/bin/python`).
-
-#### Figure: Causal DAG (`dag_<name>.pdf`)
-
-Use matplotlib to draw the DAG (no networkx layout — use manual positions for clean results):
-- **Node styling by type:**
-  - Treatment (X): blue rounded box, bold white label
-  - Mediator (M): gray rounded box
-  - Outcome (Y): green rounded box, bold white label
-  - Control (Z): white rounded box, dashed border
-- **Edge styling:**
-  - Causal paths: solid black arrows
-  - Direct effects: dashed arrows
-  - Control paths: thin gray arrows
-- Layout: left-to-right (treatment on left, outcome on right)
-- Clean white background, no grid, no axis
-- Title: the research question
-- Font: serif, 11pt for labels
-- Legend in bottom-right corner
-
-### 4b. Write the LaTeX memo
+### 4a. Write the markdown memo
 
 **Filename convention:**
-- Fresh hypothesis: `experiments/<name>/hypothesis.tex`
-- Iteration creates a new experiment directory: `experiments/<name>_v2/hypothesis.tex`
+- Fresh hypothesis: `experiments/<name>/hypothesis.md`
+- Iteration creates a new experiment directory: `experiments/<name>_v2/hypothesis.md`
 - General rule: each iteration gets its own directory (`<name>_v2/`, `<name>_v3/`, etc.)
 
-Write the LaTeX document that embeds the DAG figure inline. The memo should compile to ~2–3 pages.
+**Create the experiment directory if needed:** `mkdir -p experiments/<name>`
 
-#### Document setup
+Write a markdown document with the following sections (in order):
 
-```latex
-\documentclass[11pt]{article}
-\usepackage[margin=1in]{geometry}
-\usepackage{graphicx, booktabs, hyperref, enumitem, xcolor, titlesec, parskip}
-```
+#### Required sections:
 
-#### Required sections (in order):
-
-1. **Title** — "Hypothesis Memo: <title>" with date and status ("Pre-design"). **If iterating:** add version number and "Iteration of <prior experiment>"
+1. **Title** — `# Hypothesis Memo: <title>` with date and status ("Pre-design") on the next line. **If iterating:** add version number and "Iteration of <prior experiment>"
 2. **Prior Experiment Context** (iteration only) — Summary of what was tested, what was found, the verdict and diagnosis, and what this iteration changes. Include the key statistic from the prior results. This section is skipped for fresh hypotheses.
 3. **Research Question** — one paragraph: question, motivation, why it matters. **If iterating:** must reference the prior finding and explain why this follow-up is needed.
-4. **Interestingness Argument** — Contains the full triviality scorecard with all 5 dimension scores and reasoning, the total score, any sharpening moves applied, the final score after sharpening, and the argument for why this hypothesis is worth testing. Format the scorecard as a `booktabs` table in the PDF.
-5. **Causal Model** — Figure (DAG) inline, then variable definitions table (`booktabs`), testable implications (numbered), identification strategy (bulleted)
+4. **Interestingness Argument** — Contains the full triviality scorecard as a markdown table with all 5 dimension scores and reasoning, the total score, any sharpening moves applied, the final score after sharpening, and the argument for why this hypothesis is worth testing.
+5. **Causal Model** — Text DAG in a fenced code block (the centerpiece), then variable definitions as a markdown table, testable implications (numbered list), identification strategy (bulleted list)
 6. **Next Steps** — brief note that this hypothesis is ready for `/design-experiment` to map to a game design
 
-#### Figure placement
-
-Use `[h!]` placement. The figure gets a `\caption{}` that is self-contained — readable without the surrounding text. Reference figure relative to plots dir: `\includegraphics[width=\textwidth]{plots/dag.pdf}`.
-
-### 4c. Compile and open
+### 4b. Open and report
 
 ```bash
-cd experiments/<name> && pdflatex -interaction=nonstopmode hypothesis.tex
-open hypothesis.pdf
-```
-
-Clean up auxiliary files:
-```bash
-rm -f hypothesis.aux hypothesis.log hypothesis.out
+open experiments/<name>/hypothesis.md
 ```
 
 Report:
 
 ```
 Hypothesis memo generated:
-  experiments/<name>/hypothesis.pdf    (single PDF, DAG inline)
-
-Source files:
-  experiments/<name>/hypothesis.tex
-  experiments/<name>/plots/dag.pdf
+  experiments/<name>/hypothesis.md
 
 Next: run /design-experiment to map this hypothesis to a game design.
 Or: run /hypothesize iterate <experiment> to iterate after results.
@@ -295,11 +253,7 @@ Or: run /hypothesize iterate <experiment> to iterate after results.
 - **The iteration strategy drives the formalization.** EXTEND adds conditions, DEEPEN adds mechanism tests, REPLICATE keeps the design, REFINE changes the game, PIVOT changes the hypothesis. Follow the strategy from Phase 0c.
 - **Sharpening still applies.** Even iterated hypotheses go through the triviality scorecard. Prior results may make a hypothesis more interesting (confirmed mechanism) or less (expected result) — the score reflects this.
 
-### Memo and figure rules
-- **One PDF output.** The deliverable is a single compiled PDF with the DAG figure inline.
-- **Use venv Python.** Run figure generation scripts with `venv/bin/python`.
-- **Figure is PDF, saved to `experiments/<name>/plots/`.** LaTeX `\includegraphics` references it via relative path `plots/`.
-- **The DAG is the centerpiece.** Spend the most effort making the figure clean and readable.
-- **Figure caption must be self-contained.** The caption should be understandable without reading the body text.
-- **Create directories if needed:** `mkdir -p experiments/<name>/plots`
-- **Clean LaTeX aux files** after successful compilation.
+### Memo rules
+- **One markdown file output.** The deliverable is `experiments/<name>/hypothesis.md` — no figures, no LaTeX, no compilation.
+- **The text DAG is the centerpiece.** The fenced code block DAG is the visual anchor of the memo. Make it clean and readable.
+- **Create directories if needed:** `mkdir -p experiments/<name>`

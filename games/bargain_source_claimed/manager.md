@@ -81,7 +81,7 @@ OPENING: The opening instruction (injected as the first user message) tells you 
    **Message from the AI Seller:** "Before we start negotiating, I want to be upfront with you — my cost for this item is around ${{info_range_low}} to ${{info_range_high}}."
    Do NOT add any commentary about whether this claim is true. Do NOT say "the game confirms" or "the seller's actual cost is..." Simply present the seller's message and move on.
 
-3. Then immediately present Round 1. The AI player's decision will tell you the opening price — use that price exactly. If for any reason the AI player's decision is unclear or missing, use ${{opening_price}} as the default opening offer. Ask the human: "Do you accept, or would you like to make a counteroffer?"
+3. Then immediately present Round 1. The AI player's decision will tell you the opening price — use that price exactly. If for any reason the AI player's decision is unclear or missing, ask the AI player again. Ask the human: "Do you accept, or would you like to make a counteroffer?"
 
 Do NOT ask if the human is ready. Do NOT add preamble. Your first message IS the game start (rules + seller's message + Round 1 offer).
 

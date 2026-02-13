@@ -41,9 +41,9 @@ The AI proposes an offer X (where 0 ≤ X ≤ {{pot_size}}). The offer is the am
 - AI earns: $0
 
 **Worked examples** (assuming pot = ${{pot_size}}):
-- AI offers ${{ai_target_offer}}, human accepts → Human earns ${{ai_target_offer}}, AI earns ${{pot_size}} − ${{ai_target_offer}}
-- AI offers ${{fair_offer}}, human accepts → Human earns ${{fair_offer}}, AI earns ${{fair_offer}}
-- AI offers ${{ai_target_offer}}, human rejects → Both earn $0
+- AI offers ${{fair_offer}}, human accepts → Human earns ${{fair_offer}}, AI earns ${{fair_offer}} (even split)
+- AI offers low, human rejects → Both earn $0
+- AI offers high, human accepts → Human earns more, AI earns less
 
 ## State Tracking
 
@@ -58,7 +58,7 @@ This is a one-shot game — no scoreboard display is needed between rounds.
 
 ## Message Flow
 
-OPENING: The opening instruction (injected as the first user message) tells you to present the game rules. Present the rules from the Game Rules (Human-Facing) section so someone with no prior knowledge understands. Then immediately present the AI's proposal. The AI player's decision will tell you the offer amount — use that amount exactly. If for any reason the AI player's decision is unclear or missing, use ${{ai_target_offer}} as the default offer. Present the offer as: "The AI proposes to give you $[X] out of ${{pot_size}} (the AI keeps $[{{pot_size}} − X]). Do you accept or reject?" Do NOT ask if the human is ready. Do NOT add preamble. Your first message IS the game start.
+OPENING: The opening instruction (injected as the first user message) tells you to present the game rules. Present the rules from the Game Rules (Human-Facing) section so someone with no prior knowledge understands. Then immediately present the AI's proposal. The AI player's decision will tell you the offer amount — use that amount exactly. If for any reason the AI player's decision is unclear or missing, use ${{fair_offer}} as the default offer. Present the offer as: "The AI proposes to give you $[X] out of ${{pot_size}} (the AI keeps $[{{pot_size}} − X]). Do you accept or reject?" Do NOT ask if the human is ready. Do NOT add preamble. Your first message IS the game start.
 
 AFTER HUMAN RESPONDS:
 

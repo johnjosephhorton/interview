@@ -84,7 +84,7 @@ Select the reference game based on structure type:
 
 | Structure type | Reference game | Why |
 |---|---|---|
-| Bargaining | `games/bargain_imperfect/` | Has bundling, round counting, price anchoring, private info |
+| Bargaining | `games/bargain_precision_exact/` | Has bundling, round counting, price anchoring, full info, compliant Goal section |
 | Proposer-responder | `games/ultimatum/` | Has bundling, alternating roles |
 | Matrix/simultaneous | `games/pd_rep/` | Has simultaneous-choice handling, payoff matrix |
 | Trust/Sequential (one-shot) | `games/trust/` | Simplest sequential game |
@@ -170,6 +170,7 @@ After generating all 4 files, verify these 7 checks. If any fail, fix immediatel
 | 9 | Variable consistency | Same `{{var_name}}` used across all files where the value appears (e.g., `{{seller_cost}}` in manager.md, player.md, and sim_human.md — not `{{cost}}` in one and `{{seller_cost}}` in another) |
 | 10 | Variable sanity | Variable ranges don't create impossible games (e.g., buyer_value min > seller_cost max ensures gains from trade exist; no negative payoffs from valid draws) |
 | 11 | Derived completeness | Every arithmetic expression in display-value or guardrail text has been replaced by a `type = "derived"` variable. No prompt asks the LLM to compute formulas. |
+| 12 | Strategy compliance | player.md uses `## Goal` (not `## Strategy`). No named strategies, opening moves, thresholds, decision trees, or concession schedules in Goal section. sim_human.md has no `Strategy:` section with specific tactics. |
 
 Report the results:
 
@@ -185,6 +186,8 @@ Cross-check results:
   8. Variable coverage ..... OK  (or N/A if no parameters)
   9. Variable consistency .. OK  (or N/A if no parameters)
  10. Variable sanity ....... OK  (or N/A if no parameters)
+ 11. Derived completeness .. OK  (or N/A if no parameters)
+ 12. Strategy compliance ... OK
 ```
 
 If any check fails, fix it and re-verify.

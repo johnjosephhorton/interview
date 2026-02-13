@@ -16,5 +16,3 @@ opening_max_tokens = 8192
 [variables]
 pot_size = { type = "choice", values = [20, 50, 100] }
 fair_offer = { type = "derived", formula = "pot_size / 2", round_to = 1.0 }
-ai_target_offer = { type = "derived", formula = "pot_size * 0.4", round_to = 1.0 }
-min_acceptable = { type = "derived", formula = "pot_size * 0.2", round_to = 1.0 }
