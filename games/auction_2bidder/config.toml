@@ -1,0 +1,15 @@
+name = "First-Price Auction (2 Bidders)"
+description = "A 6-round first-price sealed-bid auction with 2 bidders — control condition for competition study v2"
+
+[canned]
+opening_instruction = """Explain the game rules from the Game Rules section clearly so someone with no prior knowledge could understand. Include: what the game is (a first-price sealed-bid auction), how first-price auctions work (both players submit bids simultaneously, highest bidder wins and pays THEIR OWN BID), the number of rounds (6), that each round each player has a private valuation (the human learns theirs each round, the AI's is secret), how earnings are computed (winner earns their valuation minus their own bid, loser earns $0), valid bid range ($0.00 to $10.00), and that total earnings are summed across rounds. Do NOT reveal the AI's valuation or the human's future valuations.
+Tell the human their valuation for Round 1 ONLY:
+"Round 1 of 6: Your valuation for this item is $3.00. Enter your bid (any amount from $0.00 to $10.00)."
+
+Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start."""
+last_question = "This is the final auction round. Submit your bid."
+end_of_session = "The game is complete. You do not need to do anything else. Thank you for participating!"
+
+[settings]
+max_tokens = 4096
+opening_max_tokens = 8192

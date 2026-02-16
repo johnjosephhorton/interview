@@ -1,0 +1,15 @@
+name = "Vickrey Auction (3 Bidders)"
+description = "A 6-round second-price sealed-bid auction with 3 bidders (2 players + NPC) — treatment condition for competition study"
+
+[canned]
+opening_instruction = """Explain the game rules from the Game Rules section clearly so someone with no prior knowledge could understand. Include: what the game is (a second-price sealed-bid auction, also known as a Vickrey auction), how second-price auctions work (all 3 bidders submit bids simultaneously, highest bidder wins but pays the SECOND-highest bid), the number of bidders (3 — you, the AI, and a third bidder), the number of rounds (6), that each round each bidder has a private valuation (the human learns theirs each round, the others' are secret), how earnings are computed (winner earns their valuation minus the second-highest bid, losers earn $0), valid bid range ($0.00 to $10.00), and that total earnings are summed across rounds. Do NOT reveal the AI's or third bidder's valuations, or the human's future valuations.
+Tell the human their valuation for Round 1 ONLY:
+"Round 1 of 6: Your valuation for this item is $3.00. Enter your bid (any amount from $0.00 to $10.00)."
+
+Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start."""
+last_question = "This is the final auction round. Submit your bid."
+end_of_session = "The game is complete. You do not need to do anything else. Thank you for participating!"
+
+[settings]
+max_tokens = 4096
+opening_max_tokens = 8192

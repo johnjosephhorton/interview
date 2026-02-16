@@ -1,0 +1,73 @@
+sim_id,condition,competition_size,round,human_valuation,valuation_category,human_bid,bid_valuation_ratio,nash_ratio,nash_bid,overbid_gap,overbid_vs_valuation,ai_valuation,ai_bid,ai_bid_expected,ai_bid_correct,winner,human_earned,ai_earned,npc_valuation,npc_bid,npc_bid_expected
+auction_2bidder_2026-02-13_15-39-55_sim1,auction_2bidder,2,1,3.0,low,1.5,0.5,0.5,1.5,0.0,0,7.0,3.5,3.5,True,AI,0.0,3.5,,,
+auction_2bidder_2026-02-13_15-39-55_sim1,auction_2bidder,2,2,8.0,high,4.0,0.5,0.5,4.0,0.0,0,4.0,2.0,2.0,True,Human,4.0,0.0,,,
+auction_2bidder_2026-02-13_15-39-55_sim1,auction_2bidder,2,3,4.0,low,2.0,0.5,0.5,2.0,0.0,0,6.0,3.0,3.0,True,AI,0.0,3.0,,,
+auction_2bidder_2026-02-13_15-39-55_sim1,auction_2bidder,2,4,9.0,high,4.5,0.5,0.5,4.5,0.0,0,3.0,1.5,1.5,True,Human,4.5,0.0,,,
+auction_2bidder_2026-02-13_15-39-55_sim1,auction_2bidder,2,5,3.0,low,2.5,0.8333,0.5,1.5,0.3333,0,8.0,4.0,4.0,True,AI,0.0,4.0,,,
+auction_2bidder_2026-02-13_15-39-55_sim1,auction_2bidder,2,6,7.0,high,4.5,0.6429,0.5,3.5,0.1429,0,5.0,2.5,2.5,True,Human,2.5,0.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim1,auction_2bidder,2,1,3.0,low,1.5,0.5,0.5,1.5,0.0,0,7.0,3.5,3.5,True,AI,0.0,3.5,,,
+auction_2bidder_2026-02-13_17-40-04_sim1,auction_2bidder,2,2,8.0,high,5.5,0.6875,0.5,4.0,0.1875,0,4.0,2.0,2.0,True,Human,2.5,0.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim1,auction_2bidder,2,3,4.0,low,2.0,0.5,0.5,2.0,0.0,0,6.0,3.0,3.0,True,AI,0.0,3.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim1,auction_2bidder,2,4,9.0,high,4.5,0.5,0.5,4.5,0.0,0,3.0,1.5,1.5,True,Human,4.5,0.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim1,auction_2bidder,2,5,3.0,low,2.0,0.6667,0.5,1.5,0.1667,0,8.0,4.0,4.0,True,AI,0.0,4.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim1,auction_2bidder,2,6,7.0,high,4.01,0.5729,0.5,3.5,0.0729,0,5.0,2.5,2.5,True,Human,2.99,0.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim2,auction_2bidder,2,1,3.0,low,1.5,0.5,0.5,1.5,0.0,0,7.0,3.5,3.5,True,AI,0.0,3.5,,,
+auction_2bidder_2026-02-13_17-40-04_sim2,auction_2bidder,2,2,8.0,high,4.0,0.5,0.5,4.0,0.0,0,4.0,2.0,2.0,True,Human,4.0,0.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim2,auction_2bidder,2,3,4.0,low,2.0,0.5,0.5,2.0,0.0,0,6.0,3.0,3.0,True,AI,0.0,3.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim2,auction_2bidder,2,4,9.0,high,4.5,0.5,0.5,4.5,0.0,0,3.0,1.5,1.5,True,Human,4.5,0.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim2,auction_2bidder,2,5,3.0,low,2.0,0.6667,0.5,1.5,0.1667,0,8.0,4.0,4.0,True,AI,0.0,4.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim2,auction_2bidder,2,6,7.0,high,4.01,0.5729,0.5,3.5,0.0729,0,5.0,2.5,2.5,True,Human,2.99,0.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim3,auction_2bidder,2,1,3.0,low,2.25,0.75,0.5,1.5,0.25,0,7.0,3.5,3.5,True,AI,0.0,3.5,,,
+auction_2bidder_2026-02-13_17-40-04_sim3,auction_2bidder,2,2,8.0,high,4.5,0.5625,0.5,4.0,0.0625,0,4.0,2.0,2.0,True,Human,3.5,0.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim3,auction_2bidder,2,3,4.0,low,2.75,0.6875,0.5,2.0,0.1875,0,6.0,3.0,3.0,True,AI,0.0,3.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim3,auction_2bidder,2,4,9.0,high,4.0,0.4444,0.5,4.5,-0.0556,0,3.0,1.5,1.5,True,Human,5.0,0.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim3,auction_2bidder,2,5,3.0,low,2.5,0.8333,0.5,1.5,0.3333,0,8.0,4.0,4.0,True,AI,0.0,4.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim3,auction_2bidder,2,6,7.0,high,4.5,0.6429,0.5,3.5,0.1429,0,5.0,2.5,2.5,True,Human,2.5,0.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim4,auction_2bidder,2,1,3.0,low,1.5,0.5,0.5,1.5,0.0,0,7.0,3.5,3.5,True,AI,0.0,3.5,,,
+auction_2bidder_2026-02-13_17-40-04_sim4,auction_2bidder,2,2,8.0,high,4.0,0.5,0.5,4.0,0.0,0,4.0,2.0,2.0,True,Human,4.0,0.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim4,auction_2bidder,2,3,4.0,low,2.5,0.625,0.5,2.0,0.125,0,6.0,3.0,3.0,True,AI,0.0,3.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim4,auction_2bidder,2,4,9.0,high,6.0,0.6667,0.5,4.5,0.1667,0,3.0,1.5,1.5,True,Human,3.0,0.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim4,auction_2bidder,2,5,3.0,low,2.5,0.8333,0.5,1.5,0.3333,0,8.0,4.0,4.0,True,AI,0.0,4.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim4,auction_2bidder,2,6,7.0,high,4.5,0.6429,0.5,3.5,0.1429,0,5.0,2.5,2.5,True,Human,2.5,0.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim5,auction_2bidder,2,1,3.0,low,1.5,0.5,0.5,1.5,0.0,0,7.0,3.5,3.5,True,AI,0.0,3.5,,,
+auction_2bidder_2026-02-13_17-40-04_sim5,auction_2bidder,2,2,8.0,high,4.0,0.5,0.5,4.0,0.0,0,4.0,2.0,2.0,True,Human,4.0,0.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim5,auction_2bidder,2,3,4.0,low,2.0,0.5,0.5,2.0,0.0,0,6.0,3.0,3.0,True,AI,0.0,3.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim5,auction_2bidder,2,4,9.0,high,6.5,0.7222,0.5,4.5,0.2222,0,3.0,1.5,1.5,True,Human,2.5,0.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim5,auction_2bidder,2,5,3.0,low,2.5,0.8333,0.5,1.5,0.3333,0,8.0,4.0,4.0,True,AI,0.0,4.0,,,
+auction_2bidder_2026-02-13_17-40-04_sim5,auction_2bidder,2,6,7.0,high,4.5,0.6429,0.5,3.5,0.1429,0,5.0,2.5,2.5,True,Human,2.5,0.0,,,
+auction_3bidder_2026-02-13_15-40-50_sim1,auction_3bidder,3,1,3.0,low,2.0,0.6667,0.6667,2.0,0.0,0,7.0,4.67,4.67,True,AI,0.0,2.33,5.0,3.33,3.33
+auction_3bidder_2026-02-13_15-40-50_sim1,auction_3bidder,3,2,8.0,high,5.33,0.6663,0.6667,5.33,-0.0004,0,4.0,2.67,2.67,True,Human,2.67,0.0,6.0,4.0,4.0
+auction_3bidder_2026-02-13_15-40-50_sim1,auction_3bidder,3,3,4.0,low,3.5,0.875,0.6667,2.67,0.2083,0,6.0,4.0,4.0,True,Third bidder,0.0,0.0,8.0,5.33,5.33
+auction_3bidder_2026-02-13_15-40-50_sim1,auction_3bidder,3,4,9.0,high,5.34,0.5933,0.6667,6.0,-0.0733,0,3.0,2.0,2.0,True,Human,3.66,0.0,4.0,2.67,2.67
+auction_3bidder_2026-02-13_15-40-50_sim1,auction_3bidder,3,5,3.0,low,2.68,0.8933,0.6667,2.0,0.2267,0,8.0,5.33,5.33,True,AI,0.0,2.67,6.0,4.0,4.0
+auction_3bidder_2026-02-13_15-40-50_sim1,auction_3bidder,3,6,7.0,high,5.34,0.7629,0.6667,4.67,0.0962,0,5.0,3.33,3.33,True,Human,1.66,0.0,3.0,2.0,2.0
+auction_3bidder_2026-02-13_17-41-03_sim1,auction_3bidder,3,1,3.0,low,2.0,0.6667,0.6667,2.0,0.0,0,7.0,4.67,4.67,True,AI,0.0,2.33,5.0,3.33,3.33
+auction_3bidder_2026-02-13_17-41-03_sim1,auction_3bidder,3,2,8.0,high,5.33,0.6663,0.6667,5.33,-0.0004,0,4.0,2.67,2.67,True,Human,2.67,0.0,6.0,4.0,4.0
+auction_3bidder_2026-02-13_17-41-03_sim1,auction_3bidder,3,3,4.0,low,2.67,0.6675,0.6667,2.67,0.0008,0,6.0,4.0,4.0,True,Third bidder,0.0,0.0,8.0,5.33,5.33
+auction_3bidder_2026-02-13_17-41-03_sim1,auction_3bidder,3,4,9.0,high,5.5,0.6111,0.6667,6.0,-0.0556,0,3.0,2.0,2.0,True,Human,3.5,0.0,4.0,2.67,2.67
+auction_3bidder_2026-02-13_17-41-03_sim1,auction_3bidder,3,5,3.0,low,2.0,0.6667,0.6667,2.0,0.0,0,8.0,5.33,5.33,True,AI,0.0,2.67,6.0,4.0,4.0
+auction_3bidder_2026-02-13_17-41-03_sim1,auction_3bidder,3,6,7.0,high,5.34,0.7629,0.6667,4.67,0.0962,0,5.0,3.33,3.33,True,Human,1.66,0.0,3.0,2.0,2.0
+auction_3bidder_2026-02-14_13-31-45_sim1,auction_3bidder,3,1,3.0,low,2.5,0.8333,0.6667,2.0,0.1667,0,7.0,4.67,4.67,True,AI,0.0,2.33,5.0,3.33,3.33
+auction_3bidder_2026-02-14_13-31-45_sim1,auction_3bidder,3,2,8.0,high,5.33,0.6663,0.6667,5.33,-0.0004,0,4.0,2.67,2.67,True,Human,2.67,0.0,6.0,4.0,4.0
+auction_3bidder_2026-02-14_13-31-45_sim1,auction_3bidder,3,3,4.0,low,3.5,0.875,0.6667,2.67,0.2083,0,6.0,4.0,4.0,True,Third bidder,0.0,0.0,8.0,5.33,5.33
+auction_3bidder_2026-02-14_13-31-45_sim1,auction_3bidder,3,4,9.0,high,5.5,0.6111,0.6667,6.0,-0.0556,0,3.0,2.0,2.0,True,Human,3.5,0.0,4.0,2.67,2.67
+auction_3bidder_2026-02-14_13-31-45_sim1,auction_3bidder,3,5,3.0,low,2.75,0.9167,0.6667,2.0,0.25,0,8.0,5.33,5.33,True,AI,0.0,2.67,6.0,4.0,4.0
+auction_3bidder_2026-02-14_13-31-45_sim1,auction_3bidder,3,6,7.0,high,5.5,0.7857,0.6667,4.67,0.119,0,5.0,3.33,3.33,True,Human,1.5,0.0,3.0,2.0,2.0
+auction_3bidder_2026-02-14_13-36-12_sim1,auction_3bidder,3,1,3.0,low,2.0,0.6667,0.6667,2.0,0.0,0,7.0,4.67,4.67,True,AI,0.0,2.33,5.0,3.33,3.33
+auction_3bidder_2026-02-14_13-36-12_sim1,auction_3bidder,3,2,8.0,high,5.33,0.6663,0.6667,5.33,-0.0004,0,4.0,2.67,2.67,True,Human,2.67,0.0,6.0,4.0,4.0
+auction_3bidder_2026-02-14_13-36-12_sim1,auction_3bidder,3,3,4.0,low,3.5,0.875,0.6667,2.67,0.2083,0,6.0,4.0,4.0,True,Third bidder,0.0,0.0,8.0,5.33,5.33
+auction_3bidder_2026-02-14_13-36-12_sim1,auction_3bidder,3,4,9.0,high,6.0,0.6667,0.6667,6.0,0.0,0,3.0,2.0,2.0,True,Human,3.0,0.0,4.0,2.67,2.67
+auction_3bidder_2026-02-14_13-36-12_sim1,auction_3bidder,3,5,3.0,low,2.67,0.89,0.6667,2.0,0.2233,0,8.0,5.33,5.33,True,AI,0.0,2.67,6.0,4.0,4.0
+auction_3bidder_2026-02-14_13-36-12_sim1,auction_3bidder,3,6,7.0,high,4.0,0.5714,0.6667,4.67,-0.0952,0,5.0,3.33,3.33,True,Human,3.0,0.0,3.0,2.0,2.0
+auction_3bidder_2026-02-14_13-39-28_sim1,auction_3bidder,3,1,3.0,low,2.0,0.6667,0.6667,2.0,0.0,0,7.0,4.67,4.67,True,AI,0.0,2.33,5.0,3.33,3.33
+auction_3bidder_2026-02-14_13-39-28_sim1,auction_3bidder,3,2,8.0,high,5.5,0.6875,0.6667,5.33,0.0208,0,4.0,2.67,2.67,True,Human,2.5,0.0,6.0,4.0,4.0
+auction_3bidder_2026-02-14_13-39-28_sim1,auction_3bidder,3,3,4.0,low,2.72,0.68,0.6667,2.67,0.0133,0,6.0,4.0,4.0,True,Third bidder,0.0,0.0,8.0,5.33,5.33
+auction_3bidder_2026-02-14_13-39-28_sim1,auction_3bidder,3,4,9.0,high,6.0,0.6667,0.6667,6.0,0.0,0,3.0,2.0,2.0,True,Human,3.0,0.0,4.0,2.67,2.67
+auction_3bidder_2026-02-14_13-39-28_sim1,auction_3bidder,3,5,3.0,low,2.75,0.9167,0.6667,2.0,0.25,0,8.0,5.33,5.33,True,AI,0.0,2.67,6.0,4.0,4.0
+auction_3bidder_2026-02-14_13-39-28_sim1,auction_3bidder,3,6,7.0,high,5.75,0.8214,0.6667,4.67,0.1548,0,5.0,3.33,3.33,True,Human,1.25,0.0,3.0,2.0,2.0
+auction_3bidder_2026-02-14_13-42-55_sim1,auction_3bidder,3,1,3.0,low,2.5,0.8333,0.6667,2.0,0.1667,0,7.0,4.67,4.67,True,AI,0.0,2.33,5.0,3.33,3.33
+auction_3bidder_2026-02-14_13-42-55_sim1,auction_3bidder,3,2,8.0,high,5.33,0.6663,0.6667,5.33,-0.0004,0,4.0,2.67,2.67,True,Human,2.67,0.0,6.0,4.0,4.0
+auction_3bidder_2026-02-14_13-42-55_sim1,auction_3bidder,3,3,4.0,low,3.5,0.875,0.6667,2.67,0.2083,0,6.0,4.0,4.0,True,Third bidder,0.0,0.0,8.0,5.33,5.33
+auction_3bidder_2026-02-14_13-42-55_sim1,auction_3bidder,3,4,9.0,high,6.0,0.6667,0.6667,6.0,0.0,0,3.0,2.0,2.0,True,Human,3.0,0.0,4.0,2.67,2.67
+auction_3bidder_2026-02-14_13-42-55_sim1,auction_3bidder,3,5,3.0,low,2.75,0.9167,0.6667,2.0,0.25,0,8.0,5.33,5.33,True,AI,0.0,2.67,6.0,4.0,4.0
+auction_3bidder_2026-02-14_13-42-55_sim1,auction_3bidder,3,6,7.0,high,5.34,0.7629,0.6667,4.67,0.0962,0,5.0,3.33,3.33,True,Human,1.66,0.0,3.0,2.0,2.0
