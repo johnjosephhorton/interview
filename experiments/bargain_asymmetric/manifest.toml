@@ -1,0 +1,51 @@
+[experiment]
+name = "bargain_asymmetric"
+title = "Bilateral Asymmetric Information Bargaining (Baseline)"
+status = "analyzed"
+created = "2026-02-17"
+
+[hypothesis]
+research_question = "Under bilateral asymmetric information, do LLM-simulated bargaining agents reach efficient deals, and does deal price reflect each party's private information?"
+hypothesis = "Deal prices should increase in buyer value and seller cost, and be near the Nash bargaining midpoint."
+triviality_score = "N/A (baseline characterization)"
+
+[variables]
+X = "information_structure (bilateral asymmetric)"
+Y = "deal_price, surplus_efficiency"
+M = "offer_anchoring_behavior"
+Z = "ZOPA"
+
+[design]
+design_type = "single_condition_parameterized"
+primary_outcome = "deal_price"
+primary_outcome_type = "continuous"
+primary_test = "OLS regression: deal_price ~ buyer_value + seller_cost"
+n_sessions = 20
+randomization = "random"
+
+[conditions]
+bargain_asymmetric = { label = "Bilateral Asymmetric Info", buyer_value = "[60,70,80,90]", seller_cost = "[20,30,40,50]" }
+
+[predictions]
+deal_rate_near_100 = "Deal rate ≥ 90%"
+price_increases_in_buyer_value = "β(buyer_value) > 0 significantly"
+price_increases_in_seller_cost = "β(seller_cost) > 0 significantly"
+deal_near_fair_price = "Mean price ≈ fair_price midpoint"
+
+[results]
+deal_rate = "100% (20/20)"
+mean_deal_price = 54.60
+mean_fair_price = 51.75
+price_deviation_from_fair = "+2.85 (p=0.243, not significant)"
+r2_regression = 0.144
+buyer_surplus_share_mean = 0.450
+mean_rounds = 4.30
+checker_pass_rate = "95% (19/20)"
+verdict = "PARTIALLY"
+diagnosis = "IMPLEMENTATION"
+
+[artifacts]
+game_folder = "games/bargain_asymmetric"
+transcripts = "transcripts/bargain_asymmetric"
+data_csv = "experiments/bargain_asymmetric/data/data.csv"
+results_memo = "experiments/bargain_asymmetric/results.pdf"

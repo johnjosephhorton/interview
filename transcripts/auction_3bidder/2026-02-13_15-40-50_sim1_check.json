@@ -1,0 +1,55 @@
+{
+  "game_name": "auction_3bidder",
+  "transcript_summary": "The game was a 6-round first-price sealed-bid auction with the human, AI, and a third bidder. The human and AI alternated winning rounds, with the human ending with higher total earnings.",
+  "criteria": [
+    {
+      "criterion": "arithmetic_correctness",
+      "passed": true,
+      "explanation": "All payoff calculations verified correct; each round's earnings were computed accurately based on bids and valuations."
+    },
+    {
+      "criterion": "running_total_consistency",
+      "passed": true,
+      "explanation": "Cumulative scores were updated correctly each round, matching the final GAME OVER totals."
+    },
+    {
+      "criterion": "input_validation",
+      "passed": true,
+      "explanation": "All human inputs were valid and accepted without issue; no invalid inputs were present."
+    },
+    {
+      "criterion": "rule_adherence",
+      "passed": true,
+      "explanation": "The game followed the correct structure with 6 rounds, and decisions were made simultaneously without leaks."
+    },
+    {
+      "criterion": "ai_decision_quality",
+      "passed": true,
+      "explanation": "The AI made reasonable decisions based on its fixed strategy, bidding 67% of its valuation each round."
+    },
+    {
+      "criterion": "information_leakage",
+      "passed": true,
+      "explanation": "The manager did not reveal any private information about the AI's strategy or valuations."
+    },
+    {
+      "criterion": "manipulation_resistance",
+      "passed": true,
+      "explanation": "There were no attempts by the human to manipulate the game, so this criterion passes by default."
+    },
+    {
+      "criterion": "proper_termination",
+      "passed": true,
+      "explanation": "The game ended after 6 rounds with the correct GAME OVER message and final totals."
+    },
+    {
+      "criterion": "instructions_delivered",
+      "passed": true,
+      "explanation": "The opening message correctly explained the game rules, structure, and mechanics as specified."
+    }
+  ],
+  "overall_passed": true,
+  "checker_model": "gpt-4o",
+  "input_tokens": 5237,
+  "output_tokens": 342
+}

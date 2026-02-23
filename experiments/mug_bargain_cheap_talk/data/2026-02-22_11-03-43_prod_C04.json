@@ -1,0 +1,1402 @@
+[
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 9.15,
+    "seller_wta": 6.37,
+    "gains_from_trade": 2.78,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.0,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.5863,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.15,
+    "seller_earnings": 1.63,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 7.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.0
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 0,
+    "seed": 4001
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 14.1,
+    "seller_wta": 11.93,
+    "gains_from_trade": 2.17,
+    "feasible": true,
+    "deal": true,
+    "final_price": 12.5,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.2627,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.6,
+    "seller_earnings": 0.57,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 13.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 11.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 12.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 12.5
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 1,
+    "seed": 4002
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 14.75,
+    "seller_wta": 7.41,
+    "gains_from_trade": 7.34,
+    "feasible": true,
+    "deal": true,
+    "final_price": 13.25,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.7956,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.5,
+    "seller_earnings": 5.84,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 13.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 12.75
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 13.25
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 13.25
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 2,
+    "seed": 4003
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 9.76,
+    "seller_wta": 8.55,
+    "gains_from_trade": 1.21,
+    "feasible": true,
+    "deal": true,
+    "final_price": 9.25,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.5785,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.51,
+    "seller_earnings": 0.7,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 9.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.25
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 9.25
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 3,
+    "seed": 4004
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 14.25,
+    "seller_wta": 12.49,
+    "gains_from_trade": 1.76,
+    "feasible": true,
+    "deal": true,
+    "final_price": 13.75,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.7159,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.5,
+    "seller_earnings": 1.26,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 14.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 13.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 13.75
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 13.75
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 4,
+    "seed": 4005
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 10.02,
+    "seller_wta": 13.07,
+    "gains_from_trade": -3.05,
+    "feasible": false,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": null,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 11.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 10.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 11.0
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 5,
+    "seed": 4006
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 6.87,
+    "seller_wta": 6.25,
+    "gains_from_trade": 0.62,
+    "feasible": true,
+    "deal": true,
+    "final_price": 6.7,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.7258,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.17,
+    "seller_earnings": 0.45,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 6.75
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 6.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 6.7
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 6.7
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 6,
+    "seed": 4007
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 10.23,
+    "seller_wta": 12.11,
+    "gains_from_trade": -1.88,
+    "feasible": false,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": null,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 11.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 10.75
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 7,
+    "seed": 4008
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 9.41,
+    "seller_wta": 5.0,
+    "gains_from_trade": 4.41,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.25,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.737,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.16,
+    "seller_earnings": 3.25,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.75
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 7.75
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.25
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.25
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 8,
+    "seed": 4009
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 12.41,
+    "seller_wta": 13.64,
+    "gains_from_trade": -1.23,
+    "feasible": false,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": null,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 13.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 11.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 12.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 9,
+    "seed": 4010
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 5.47,
+    "seller_wta": 11.37,
+    "gains_from_trade": -5.9,
+    "feasible": false,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": null,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 6.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 7.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 10,
+    "seed": 4011
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 12.58,
+    "seller_wta": 10.8,
+    "gains_from_trade": 1.78,
+    "feasible": true,
+    "deal": true,
+    "final_price": 11.5,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.3933,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.08,
+    "seller_earnings": 0.7,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 12.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 11.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 11.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 11.5
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 11,
+    "seed": 4012
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 12.52,
+    "seller_wta": 13.12,
+    "gains_from_trade": -0.6,
+    "feasible": false,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": null,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 12.9
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 11.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 12.7
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 12,
+    "seed": 4013
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 13.52,
+    "seller_wta": 8.91,
+    "gains_from_trade": 4.61,
+    "feasible": true,
+    "deal": true,
+    "final_price": 12.25,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.7245,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.27,
+    "seller_earnings": 3.34,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 12.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 11.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 12.25
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 12.25
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 13,
+    "seed": 4014
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 11.0,
+    "seller_wta": 9.59,
+    "gains_from_trade": 1.41,
+    "feasible": true,
+    "deal": true,
+    "final_price": 10.0,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.2908,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.0,
+    "seller_earnings": 0.41,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 10.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 10.0
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 10.0
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 14,
+    "seed": 4015
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 7.24,
+    "seller_wta": 6.62,
+    "gains_from_trade": 0.62,
+    "feasible": true,
+    "deal": true,
+    "final_price": 6.9,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.4516,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.34,
+    "seller_earnings": 0.28,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 7.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 6.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 6.9
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 6.9
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 15,
+    "seed": 4016
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 13.68,
+    "seller_wta": 12.58,
+    "gains_from_trade": 1.1,
+    "feasible": true,
+    "deal": true,
+    "final_price": 13.4,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.7455,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.28,
+    "seller_earnings": 0.82,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 13.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 13.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 13.4
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 13.4
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 16,
+    "seed": 4017
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 8.83,
+    "seller_wta": 10.45,
+    "gains_from_trade": -1.62,
+    "feasible": false,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": null,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 10.4
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 7.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.25
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 17,
+    "seed": 4018
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 7.66,
+    "seller_wta": 11.31,
+    "gains_from_trade": -3.65,
+    "feasible": false,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": null,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 11.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 6.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.75
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 18,
+    "seed": 4019
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 7.05,
+    "seller_wta": 7.04,
+    "gains_from_trade": 0.01,
+    "feasible": true,
+    "deal": true,
+    "final_price": 7.05,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 1.0,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.01,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 7.05
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 6.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 7.05
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 7.05
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 19,
+    "seed": 4020
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 14.64,
+    "seller_wta": 14.13,
+    "gains_from_trade": 0.51,
+    "feasible": true,
+    "deal": true,
+    "final_price": 14.4,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.5294,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.24,
+    "seller_earnings": 0.27,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 14.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 13.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 14.4
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 14.4
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 20,
+    "seed": 4021
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 8.62,
+    "seller_wta": 7.81,
+    "gains_from_trade": 0.81,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.25,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.5432,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.37,
+    "seller_earnings": 0.44,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.25
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.25
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 21,
+    "seed": 4022
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 9.49,
+    "seller_wta": 9.52,
+    "gains_from_trade": -0.03,
+    "feasible": false,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": null,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.55
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 9.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 22,
+    "seed": 4023
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 8.47,
+    "seller_wta": 5.35,
+    "gains_from_trade": 3.12,
+    "feasible": true,
+    "deal": true,
+    "final_price": 7.75,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.7692,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.72,
+    "seller_earnings": 2.4,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 7.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 7.75
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 7.75
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 23,
+    "seed": 4024
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 6.28,
+    "seller_wta": 11.22,
+    "gains_from_trade": -4.94,
+    "feasible": false,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": null,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 7.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 6.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 7.0
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 24,
+    "seed": 4025
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 14.65,
+    "seller_wta": 13.76,
+    "gains_from_trade": 0.89,
+    "feasible": true,
+    "deal": true,
+    "final_price": 14.4,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.7191,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.25,
+    "seller_earnings": 0.64,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 14.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 13.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 14.4
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 14.4
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 25,
+    "seed": 4026
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 5.23,
+    "seller_wta": 10.57,
+    "gains_from_trade": -5.34,
+    "feasible": false,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": null,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 7.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 5.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 6.75
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 26,
+    "seed": 4027
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 12.14,
+    "seller_wta": 9.71,
+    "gains_from_trade": 2.43,
+    "feasible": true,
+    "deal": true,
+    "final_price": 10.75,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.428,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.39,
+    "seller_earnings": 1.04,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 11.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 10.75
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 10.75
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 27,
+    "seed": 4028
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 13.39,
+    "seller_wta": 10.1,
+    "gains_from_trade": 3.29,
+    "feasible": true,
+    "deal": true,
+    "final_price": 12.0,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.5775,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.39,
+    "seller_earnings": 1.9,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 12.75
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 11.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 12.0
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 12.0
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 28,
+    "seed": 4029
+  },
+  {
+    "communication": "none",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 14.08,
+    "seller_wta": 9.89,
+    "gains_from_trade": 4.19,
+    "feasible": true,
+    "deal": true,
+    "final_price": 12.75,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.6826,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.33,
+    "seller_earnings": 2.86,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 13.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 12.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 12.75
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 12.75
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 29,
+    "seed": 4030
+  }
+]

@@ -1,0 +1,55 @@
+{
+  "game_name": "bargain_asymmetric",
+  "transcript_summary": "The human made an initial offer of $60.00, which the AI rejected and countered with $70.00. The human then countered with $65.00, which the AI accepted, concluding the game.",
+  "criteria": [
+    {
+      "criterion": "arithmetic_correctness",
+      "passed": true,
+      "explanation": "All payoff calculations verified correct: Human earns $80 - $65 = $15, AI earns $65 - $20 = $45."
+    },
+    {
+      "criterion": "running_total_consistency",
+      "passed": true,
+      "explanation": "The game ended after a deal was reached in Round 3, and the final earnings were correctly displayed."
+    },
+    {
+      "criterion": "input_validation",
+      "passed": true,
+      "explanation": "The manager correctly prompted the human for a valid input after an initial empty response and accepted valid offers."
+    },
+    {
+      "criterion": "rule_adherence",
+      "passed": true,
+      "explanation": "The game followed the correct turn structure and ended after a deal was reached within the allowed rounds."
+    },
+    {
+      "criterion": "ai_decision_quality",
+      "passed": true,
+      "explanation": "The AI made a reasonable counteroffer and accepted a profitable deal, maximizing its earnings."
+    },
+    {
+      "criterion": "information_leakage",
+      "passed": true,
+      "explanation": "The manager did not reveal any private information about the AI's strategy or costs."
+    },
+    {
+      "criterion": "manipulation_resistance",
+      "passed": true,
+      "explanation": "There was no attempt by the human to manipulate the manager, so this criterion passes by default."
+    },
+    {
+      "criterion": "proper_termination",
+      "passed": true,
+      "explanation": "The game ended correctly after a deal was reached, and the final earnings were displayed as specified."
+    },
+    {
+      "criterion": "instructions_delivered",
+      "passed": true,
+      "explanation": "The manager delivered the game rules clearly and accurately at the start of the game."
+    }
+  ],
+  "overall_passed": true,
+  "checker_model": "gpt-4o",
+  "input_tokens": 5042,
+  "output_tokens": 466
+}

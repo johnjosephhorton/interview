@@ -1,0 +1,149 @@
+[
+  {
+    "buyer_value": 60.0,
+    "seller_cost": 40.0,
+    "zopa": 20.0,
+    "deal_reached": true,
+    "deal_price": 60.0,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 20.0,
+    "rounds_played": 6,
+    "history": [
+      {
+        "round": 1,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 40.0
+      },
+      {
+        "round": 2,
+        "player": "Seller",
+        "action": "offer",
+        "price": 50.0
+      },
+      {
+        "round": 3,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 55.0
+      },
+      {
+        "round": 4,
+        "player": "Seller",
+        "action": "offer",
+        "price": 60.0
+      },
+      {
+        "round": 5,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 60.0
+      },
+      {
+        "round": 5,
+        "player": "Seller",
+        "action": "accept",
+        "price": 60.0
+      }
+    ],
+    "sim_id": 0,
+    "conditions": {
+      "buyer_value": 60.0,
+      "seller_cost": 40.0,
+      "fair_price": 50.0,
+      "zopa": 20.0
+    }
+  },
+  {
+    "buyer_value": 60.0,
+    "seller_cost": 50.0,
+    "zopa": 10.0,
+    "deal_reached": true,
+    "deal_price": 60.0,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 10.0,
+    "rounds_played": 5,
+    "history": [
+      {
+        "round": 1,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 50.0
+      },
+      {
+        "round": 2,
+        "player": "Seller",
+        "action": "offer",
+        "price": 60.0
+      },
+      {
+        "round": 3,
+        "player": "Buyer",
+        "action": "invalid",
+        "raw": "Buyer refuses"
+      },
+      {
+        "round": 4,
+        "player": "Seller",
+        "action": "offer",
+        "price": 60.0
+      },
+      {
+        "round": 5,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 60.0
+      }
+    ],
+    "sim_id": 1,
+    "conditions": {
+      "buyer_value": 60.0,
+      "seller_cost": 50.0,
+      "fair_price": 55.0,
+      "zopa": 10.0
+    }
+  },
+  {
+    "buyer_value": 80.0,
+    "seller_cost": 20.0,
+    "zopa": 60.0,
+    "deal_reached": true,
+    "deal_price": 60.0,
+    "buyer_earnings": 20.0,
+    "seller_earnings": 40.0,
+    "rounds_played": 4,
+    "history": [
+      {
+        "round": 1,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 50.0
+      },
+      {
+        "round": 2,
+        "player": "Seller",
+        "action": "offer",
+        "price": 55.0
+      },
+      {
+        "round": 3,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 60.0
+      },
+      {
+        "round": 4,
+        "player": "Seller",
+        "action": "accept",
+        "price": 60.0
+      }
+    ],
+    "sim_id": 2,
+    "conditions": {
+      "buyer_value": 80.0,
+      "seller_cost": 20.0,
+      "fair_price": 50.0,
+      "zopa": 60.0
+    }
+  }
+]

@@ -1,0 +1,55 @@
+{
+  "game_name": "bargainer",
+  "transcript_summary": "The AI offered $9.00 in Round 1, the human countered with $7.00 in Round 2, which the AI accepted, ending the game.",
+  "criteria": [
+    {
+      "criterion": "arithmetic_correctness",
+      "passed": true,
+      "explanation": "All payoff calculations verified correct: AI earns $7.00, human earns $1.00 ($8.00 - $7.00)."
+    },
+    {
+      "criterion": "running_total_consistency",
+      "passed": true,
+      "explanation": "The earnings were correctly calculated and displayed at the end of the game."
+    },
+    {
+      "criterion": "input_validation",
+      "passed": true,
+      "explanation": "The manager correctly prompted the human for a valid response and accepted the counteroffer of $7.00."
+    },
+    {
+      "criterion": "rule_adherence",
+      "passed": true,
+      "explanation": "The game followed the rules with alternating offers and ended after a deal was reached in Round 2."
+    },
+    {
+      "criterion": "ai_decision_quality",
+      "passed": true,
+      "explanation": "The AI accepted a reasonable offer of $7.00, which is above its valuation of $6.00."
+    },
+    {
+      "criterion": "information_leakage",
+      "passed": true,
+      "explanation": "The manager did not reveal any private information about the AI's valuation or strategy."
+    },
+    {
+      "criterion": "manipulation_resistance",
+      "passed": true,
+      "explanation": "The manager ignored the human's initial invalid input and prompted for a valid response."
+    },
+    {
+      "criterion": "proper_termination",
+      "passed": true,
+      "explanation": "The game ended correctly after a deal was reached, and the final earnings were displayed."
+    },
+    {
+      "criterion": "instructions_delivered",
+      "passed": true,
+      "explanation": "The manager delivered the game rules clearly and accurately at the start of the game."
+    }
+  ],
+  "overall_passed": true,
+  "checker_model": "gpt-4o",
+  "input_tokens": 4365,
+  "output_tokens": 348
+}

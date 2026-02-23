@@ -1,0 +1,62 @@
+[experiment]
+name = "mug_bargain_cheap_talk"
+research_question = "How does pre-play cheap talk affect bilateral bargaining efficiency over a mug, and how does the effect depend on preference misalignment and information structure?"
+experiment_dir = "experiments/mug_bargain_cheap_talk"
+
+[design]
+primary_outcome = "deal_rate"
+primary_outcome_type = "binary"
+secondary_outcomes = ["surplus_captured", "final_price", "price_split_ratio", "rounds_to_agreement", "cheap_talk_informativeness"]
+n_conditions = 12
+n_reps_per_condition = 30
+total_simulations = 360
+sampling_strategy = "dense"
+
+[artifacts]
+design_space = "experiments/mug_bargain_cheap_talk/design_space.yaml"
+condition_matrix = "experiments/mug_bargain_cheap_talk/condition_matrix.csv"
+protocol = "experiments/mug_bargain_cheap_talk/protocol.md"
+analysis_plan = "experiments/mug_bargain_cheap_talk/analysis_plan.md"
+evidence_trace = "experiments/mug_bargain_cheap_talk/evidence_trace.csv"
+
+[conditions]
+C01 = "none_narrow_twosided"
+C02 = "none_narrow_onesided"
+C03 = "none_wide_twosided"
+C04 = "none_wide_onesided"
+C05 = "talk1_narrow_twosided"
+C06 = "talk1_narrow_onesided"
+C07 = "talk1_wide_twosided"
+C08 = "talk1_wide_onesided"
+C09 = "ext_narrow_twosided"
+C10 = "ext_narrow_onesided"       # holdout
+C11 = "ext_wide_twosided"
+C12 = "ext_wide_onesided"         # holdout
+
+[holdout]
+conditions = ["C10", "C12"]
+purpose = "Out-of-sample validation of model predictions"
+
+[concordia]
+sim_script = "games/mug_bargain_cheap_talk/concordia_sim.py"
+game_spec = "games/mug_bargain_cheap_talk/game_spec.md"
+run_all = "experiments/mug_bargain_cheap_talk/run_all.sh"
+transcript_dir = "experiments/mug_bargain_cheap_talk/data"
+
+[concordia.run_commands]
+C01 = "python3 games/mug_bargain_cheap_talk/concordia_sim.py --communication none --value-gap narrow --info-asymmetry two_sided_private -n 30 --seed 1001 -o experiments/mug_bargain_cheap_talk/data/C01_none_narrow_twosided.json"
+C02 = "python3 games/mug_bargain_cheap_talk/concordia_sim.py --communication none --value-gap narrow --info-asymmetry one_sided_buyer_known -n 30 --seed 2001 -o experiments/mug_bargain_cheap_talk/data/C02_none_narrow_onesided.json"
+C03 = "python3 games/mug_bargain_cheap_talk/concordia_sim.py --communication none --value-gap wide --info-asymmetry two_sided_private -n 30 --seed 3001 -o experiments/mug_bargain_cheap_talk/data/C03_none_wide_twosided.json"
+C04 = "python3 games/mug_bargain_cheap_talk/concordia_sim.py --communication none --value-gap wide --info-asymmetry one_sided_buyer_known -n 30 --seed 4001 -o experiments/mug_bargain_cheap_talk/data/C04_none_wide_onesided.json"
+C05 = "python3 games/mug_bargain_cheap_talk/concordia_sim.py --communication cheap_talk --value-gap narrow --info-asymmetry two_sided_private -n 30 --seed 5001 -o experiments/mug_bargain_cheap_talk/data/C05_talk1_narrow_twosided.json"
+C06 = "python3 games/mug_bargain_cheap_talk/concordia_sim.py --communication cheap_talk --value-gap narrow --info-asymmetry one_sided_buyer_known -n 30 --seed 6001 -o experiments/mug_bargain_cheap_talk/data/C06_talk1_narrow_onesided.json"
+C07 = "python3 games/mug_bargain_cheap_talk/concordia_sim.py --communication cheap_talk --value-gap wide --info-asymmetry two_sided_private -n 30 --seed 7001 -o experiments/mug_bargain_cheap_talk/data/C07_talk1_wide_twosided.json"
+C08 = "python3 games/mug_bargain_cheap_talk/concordia_sim.py --communication cheap_talk --value-gap wide --info-asymmetry one_sided_buyer_known -n 30 --seed 8001 -o experiments/mug_bargain_cheap_talk/data/C08_talk1_wide_onesided.json"
+C09 = "python3 games/mug_bargain_cheap_talk/concordia_sim.py --communication extended_talk --value-gap narrow --info-asymmetry two_sided_private -n 30 --seed 9001 -o experiments/mug_bargain_cheap_talk/data/C09_ext_narrow_twosided.json"
+C10 = "python3 games/mug_bargain_cheap_talk/concordia_sim.py --communication extended_talk --value-gap narrow --info-asymmetry one_sided_buyer_known -n 30 --seed 10001 -o experiments/mug_bargain_cheap_talk/data/C10_ext_narrow_onesided.json"
+C11 = "python3 games/mug_bargain_cheap_talk/concordia_sim.py --communication extended_talk --value-gap wide --info-asymmetry two_sided_private -n 30 --seed 11001 -o experiments/mug_bargain_cheap_talk/data/C11_ext_wide_twosided.json"
+C12 = "python3 games/mug_bargain_cheap_talk/concordia_sim.py --communication extended_talk --value-gap wide --info-asymmetry one_sided_buyer_known -n 30 --seed 12001 -o experiments/mug_bargain_cheap_talk/data/C12_ext_wide_onesided.json"
+
+[papers]
+cheap_talk = "papers/cheap_talk.pdf"
+strategic = "papers/strategic.pdf"

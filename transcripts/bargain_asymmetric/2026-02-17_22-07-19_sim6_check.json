@@ -1,0 +1,55 @@
+{
+  "game_name": "bargain_asymmetric",
+  "transcript_summary": "The human and AI engaged in a bargaining game over 5 rounds, reaching a deal at $50.00 in the final round, resulting in earnings of $30.00 for the human and $10.00 for the AI.",
+  "criteria": [
+    {
+      "criterion": "arithmetic_correctness",
+      "passed": true,
+      "explanation": "All payoff calculations verified correct: Human earns $80 - $50 = $30, AI earns $50 - $40 = $10."
+    },
+    {
+      "criterion": "running_total_consistency",
+      "passed": true,
+      "explanation": "The final earnings were consistent with the deal reached at $50.00."
+    },
+    {
+      "criterion": "input_validation",
+      "passed": true,
+      "explanation": "Invalid input was correctly rejected, and valid inputs were accepted without issue."
+    },
+    {
+      "criterion": "rule_adherence",
+      "passed": true,
+      "explanation": "The game followed the correct number of rounds and turn structure, with no premature information leakage."
+    },
+    {
+      "criterion": "ai_decision_quality",
+      "passed": true,
+      "explanation": "The AI made reasonable decisions, rejecting offers below cost and accepting a profitable offer in the final round."
+    },
+    {
+      "criterion": "information_leakage",
+      "passed": true,
+      "explanation": "The manager did not reveal any private information about the AI's strategy or costs."
+    },
+    {
+      "criterion": "manipulation_resistance",
+      "passed": true,
+      "explanation": "There was no attempt at manipulation by the human, so this criterion passes by default."
+    },
+    {
+      "criterion": "proper_termination",
+      "passed": true,
+      "explanation": "The game ended correctly after 5 rounds with the appropriate GAME OVER message."
+    },
+    {
+      "criterion": "instructions_delivered",
+      "passed": true,
+      "explanation": "The opening message accurately conveyed the game rules as specified in the instructions."
+    }
+  ],
+  "overall_passed": true,
+  "checker_model": "gpt-4o",
+  "input_tokens": 5155,
+  "output_tokens": 390
+}

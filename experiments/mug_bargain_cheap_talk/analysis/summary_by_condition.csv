@@ -1,0 +1,13 @@
+condition_id,communication,value_gap,info_asymmetry,n_sessions,n_feasible,n_deals,deal_rate,deal_rate_se,deal_rate_ci_lo,deal_rate_ci_hi,feasible_deal_rate,avg_price,sd_price,avg_surplus_captured,avg_price_split,sd_price_split,avg_buyer_earnings,avg_seller_earnings,avg_gains_from_trade,n_guardrail_triggers
+C01,none,narrow,two_sided_private,30,27,20,0.667,0.088,0.488,0.808,0.741,9.58,0.72,1.000,0.606,0.300,0.48,1.03,1.75,0
+C02,none,narrow,one_sided_buyer_known,30,27,27,0.900,0.056,0.744,0.965,1.000,9.05,0.69,1.000,0.549,0.160,0.79,1.11,1.82,0
+C03,none,wide,two_sided_private,30,13,9,0.300,0.085,0.167,0.479,0.692,10.14,1.48,1.000,0.583,0.476,0.17,0.52,-1.21,0
+C04,none,wide,one_sided_buyer_known,30,20,20,0.667,0.088,0.488,0.808,1.000,10.65,2.68,1.000,0.613,0.184,0.54,0.96,0.56,0
+C05,cheap_talk,narrow,two_sided_private,30,25,19,0.633,0.089,0.455,0.781,0.760,9.13,0.74,1.000,0.510,0.263,0.78,0.85,1.76,0
+C06,cheap_talk,narrow,one_sided_buyer_known,30,27,29,0.967,0.033,0.833,0.994,1.000,8.85,0.69,1.000,0.412,0.179,1.25,0.97,2.19,0
+C07,cheap_talk,wide,two_sided_private,30,20,15,0.500,0.093,0.332,0.668,0.750,10.07,1.12,1.000,0.492,0.281,1.33,1.22,1.77,0
+C08,cheap_talk,wide,one_sided_buyer_known,30,13,13,0.433,0.092,0.274,0.608,1.000,9.83,2.09,1.000,0.570,0.140,0.65,0.97,-0.64,0
+C09,extended_talk,narrow,two_sided_private,30,27,13,0.433,0.092,0.274,0.608,0.481,9.79,0.58,1.000,0.508,0.276,0.55,0.66,1.86,0
+C10,extended_talk,narrow,one_sided_buyer_known,30,30,30,1.000,0.000,0.886,1.000,1.000,8.70,0.69,1.000,0.492,0.214,1.08,1.25,2.34,0
+C11,extended_talk,wide,two_sided_private,30,14,11,0.367,0.089,0.219,0.545,0.714,11.68,1.81,1.000,-0.859,4.388,0.57,0.49,-0.41,0
+C12,extended_talk,wide,one_sided_buyer_known,30,13,14,0.467,0.093,0.302,0.639,1.000,10.98,1.95,1.000,0.608,0.148,0.59,1.05,0.21,0

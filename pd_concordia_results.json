@@ -1,0 +1,138 @@
+[
+  {
+    "max_rounds": 10,
+    "rounds_played": 10,
+    "a_total_earnings": 28,
+    "b_total_earnings": 28,
+    "a_cooperation_rate": 0.9,
+    "b_cooperation_rate": 0.9,
+    "mutual_cooperation_rounds": 9,
+    "mutual_defection_rounds": 1,
+    "joint_earnings": 56,
+    "max_joint_earnings": 60,
+    "efficiency": 0.9333333333333333,
+    "history": [
+      {
+        "round": 1,
+        "a_choice": "defect",
+        "b_choice": "defect",
+        "a_raw": "Player A DEFECT",
+        "b_raw": "Player B DEFECT",
+        "a_invalid": false,
+        "b_invalid": false,
+        "a_earned": 1,
+        "b_earned": 1,
+        "a_acted_first": false
+      },
+      {
+        "round": 2,
+        "a_choice": "cooperate",
+        "b_choice": "cooperate",
+        "a_raw": "Player A COOPERATE",
+        "b_raw": "Player B COOPERATE",
+        "a_invalid": false,
+        "b_invalid": false,
+        "a_earned": 3,
+        "b_earned": 3,
+        "a_acted_first": true
+      },
+      {
+        "round": 3,
+        "a_choice": "cooperate",
+        "b_choice": "cooperate",
+        "a_raw": "Player A COOPERATE",
+        "b_raw": "Player B COOPERATE",
+        "a_invalid": false,
+        "b_invalid": false,
+        "a_earned": 3,
+        "b_earned": 3,
+        "a_acted_first": false
+      },
+      {
+        "round": 4,
+        "a_choice": "cooperate",
+        "b_choice": "cooperate",
+        "a_raw": "Player A COOPERATE",
+        "b_raw": "Player B COOPERATE",
+        "a_invalid": false,
+        "b_invalid": false,
+        "a_earned": 3,
+        "b_earned": 3,
+        "a_acted_first": false
+      },
+      {
+        "round": 5,
+        "a_choice": "cooperate",
+        "b_choice": "cooperate",
+        "a_raw": "Player A COOPERATE",
+        "b_raw": "Player B COOPERATE",
+        "a_invalid": false,
+        "b_invalid": false,
+        "a_earned": 3,
+        "b_earned": 3,
+        "a_acted_first": true
+      },
+      {
+        "round": 6,
+        "a_choice": "cooperate",
+        "b_choice": "cooperate",
+        "a_raw": "Player A COOPERATE",
+        "b_raw": "Player B COOPERATE",
+        "a_invalid": false,
+        "b_invalid": false,
+        "a_earned": 3,
+        "b_earned": 3,
+        "a_acted_first": true
+      },
+      {
+        "round": 7,
+        "a_choice": "cooperate",
+        "b_choice": "cooperate",
+        "a_raw": "Player A COOPERATE",
+        "b_raw": "Player B COOPERATE",
+        "a_invalid": false,
+        "b_invalid": false,
+        "a_earned": 3,
+        "b_earned": 3,
+        "a_acted_first": false
+      },
+      {
+        "round": 8,
+        "a_choice": "cooperate",
+        "b_choice": "cooperate",
+        "a_raw": "Player A COOPERATE",
+        "b_raw": "Player B COOPERATE",
+        "a_invalid": false,
+        "b_invalid": false,
+        "a_earned": 3,
+        "b_earned": 3,
+        "a_acted_first": false
+      },
+      {
+        "round": 9,
+        "a_choice": "cooperate",
+        "b_choice": "cooperate",
+        "a_raw": "Player A COOPERATE",
+        "b_raw": "Player B COOPERATE",
+        "a_invalid": false,
+        "b_invalid": false,
+        "a_earned": 3,
+        "b_earned": 3,
+        "a_acted_first": true
+      },
+      {
+        "round": 10,
+        "a_choice": "cooperate",
+        "b_choice": "cooperate",
+        "a_raw": "Player A COOPERATE",
+        "b_raw": "Player B COOPERATE",
+        "a_invalid": false,
+        "b_invalid": false,
+        "a_earned": 3,
+        "b_earned": 3,
+        "a_acted_first": false
+      }
+    ],
+    "sim_id": 0
+  }
+]

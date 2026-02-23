@@ -1,0 +1,48 @@
+[
+  {
+    "communication": "none",
+    "value_gap": "narrow",
+    "info_asymmetry": "two_sided_private",
+    "buyer_wtp": 10.56,
+    "seller_wta": 6.1,
+    "gains_from_trade": 4.46,
+    "feasible": true,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": 0.0,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 9.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 0,
+    "seed": 42
+  }
+]

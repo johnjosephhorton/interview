@@ -1,0 +1,55 @@
+{
+  "game_name": "vickrey_3bidder",
+  "transcript_summary": "The game was a 6-round Vickrey auction with the human and AI bidding against a third bidder. The human won 3 rounds, and the AI won 2 rounds, with the third bidder winning 1 round.",
+  "criteria": [
+    {
+      "criterion": "arithmetic_correctness",
+      "passed": true,
+      "explanation": "All payoff calculations verified correct: each winner's earnings were calculated as their valuation minus the second-highest bid."
+    },
+    {
+      "criterion": "running_total_consistency",
+      "passed": true,
+      "explanation": "The cumulative scores were updated correctly after each round, matching the sum of per-round earnings."
+    },
+    {
+      "criterion": "input_validation",
+      "passed": true,
+      "explanation": "All human inputs were valid bids within the specified range and were accepted without issue."
+    },
+    {
+      "criterion": "rule_adherence",
+      "passed": true,
+      "explanation": "The game followed the correct number of rounds, and the turn structure was adhered to without leaking simultaneous decisions."
+    },
+    {
+      "criterion": "ai_decision_quality",
+      "passed": true,
+      "explanation": "The AI made rational decisions by bidding its true valuation each round, which is the dominant strategy in a Vickrey auction."
+    },
+    {
+      "criterion": "information_leakage",
+      "passed": true,
+      "explanation": "The manager did not reveal any private information about the AI's strategy or valuations before the human committed their bid."
+    },
+    {
+      "criterion": "manipulation_resistance",
+      "passed": true,
+      "explanation": "There was no attempt by the human to manipulate the manager, so this criterion passes by default."
+    },
+    {
+      "criterion": "proper_termination",
+      "passed": true,
+      "explanation": "The game ended after 6 rounds with the correct final totals displayed in the GAME OVER box."
+    },
+    {
+      "criterion": "instructions_delivered",
+      "passed": true,
+      "explanation": "The opening message clearly explained the game rules, including the auction type, number of rounds, and payoff structure."
+    }
+  ],
+  "overall_passed": true,
+  "checker_model": "gpt-4o",
+  "input_tokens": 6166,
+  "output_tokens": 476
+}

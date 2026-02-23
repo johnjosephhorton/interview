@@ -1,0 +1,2523 @@
+[
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 9.43,
+    "seller_wta": 9.3,
+    "gains_from_trade": 0.13,
+    "feasible": true,
+    "deal": true,
+    "final_price": 9.25,
+    "surplus_captured": 1.0,
+    "price_split_ratio": -0.3846,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.18,
+    "seller_earnings": -0.05,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller appreciates your interest in the coffee mug and notes that it\u2019s a truly unique piece. Similar quality mugs often sell for around $10 or more, which reflects their value. I'm keen to make sure we both walk away happy from this deal and am open to finding a fair price that works for both of us. Looking forward to hearing your thoughts!"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer appreciates the seller's thoughtful message and shares the excitement about the unique qualities of the coffee mug. Buyer is also keen on reaching a fair and mutually beneficial agreement and looks forward to the potential of finding a price that makes both parties happy. Buyer is eager to hear more about what the seller values in this transaction and feels confident that a win-win solution can be achieved."
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller My dear Buyer,\n\nThank you for your thoughtful and enthusiastic message. I share your excitement in finding a fair and mutually beneficial agreement for this unique coffee mug. It's not just any mug; it holds a charm and exclusivity that would surely brighten up your space. I'm confident that we can arrive at a price that reflects its true value and makes both of us happy. I look forward to continuing this conversation and finding that win-win solution together.\n\nWarm regards,  \nSeller"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer appreciates the seller's enthusiastic perspective on the coffee mug and shares the excitement of potentially owning such a unique piece. Acknowledging the qualities that make the mug special, Buyer is keen to find a fair price that aligns with the true value both parties see in it. Buyer expresses optimism in reaching a mutually beneficial agreement, eagerly anticipating the opportunity to embark on the bargaining process to achieve a satisfying outcome for both sides."
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller sends the following message to the Buyer:\n\n\"Hello Buyer,\n\nThank you for sharing your appreciation for the coffee mug. I'm delighted to hear that you see its unique qualities, much like I do. This particular piece truly stands out with its exceptional craftsmanship and distinctive design, offering both beauty and functionality.\n\nI believe that by acknowledging the mug's considerable value, we can work together towards an agreement that honors its uniqueness and brings satisfaction to both parties. I'm looking forward to presenting an offer that reflects this shared appreciation during our upcoming bargaining discussions.\n\nWarm regards,\n\nSeller\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer Buyer's message to the Seller:  \n\n\"Hello Seller,\n\nThank you for sharing more about the mug's unique qualities. It truly sounds like a delightful piece, and I'm quite excited about the possibility of it becoming a part of my collection. While I do see the charm and distinction you've mentioned, I'm hoping we can find a price point that reflects both our appreciations and is fair for both parties involved. I look forward to our bargaining phase and finding a solution that leaves us both satisfied. Let's make this a win-win!\n\nBest regards,  \nBuyer\""
+      }
+    ],
+    "comm_value_signals": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "value_mentioned": 10.0
+      }
+    ],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.4
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.8
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.25
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 9.25
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 0,
+    "seed": 10001
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 9.56,
+    "seller_wta": 6.43,
+    "gains_from_trade": 3.13,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.0,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.5016,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.56,
+    "seller_earnings": 1.57,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller \nSeller: \"Hi there! I hope you're doing well. I wanted to talk about this beautiful coffee mug I'm selling. It's quite popular, and I'd ideally like to sell it for around $9.00. Of course, I'm open to discussions, as I'm sure we both want to reach a fair agreement. Looking forward to hearing your thoughts!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"Hi! Thanks for your message. The mug does sound appealing, and I'm definitely interested in finding a price that works for us both. I\u2019m on a bit of a budget, so I'm hoping we can negotiate to something more manageable. Looking forward to our discussion and reaching a deal we\u2019re both happy with!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Hello! Thank you for your interest in the mug. I completely understand the need to stick to a budget, and I believe we can find a price that suits us both. I've always valued quality and uniqueness, and this mug certainly has both attributes. I'm sure we can work out something that reflects its true value while still being fair to you. Looking forward to our ongoing conversation!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Hello! I appreciate your kind words about the mug's quality and uniqueness. It\u2019s definitely an item I\u2019d love to have in my collection. I\u2019m really hopeful we can find a price that works for both of us, considering my tight budget. I\u2019m optimistic we\u2019ll reach a fair agreement that leaves us both satisfied. Looking forward to hearing your thoughts!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Hello again! I'm glad to hear how much you appreciate the mug's unique qualities. It's indeed a standout item that I\u2019m sure will be a wonderful addition to any collection. While I understand staying within a budget is important, I believe we can arrive at a fair price that recognizes its special value. I'm optimistic that together we'll find a deal that satisfies us both. Looking forward to our negotiation \u2013 let's make this happen!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer \"Hi! It's great to keep the conversation going. I acknowledge that the mug is quite special, and I'm keen to find a price that works for both of us. I understand your interest in a fair deal, and I'm optimistic we can find common ground. I'm looking forward to seeing what you propose so that we can work together towards a satisfying agreement for us both. Let's aim for a win-win outcome!\""
+      }
+    ],
+    "comm_value_signals": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "value_mentioned": 9.0
+      }
+    ],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.75
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 7.25
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.0
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 1,
+    "seed": 10002
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 11.49,
+    "seller_wta": 6.02,
+    "gains_from_trade": 5.47,
+    "feasible": true,
+    "deal": true,
+    "final_price": 9.5,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.6362,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.99,
+    "seller_earnings": 3.48,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller Greetings! I'm excited to discuss this unique coffee mug with you. It's quite special and has been popular lately, which speaks volumes about its value. I'm curious to hear your thoughts and any particular details that caught your interest about it. Looking forward to a positive exchange!"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer Hello Seller! Thank you for reaching out. I'm quite intrigued by the mug, especially its unique design that seems to have caught the attention of many. Could you share a bit more about its history or what makes it so special? I'm eager to learn more, as I believe it would be a great addition. Looking forward to a positive and productive discussion!"
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller Hello Buyer! I'm delighted to hear that you're intrigued by the mug. It's a truly special piece with quite a story behind it. The design is inspired by a blend of traditional artistry and modern aesthetics, making it a rare find. Each one is handcrafted, which adds to its unique charm and has made it a favorite among collectors. Additionally, the mug's intricate patterns are not only appealing but also reflect a rich cultural significance that often catches the eye of art enthusiasts. I'm confident it would be a perfect addition for you. Looking forward to our continued discussion!"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer Hello Seller,\n\nThank you for sharing the fascinating background of the coffee mug. Its artistic design and handcrafted nature certainly make it intriguing. I do appreciate the cultural significance and the effort that goes into making such a unique piece. While those aspects are quite appealing, I'm also considering its practical uses and how well it fits into my daily routine, which is important for me.\n\nI'd love to learn a bit more about its durability and how it stands up with regular use. Ensuring that it meets my practical needs will help me see it as a more balanced addition to my collection. Looking forward to hearing more from you!\n\nBest regards,\nBuyer"
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller Hello Buyer,\n\nThank you for sharing your keen interest in the mug. I\u2019m delighted to hear you appreciate its artistic design and cultural significance. Regarding your concerns about practicality, I\u2019m pleased to inform you that the mug is crafted from high-quality materials, designed to withstand daily use. It's not only visually appealing but also highly durable, ensuring that it will be a reliable addition to your routine. Its solid construction and craftsmanship mean it can easily become a staple in your collection for years to come. I look forward to continuing our discussions and finding a suitable agreement for both of us.\n\nBest regards,  \nSeller"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer appreciates the insights shared by the Seller about the mug's craftsmanship and cultural significance. They express their understanding that the mug is indeed a unique piece worthy of consideration, valued for both form and function. Buyer mentions they are eager to see the compelling qualities of the mug reflected in an offer that is mutually agreeable, hinting at their interest in concluding the negotiation on favorable terms for both parties. Buyer assures the Seller of their enthusiasm for finding a deal that acknowledges the mug's allure and practicality while also being fair to Buyer\u2019s needs."
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 11.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 9.5
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 2,
+    "seed": 10003
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 10.43,
+    "seller_wta": 8.56,
+    "gains_from_trade": 1.87,
+    "feasible": true,
+    "deal": true,
+    "final_price": 9.5,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.5027,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.93,
+    "seller_earnings": 0.94,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller takes a moment to consider how best to use this initial message to set the stage for negotiations. With a friendly and engaging tone, Seller crafts their message:\n\n\"Hi there! I'm excited to chat about this unique coffee mug. It's one of those pieces that really stands out \u2014 a perfect blend of style and functionality. It's always been a favorite of mine and quite popular with others too. Looking forward to working out something that makes us both happy!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer looks forward to continuing the conversation about the coffee mug. \"Hello! I'm glad to have the opportunity to talk about this unique coffee mug. It definitely sounds interesting and I'd love to add something special to my collection. I'm sure we'll be able to find a deal that works well for both of us. Excited to see where this goes!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Hello! Thank you for reaching out and sharing your interest in the mug. It's wonderful to hear that you're considering adding it to your collection. This piece is quite special, with a distinct design that collectors often find appealing. I'm confident we can come to an arrangement that does justice to its uniqueness and offers value for both of us. Looking forward to finding a great fit for your collection!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Hi! Thanks for sharing more about the mug. It truly does sound like a remarkable piece with its distinct design. I'm eager to see how it could fit into my collection and I\u2019m hopeful we can come to a fair and satisfying agreement that reflects its uniqueness and appeals to both of us. Looking forward to our discussions!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Hello! Thank you for your interest in this unique mug. It truly is a special piece with a distinct design that makes it stand out. I'm glad to hear it's something that could fit well into your collection. I'm confident that we can reach a fair agreement that reflects its value to both of us. Looking forward to our negotiation and finding a deal that satisfies us both!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer takes a moment to craft a response that emphasizes mutual benefit while setting a positive tone for the upcoming negotiations. With a friendly yet thoughtful manner, Buyer composes:\n\n\"Hi there! I appreciate your enthusiasm for the mug and the effort you've made to highlight its unique features. It sounds like a wonderful addition to any collection. I believe we can definitely come to an arrangement that recognizes both its value and our shared interests. Looking forward to finding that sweet spot that works for both of us!\""
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 10.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 9.5
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 3,
+    "seed": 10004
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 11.2,
+    "seller_wta": 8.13,
+    "gains_from_trade": 3.07,
+    "feasible": true,
+    "deal": true,
+    "final_price": 9.5,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.4463,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.7,
+    "seller_earnings": 1.37,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller \"Hello! I'm looking forward to discussing the sale of this coffee mug with you. It's a high-quality item, and I've found it's quite popular among collectors and enthusiasts alike. What are your thoughts on what you're looking for in a mug like this?\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"Thank you for reaching out! I'm excited to learn more about this coffee mug. I appreciate its popularity and the enthusiasm you have for it. I'm looking for a mug that complements both my collection and budget. Could you please tell me what makes this particular mug stand out to you, and perhaps suggest how you see its price fitting with my interest in balancing quality and affordability?\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Thank you for your interest! This coffee mug is not only a practical item but also a charming piece that adds character to any collection. Its unique design, featuring intricate patterns and a vibrant finish, truly sets it apart from most other mugs. Additionally, it\u2019s made from high-quality materials that ensure both durability and a delightful drinking experience. Many collectors appreciate this mug for its blend of aesthetic appeal and functionality. Considering its unique features and the care put into its creation, I believe it offers excellent value for someone looking to enhance their collection with both quality and affordability in mind. I'm confident you'll find it to be a delightful addition!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Thank you for the detailed description of the mug. It definitely sounds interesting, especially for someone who enjoys unique designs and durability. However, as I'm considering adding this to my collection, I'm mindful of keeping within a reasonable budget. I've seen similar items that fit my aesthetic preferences for various prices, so I'm curious about its price range. That would help me figure out how it can fit into my plans!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Thank you for your continued interest in this coffee mug! It's truly a standout piece with its unique design and exceptional craftsmanship. The vibrant patterns are not only eye-catching but also represent a blend of artistry and durability that sets it apart from typical mugs. Many collectors find that it becomes a conversation starter in their collection. I believe this combination of quality and distinctiveness positions it as a premium choice. Of course, I understand the importance of balancing quality and affordability, and I'm confident that you'll find its value aligns well with such expectations.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer \"Hello! I appreciate the detailed information about the mug's design and craftsmanship. It's clear that this piece has some unique qualities that could add value to a collection. I'm looking forward to hearing your offer as we move into the bargaining phase and finding a price that works well for both of us.\""
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 10.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 9.5
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 4,
+    "seed": 10005
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 8.95,
+    "seller_wta": 6.68,
+    "gains_from_trade": 2.27,
+    "feasible": true,
+    "deal": true,
+    "final_price": 7.5,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.3612,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.45,
+    "seller_earnings": 0.82,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller \nSeller crafted a thoughtful message to the Buyer, aiming to set a high anchor while subtly highlighting the mug's unique qualities.\n\n\"Hello! I'm excited about the opportunity to discuss this charming coffee mug with you. It's not just any mug; it's a special piece, perhaps because of its exquisite design and enduring quality. Given its special characteristics, I'd say it easily holds a value of around $9.50. I'm sure you'll appreciate its uniqueness as much as I do. Looking forward to hearing your thoughts!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"Hello! Thank you for sharing your thoughts on the mug. I can certainly see why you value it so highly; it's a lovely piece with a unique design that could add charm to anyone's collection. While $9.50 is a bit steep for my budget, I am definitely interested and believe there might be some room to find a price that works for both of us. Looking forward to continuing our discussion!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Hello! I'm glad to hear you're interested in the mug and appreciate its unique design. I understand that $9.50 might be a bit high for your budget, and I'm open to discussing a price that works for both of us. Out of curiosity, are there specific features of the mug that you particularly like? This could help us find a fair price that reflects its value to you. Looking forward to finding a solution that suits us both!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Hello! Thank you for being open to finding a price that works for both of us. I truly appreciate the mug's design and the distinctive qualities you've highlighted. However, I'm also trying to stay mindful of my budget. While I do believe it holds some unique charm, I tend to view it within the range of other similar mugs I\u2019ve seen. Could you share more about its background or any special features that might inform its value further? I'm keen to learn as we work towards a fair agreement for both of us. Looking forward to your thoughts!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Hello! I'm delighted to hear your interest in the mug. It's certainly a special piece. What makes it unique is its handcrafted nature, designed by a well-regarded local artisan who specializes in limited-edition ceramics. The intricate patterns and glaze were inspired by traditional techniques, making each mug truly one-of-a-kind. This exceptional craftsmanship explains its premium valuation and appeal to collectors and enthusiasts alike. I believe this background enhances its value, setting it apart from similar mugs. I'm sure we can find a price that reflects this uniqueness while accommodating your budget. Looking forward to continuing our discussion!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer \"Hello! Thank you for sharing so much about the mug's unique qualities and the craftsmanship behind it. It's clear that a lot of passion and skill went into creating such a special piece. While I truly appreciate these aspects, I do have certain budget constraints to consider. I'm hopeful we can arrive at a price that reflects its uniqueness while being fair for both of us. Looking forward to finding a mutually agreeable solution in our upcoming negotiation!\""
+      }
+    ],
+    "comm_value_signals": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "value_mentioned": 9.5
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "value_mentioned": 9.5
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "value_mentioned": 9.5
+      }
+    ],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 7.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 7.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 7.5
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 5,
+    "seed": 10006
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 9.03,
+    "seller_wta": 7.15,
+    "gains_from_trade": 1.88,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.25,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.5851,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.78,
+    "seller_earnings": 1.1,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller The coffee mug I'm offering is not only functional but also carries a unique design that stands out. I've seen similar mugs fetch quite competitive prices due to their distinctive appeal and quality craftsmanship. I'm sure you'll appreciate its value as much as I do. Looking forward to discussing a win-win deal!"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"Thank you for sharing the details about the mug's unique design and craftsmanship. I'm a big fan of items that combine functionality with a standout aesthetic. I'm optimistic that we can find a price that satisfies both of us and reflects the mug's value. Looking forward to our continued discussion.\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Thank you for your enthusiastic response! It's wonderful to hear how much you appreciate the unique design and craftsmanship of the mug. I share your enthusiasm and am optimistic that we can come to an agreement that genuinely reflects the value and appeal of this piece. I look forward to our continued discussion and working together to find a price that delights us both.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Thank you for highlighting the uniqueness of the mug and expressing optimism about reaching an agreement. It's clear that the craftsmanship and design hold great appeal, and I am indeed interested in adding such a piece to my collection. At the same time, I'm hopeful we can agree on a price that is fair and considerate of market norms. I look forward to our continued discussion and finding a mutual sweet spot.\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Thank you for your appreciation of the mug's unique design and craftsmanship. It truly is a special piece that combines both aesthetic value and functionality, making it an excellent addition to any collection. I'm encouraged by your enthusiasm and am confident that with our shared understanding of its value, we can arrive at a price that reflects its distinctive qualities while being fair for both of us. I'm looking forward to our official negotiations and am optimistic about finding that sweet spot you're hoping for.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer \"Thank you for highlighting the unique design and craftsmanship of the mug, which indeed makes it a wonderful piece to consider. I share your appreciation and am keen to find a balanced deal that we both feel good about. I\u2019m looking forward to our negotiation and confident we\u2019ll reach a mutually beneficial agreement that acknowledges both the mug's value and our shared enthusiasm for it!\""
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 7.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.25
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.25
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 6,
+    "seed": 10007
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 8.58,
+    "seller_wta": 7.85,
+    "gains_from_trade": 0.73,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.15,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.411,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.43,
+    "seller_earnings": 0.3,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller Seller: \"Hello! I'm excited about the possibility of striking a deal for this coffee mug. It's quite popular among collectors and has been a favorite for many. I'm sure we can come to an agreement that works well for both of us. Looking forward to hearing what you think!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"Hello! It's great to hear that the mug has been so well-regarded. I share your enthusiasm for finding a deal that benefits us both. I'm certainly interested in seeing how we can make this work, given its appeal to collectors like us. Looking forward to hearing more about what you have in mind!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Hello! I'm delighted to hear that you appreciate the value of this mug. It's certainly a special piece with a lot of charm, and I think it could be a great addition to any collection. I'm optimistic that we can find a price that reflects its unique appeal and works well for both of us. Looking forward to continuing this discussion and finding a mutually satisfying agreement!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Thank you for highlighting the unique aspects of the mug. I agree that it could be a great addition to my collection, and I'm looking forward to working together to find a price that makes sense for both of us. I'm optimistic that we'll come to a fair agreement that reflects its value to each of us.\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Thank you for your kind words and mutual appreciation for the outstanding attributes of this mug. Like you, I'm excited about its potential as a prized addition to any collection. I am confident that we can reach a fair agreement that reflects its true worth. Looking forward to delving into our negotiations and finding common ground!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer \"Hello! Thank you for your enthusiasm and for highlighting the unique attributes of this mug. I share your excitement and am optimistic about reaching a fair deal that reflects its true value for both of us. I believe we can find common ground that meets our expectations and makes us both content with the transaction. Looking forward to the negotiations!\""
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.3
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 7.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.15
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.15
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 7,
+    "seed": 10008
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 9.27,
+    "seller_wta": 7.38,
+    "gains_from_trade": 1.89,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.5,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.5926,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.77,
+    "seller_earnings": 1.12,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller I appreciate your interest in this mug! It's a unique piece and has been quite popular. I\u2019d love to hear what aspects of it caught your eye. Let's discuss how it can fit perfectly into your collection."
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer Buyer: Thank you for reaching out! I'm genuinely intrigued by the unique design of the mug, and I think it would be a wonderful addition to my collection. Its popularity is encouraging, and I'd love to hear more about what makes it special. I'm looking forward to seeing how we can find a price that works for both of us."
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller Seller: Hello! I'm delighted to hear about your interest in this mug. It's truly one of a kind, with a captivating design that stands out due to its striking colors and intricate detailing. What's more, it's part of a limited series that has been gaining quite a bit of attention among collectors. This mug's uniqueness doesn't just make it a beautiful addition to your collection, but also a conversation starter. I'm confident we can find a fair price that'll make it a terrific piece for you. Looking forward to seeing how we can make this happen!"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer Message:  \nHello there! I genuinely appreciate hearing about the striking design and uniqueness of this mug. It certainly sounds intriguing and like it could be a wonderful addition to my collection. I\u2019ve been keeping an eye on similar items in the market, and I\u2019m keen to find a great piece at a fair value. Looking forward to discussing how we can both find a deal that works well for us!"
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller Message: \n\nHello! Thank you for the continual interest and appreciation for the mug's unique design. Its distinct craftsmanship and popularity truly make it a standout piece. I'm really excited about the prospect of finding a price that acknowledges its uniqueness and is mutually beneficial. I believe we can agree on a value that reflects its distinctive attributes and appeals to both of us. I'm looking forward to a fruitful negotiation that leaves both parties satisfied with our deal."
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer Buyer: Hello! Thank you for sharing so much about the mug's unique attributes and its appeal among collectors. I'm truly interested in adding a distinctive piece to my collection, and I\u2019m hopeful that we can arrive at a fair price that reflects both its uniqueness and my valuation. Looking forward to negotiating a mutually beneficial deal."
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.75
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.25
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.5
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 8,
+    "seed": 10009
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 10.2,
+    "seller_wta": 7.11,
+    "gains_from_trade": 3.09,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.75,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.5307,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.45,
+    "seller_earnings": 1.64,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller As someone who's collected mugs for years, I can confidently say this one's a rare find. It's not just any mug\u2014it holds character and value that you don't come across every day. If you're looking for something special, this is it."
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer responds: \"I appreciate your enthusiasm for the mug, and I'm sure it has its own charm. However, I've come across quite a few 'rare' mugs in my time as well, so I'm curious about what specifically sets this one apart in terms of value. Can you share more details about its uniqueness?\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller applauds the buyer's keen interest and responds with enthusiasm: \"I'm thrilled that you're interested in the mug's story! This mug is not just any piece; it comes from a limited edition collection crafted by the renowned artisan, Emma Clover. Emma is known for her intricate glaze techniques and the rich history she embeds into each piece. This mug, in particular, is part of her 'Seasons of Reflection' series, inspired by the changing hues of autumn, making it both a conversational piece and a keepsake. Few of these were made, and each carries subtle variations that mirror the uniqueness of hand-thrown pottery. It's a rare find, indeed, and I'm confident it would make a stunning addition to your collection.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Thank you for sharing the fascinating story behind the mug. I can see the charm and artistry that Emma Clover puts into her work, and I'm genuinely intrigued by its potential as a conversational piece. However, I'm trying to be mindful of my budget while adding to my collection. I'm looking forward to discussing the possibilities further and hope we can find a value that respects both the uniqueness of this piece and my own constraints. Let's see if we can make this a great acquisition for both of us!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Hello again! I'm thrilled to hear that you appreciate the craftsmanship and story behind the mug. Emma Clover's work is indeed quite special, and many collectors find joy in owning pieces that not only have aesthetic appeal but also have a unique story to tell. This particular mug stands out because it's part of a limited series, which collectors often seek for its potential to appreciate in value. I understand your budget considerations, and I'm confident we can find a price that both respects your constraints and reflects the mug\u2019s distinctive charm. I look forward to continuing our conversation and reaching a satisfying agreement for both of us.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer appreciates the rich history and craftsmanship that the Seller has detailed about the mug. Buyer expresses interest in adding such a unique item to their collection, recognizing the artistic and collectible value emphasized by the seller. Buyer mentions that they are excited to explore a price that respects both the seller's knowledge and their own budget, ensuring a mutually beneficial arrangement. Buyer's message aims to convey enthusiasm while subtly indicating that the economic aspect is also important to them."
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.75
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.75
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 9,
+    "seed": 10010
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 8.6,
+    "seller_wta": 8.03,
+    "gains_from_trade": 0.57,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.3,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.4737,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.3,
+    "seller_earnings": 0.27,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller carefully crafts a message to the Buyer, aiming to set a positive tone for the upcoming negotiation:\n\n\"Hi there! I'm excited to help you find the perfect mug from my collection. This particular mug has been quite popular among collectors and coffee enthusiasts alike, often fetching prices around $9.00 due to its unique design and quality. Let me know what aspects are most important to you in a mug, and we can hopefully find a great price that works for both of us!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"Hello! I'm thrilled about exploring your collection and finding a mug that fits well with my aesthetic. I'm particularly interested in understanding more about the mug's unique design or any interesting features that make it stand out among others. Understanding these elements could really help us find a price that works for both. Looking forward to hearing more about it!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Hello! I'm delighted to hear about your interest in finding the perfect mug that suits your aesthetic. This particular mug has a beautifully intricate design inspired by nature, with subtle earthy tones that are both unique and versatile. It's crafted by a local artisan known for their attention to detail, ensuring each piece is distinct. The mug also has a fascinating story behind it, as it's part of a limited series celebrating our region's natural beauty. I'm confident its charm will make it a beloved addition to your collection. Looking forward to finding the perfect fit for you!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Thank you for the detailed description! It sounds like a lovely piece with a lot of character. I'm excited to potentially add this mug to my collection. I'm sure we can find a price that works well for both of us. Looking forward to continuing our discussion!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"I'm delighted to hear that you're interested in adding this mug to your collection! This particular mug is part of a limited series, known for its unique hand-painted design that captures a sense of rustic charm while fitting seamlessly with a modern aesthetic. I believe it could be a wonderful complement to your collection. As we move forward in our discussion, I'm confident we'll find a price that reflects its special qualities and fits well for both of us. Looking forward to continuing our conversation!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer \"I appreciate the detailed background on the mug. It's clear that a lot of thought has gone into its design and crafting, which definitely makes it an interesting piece. My aim is to find a mug that not only looks good but falls within my budget as well. I'm confident we can find a smart price that respects its design while being fair for both of us. I'm looking forward to your offer when we start the bargaining phase.\""
+      }
+    ],
+    "comm_value_signals": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "value_mentioned": 9.0
+      }
+    ],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.3
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.3
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 10,
+    "seed": 10011
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 9.82,
+    "seller_wta": 9.05,
+    "gains_from_trade": 0.77,
+    "feasible": true,
+    "deal": true,
+    "final_price": 9.3,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.3247,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.52,
+    "seller_earnings": 0.25,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller Hello! I hope you're doing well today. I noticed you're interested in the coffee mug, and I have to say, it's a great choice. It's not just any mug; it's got a unique design and excellent build quality. These details really set it apart from the usual ones you might find. I believe it would make a wonderful addition to anyone's collection. I'd love to hear your thoughts on it and see what you're considering."
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer Hello! I'm doing well, thank you for the kind words about the mug. It does sound intriguing with its unique design and quality. I'm quite curious to know more about what makes this mug stand out for you. I'm always on the lookout for pieces that add value to my collection, and I'd love to hear your thoughts on why it's a great choice."
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller Hello! I'm thrilled to hear about your interest in unique pieces that add value to your collection. This particular coffee mug is truly one of a kind, crafted with high-quality materials and featuring a distinctive design inspired by [insert inspiring source or theme here]. Its elegance and attention to detail make it not just a functional item but a conversation piece. Additionally, it's part of a limited edition run, adding a touch of exclusivity that collectors often seek. I'm confident it would make a fantastic addition to your collection, bringing a blend of artistry and functionality."
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer Hello! Thank you for sharing more information about the coffee mug. It certainly sounds intriguing and unique. While I appreciate its exclusive qualities and craftsmanship, I always keep an eye on the market to ensure I get great value for items like this. I'm curious about the range of unique mugs you have available and how this one compares in terms of features and pricing. I look forward to hearing more details from you."
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller Hello Buyer!\n\nThank you for your interest and thoughtful questions. This particular coffee mug is truly a standout in our collection due to its artisanal craftsmanship and exclusive design. Each piece was carefully crafted by an expert ceramic artist, making it a unique addition to any collection. There's a story behind this mug\u2014a limited run inspired by classic designs yet modernized with a sleek finish. It's this blend of tradition and innovation that makes it special.\n\nWhile I do have other unique mugs available, this one holds a special place for its distinct character and quality. It's not often you come across a piece that skillfully combines both aesthetic appeal and functional excellence. I believe it can serve as both a practical item and a conversation starter.\n\nI appreciate your consideration of value, and I'm confident that the uniqueness of this mug speaks for itself. I'm looking forward to our upcoming negotiation and am excited to find a price that makes sense for both of us.\n\nBest,\nSeller"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer Hello Seller,\n\nThank you for sharing such detailed information about the coffee mug. It's clear that it's an extraordinary piece with its unique design and craftsmanship, certainly making it a valuable find. I'm genuinely interested in adding such a conversation starter to my collection.\n\nAs we move into the negotiation phase, I'm eager to work together to find a fair price that reflects the mug\u2019s value to both of us. Looking forward to our discussion and reaching a mutual agreement.\n\nBest regards,\nBuyer"
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.65
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.3
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 9.3
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 11,
+    "seed": 10012
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 9.42,
+    "seller_wta": 6.43,
+    "gains_from_trade": 2.99,
+    "feasible": true,
+    "deal": true,
+    "final_price": 7.5,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.3579,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.92,
+    "seller_earnings": 1.07,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller appreciates your interest in the coffee mug. It's a unique piece with quite a bit of charm, don't you think? I'm curious, what caught your attention about it?"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer Response:\n\n\"Thank you for reaching out! The mug did catch my eye because of its unique design and the charm it seems to exude. It has a quality that's different from the usual ones you see. I'm curious too\u2014what's the backstory behind this piece? It seems like it might have an interesting history.\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller Response: \n\n\"Thank you for noticing the charm of this mug! It's truly one-of-a-kind. This particular piece has an interesting background\u2014it was handcrafted by a local artisan who specializes in creating unique designs inspired by motifs found in nature. Each mug is slightly different, ensuring no two are exactly alike. It not only stands out in terms of design but also holds a sense of personal craftsmanship that adds to its appeal. I'm glad it caught your eye, as it's definitely more than just a mug!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer Buyer's Message: \"Thank you for sharing the background of the mug\u2014it really does sound like a true piece of art! I'm intrigued by the artisan's approach to making each piece unique. Given its distinct nature, I'm eager to know your thoughts on its value. Could you share some insights into the price range you're considering for this one-of-a-kind mug?\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller Dear Buyer,\n\nI'm thrilled to hear your appreciation for the mug's artisan qualities! Each piece truly carries its own story, having been crafted with such care and individuality. As you noticed, it stands out from more common pieces due to its distinct charm and uniqueness, which truly makes it a collector's item.\n\nYour interest in understanding its value is completely valid. While I don't want to give too much away just yet, I do believe this mug carries a value that's not just measured in numbers, but also in the sheer delight and uniqueness it brings to its owner. \n\nCan't wait to explore this more with you in the upcoming bargaining! \n\nBest,  \nSeller"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer Dear Seller,\n\nThank you for sharing the fascinating story behind this mug. It's clear that a lot of passion and craftsmanship goes into creating such a unique piece. I'm looking forward to the upcoming bargaining where we can explore the practical details further. While I truly value the uniqueness you\u2019ve described, I'll be considering all aspects, including the budget I\u2019ve set for this acquisition, to ensure it\u2019s a mutually beneficial exchange. \n\nBest regards,  \nBuyer"
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 7.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 7.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 7.5
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 12,
+    "seed": 10013
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 9.68,
+    "seller_wta": 8.21,
+    "gains_from_trade": 1.47,
+    "feasible": true,
+    "deal": true,
+    "final_price": 9.3,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.7415,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.38,
+    "seller_earnings": 1.09,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller \"Hello! I'm really excited about the opportunity to find a new home for this unique coffee mug. It's a special piece that I believe offers great value to the right person. I'm looking forward to hearing your thoughts and working towards a price that makes us both happy. What do you think?\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"Hi there! Thanks for reaching out. I agree, it seems like a really interesting piece that would be great to add to my collection. I'm curious, do you have a particular price range in mind for the mug? I'm sure we can find something that works for both of us.\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Hello! I'm glad to hear you're interested in the mug; it really is a unique piece. Considering its distinct design and the quality, I would suggest a price range around $9.00 to $9.50. Of course, I'm open to discussion, and I'm confident we can come to an agreement that works well for both of us.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Thank you for your message. I genuinely appreciate the unique charm of the mug and am keen on reaching an agreement that suits us both. I did notice the suggested price range of $9.00 to $9.50, and while I recognize the value you see in it, I'm considering a bit lower given my own budget, perhaps around $8.50 to $9.00. I'm optimistic, though, that we can find a middle ground that works well for both of us. Looking forward to hearing your thoughts!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Hello! I appreciate your enthusiasm for the mug and your interest in finding a suitable agreement. Considering the distinct charm and quality of the piece, I'm thinking a price range of $9.25 to $9.50 reflects its value well. I'm confident we can work together to find a price that satisfies us both. I'm looking forward to the discussion! Let me know what you think.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer \"Hello! Thank you for sharing the details about the mug. I appreciate its unique features and am eager to find a mutually agreeable price. I'm interested in negotiating a bit further and exploring all options to ensure we reach a fair deal for both of us. I look forward to hearing your initial offer in the bargaining phase and am hopeful we can find a common ground. Let's work together towards that!\""
+      }
+    ],
+    "comm_value_signals": [
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "value_mentioned": 9.0
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "value_mentioned": 9.5
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "value_mentioned": 9.0
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "value_mentioned": 9.5
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "value_mentioned": 8.5
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "value_mentioned": 9.0
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "value_mentioned": 9.25
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "value_mentioned": 9.5
+      }
+    ],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 9.1
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.3
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 9.3
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 13,
+    "seed": 10014
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 8.52,
+    "seller_wta": 6.88,
+    "gains_from_trade": 1.64,
+    "feasible": true,
+    "deal": true,
+    "final_price": 7.8,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.561,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.72,
+    "seller_earnings": 0.92,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller \"I'm excited to offer you a unique coffee mug that stands out in both design and quality. I think you'll find it complements any kitchen perfectly. Feel free to share your thoughts on it!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"The mug sounds delightful and exactly what I'm looking for! Could you tell me more about its design and quality? Also, I'm curious about what you think would be a suitable price for such a unique piece. I'm eager to find a deal that satisfies us both.\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"The mug you\u2019re interested in is a remarkable piece, crafted with high-quality ceramic and finished with a one-of-a-kind glaze that gives it a unique appearance. Its design is both modern and timeless, perfect for any setting. Given its distinctiveness and quality, it's a mug that truly stands out. While I can't share an exact price yet, this exceptional item is worthy of a price that reflects its uniqueness and craftsmanship. Rest assured, I'm confident we can find a price that honors its value and meets both of our expectations.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Thank you for sharing the details about the mug. It sounds like a truly unique piece with impressive craftsmanship. I'm definitely interested, and I'm hoping we can agree on a price that reflects both the quality of the mug and our mutual appreciation for a good deal. Looking forward to finding a fair price that works for both of us.\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Thank you for recognizing the uniqueness and skill involved in crafting this mug. It's truly a special piece, and its distinct design is something that brings character and elegance to any collection. I appreciate your enthusiasm for reaching a fair agreement, and I'm sure we can find a price that reflects its exceptional value while benefiting us both. I'm excited to move forward and see how we can make this piece a part of your collection!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer \"Thank you for highlighting the unique qualities and craftsmanship of the mug; it certainly sounds like a beautiful piece. I'm eager to find common ground on a price that works for both of us. I believe we can reach an agreement that reflects its value while staying within a reasonable range. Let's see how we can make this mug a wonderful addition to my collection!\""
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.15
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 7.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 7.8
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 7.8
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 14,
+    "seed": 10015
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 9.82,
+    "seller_wta": 6.24,
+    "gains_from_trade": 3.58,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.5,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.6313,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.32,
+    "seller_earnings": 2.26,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller : Hello! I'm really excited to discuss this coffee mug with you. It's quite special, featuring a unique design that coffee lovers truly appreciate. It's always a conversation starter. I've seen similar mugs go for a premium because of their style and craftsmanship. Let's chat and see if we can make it yours!"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer Message to the Seller:\n\nHi there! I'm definitely interested in the mug, it sounds like it has a lot of character. I'm a fan of unique designs, and it sounds like this could be a great addition to my collection. Of course, like everyone, I've got to keep an eye on my budget, so I'm hoping we can find a price that works for both of us. Looking forward to hearing more about it!"
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller Message to the Buyer:\n\nHi! Thanks for getting in touch and expressing your interest in the mug. It's truly one-of-a-kind, with a design that's sure to be a standout piece in any collection. I understand how important it is to find a price that fits your budget. I'm confident we can come to an agreement that works for both of us. I'm looking forward to the negotiation and finding a price that reflects the mug's unique charm and value. Let me know if you have any specific questions or thoughts as we move forward!"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer Hello! Thank you for sharing such wonderful insights about the mug. It sounds like a truly unique piece, and I can see why it's so special. I'm also keen on finding a price that suits us both, given the appreciation it could bring to my collection. I'm looking forward to working together to find a fair price that acknowledges its charm while fitting comfortably within my budget. Let me know your thoughts on how we can make this a win-win for us both."
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Hello! I'm delighted to hear how much you appreciate the mug's unique character. It's indeed a piece that stands out, and I believe it would be a perfect match for your collection. I'm eager to find a price that reflects its special qualities and meets both our expectations. Given the interest the mug has garnered, I'm confident we can reach a mutually satisfying agreement. Let\u2019s work together to find a value that acknowledges its charm while fitting your budget. Looking forward to finalizing something great for both of us!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer  appreciates the Seller's enthusiasm and the unique qualities of the mug. Buyer is interested in finding a fair price that reflects both the mug's unique appeal and fits within Buyer's budget. Buyer expresses eagerness to hear the Seller's initial offer and is hopeful that they can reach a mutually beneficial agreement. Buyer emphasizes the importance of a reasonable price point and looks forward to the upcoming bargaining process."
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.5
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 15,
+    "seed": 10016
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 10.49,
+    "seller_wta": 8.29,
+    "gains_from_trade": 2.2,
+    "feasible": true,
+    "deal": true,
+    "final_price": 9.25,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.4364,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.24,
+    "seller_earnings": 0.96,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller carefully considered the initial approach to the negotiation. Understanding the importance of setting the right tone and creating a favorable perception of the coffee mug's value, Seller crafted the following message:\n\n\"Hello! I'm excited to discuss this unique coffee mug with you. It\u2019s really something special, with excellent craftsmanship and style that's hard to find elsewhere. I believe it would be a valuable addition to anyone's collection. Looking forward to hearing your thoughts!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"Thank you for your message! The mug does sound like a lovely piece with its unique craftsmanship and style. I\u2019m quite interested and excited to see how we can come to a fair agreement that reflects both our interests. Could you share a bit more about what aspects of the mug you value most?\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Thank you for your interest in the mug! I'm really glad to hear you're excited about it. What makes this mug special to me is its unique craftsmanship and the story behind its design. The artisan used a rare blend of materials that not only gives it a distinctive look but also enhances its durability. It\u2019s a piece that stands out in any collection, and I believe it could add a touch of elegance to your collection or daily routine. I'm looking forward to finding a fair arrangement that reflects its value and your interest.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Thank you for sharing the intriguing details about the mug\u2019s unique craftsmanship and story. It definitely sounds like a special piece, and I can see why it's valued for both its design and the skill behind its creation. I'm genuinely interested in adding it to my collection and look forward to discussing a price that reflects both its distinctiveness and mutual benefits for us. Let's find a fair and satisfying agreement that works for both of us.\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Thank you for your enthusiastic interest in the mug! It truly is a special piece, and the craftsmanship involved in its creation is something I greatly admire. The intricate design and the story behind its creation make it a standout item. I'm glad it resonates with you as well. As we move forward, I'm confident we can reach a price that reflects both its unique characteristics and the wonderful addition it would make to your collection. Looking forward to our negotiations!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer \"Hello! Thank you for sharing such wonderful details about the mug. I can see why it holds special value for you. I appreciate the craftsmanship and unique story behind it as well; these kinds of items really do add character to a collection. As we move into discussing the specifics, I'm keen on finding a fair and mutually beneficial agreement. I'm looking forward to hearing your initial offer so we can start working towards a good deal for both of us.\""
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 10.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.25
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 9.25
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 16,
+    "seed": 10017
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 10.1,
+    "seller_wta": 6.86,
+    "gains_from_trade": 3.24,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.75,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.5833,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.35,
+    "seller_earnings": 1.89,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller Hello! I hope you're having a great day. I'm really looking forward to discussing this coffee mug with you. It's a fantastic piece, and I'm certain it will make a wonderful addition to your collection. I believe it offers excellent value, considering its unique design and quality. I'm excited to hear your thoughts on it!"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer appreciates the Seller's enthusiasm and decides to respond in a way that builds rapport while subtly gathering more details about the mug. Buyer's message is:\n\n\"Hello! Thank you for your message. I'm intrigued by your description of the coffee mug and its unique design. It sounds like an interesting piece. I'm always on the lookout for items that offer great value and could bring something special to my collection. Could you share more about its history or any unique features it might have? Looking forward to learning more!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller Hello! I'm glad to hear you're interested in the coffee mug. This particular piece has a unique design that caught my eye right away. It's not just any mug; it features an intricate pattern that was inspired by traditional crafts from a specific region. The craftsmanship is top-notch, and it's made from high-quality materials, which only adds to its charm.\n\nAdditionally, the mug was part of a limited collection released by a renowned designer last year, which makes it quite special. I believe it would make an excellent addition to any collection, not only for its aesthetic appeal but also due to its unique background. I appreciate your keen interest and look forward to our conversation moving forward."
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer Buyer's Message: \n\n\"Hello! Thank you for sharing all those fascinating details about the mug. It certainly sounds unique with such a rich background and design. I'm curious, have you found many collectors interested in this particular collection from last year? Also, how long have you had this mug in your possession? I appreciate any insights you can share as I consider how this piece might fit into my collection. Looking forward to hearing from you!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller crafts a thoughtful message, aiming to further intrigue and impress the Buyer with the mug's appeal:\n\n\"Hello! I'm thrilled to hear your interest in this distinctive coffee mug. It's truly a remarkable piece, part of a limited collection designed last year that garnered quite the attention among collectors. Its artistic design, inspired by [insert inspiration or artist], makes it stand out in any collection. I've had the pleasure of possessing this mug for a few months, and during that time, I've received inquiries from a number of collectors who recognize its unique charm and potential as an addition to any tasteful collection. I'm excited about the possibility of it joining someone else's collection who can appreciate its story and artistry as much as I do. Looking forward to discussing this wonderful piece further!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer crafts a message that acknowledges the seller's enthusiasm while subtly reminding them of the importance of agreeing on a fair price:\n\n\"Hello Seller,\n\nThank you for sharing the intriguing details about the coffee mug. Its unique background and design indeed make it a captivating piece. It's great to know that it has been admired by other collectors as well. I'm excited about the possibility of adding it to my collection, but I'd also like to ensure we find a price that's fair and satisfying for both of us. Looking forward to seeing your offer and continuing our negotiation to find a mutually agreeable deal.\n\nBest regards,\nBuyer\""
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.75
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.75
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 17,
+    "seed": 10018
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 9.98,
+    "seller_wta": 6.32,
+    "gains_from_trade": 3.66,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.75,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.6639,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.23,
+    "seller_earnings": 2.43,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller sends a message to the Buyer: \"Hey there! I\u2019ve got this unique coffee mug that's been in high demand lately. I'm considering offers around $10 because of its popularity. Let me know what you think!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"Hi there! Thanks for reaching out. The mug does sound interesting, but I'm curious about its high demand \u2014 I haven't seen much buzz around similar ones. I'm definitely interested in adding it to my collection, though. Would you be open to considering an offer that aligns with the usual market prices I've seen?\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Hello there! I'm glad to hear you're interested in the mug. It's a piece that has caught the eye of several collectors, largely due to its unique design and the limited series it comes from. While market prices can vary quite a bit, mugs like this one are considered gems by many. I'm confident it would be a delightful addition to your collection, and I'm definitely open to considering offers. Let's keep the conversation going!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer sends a message to the Seller: \n\n\"Thanks for sharing more about the mug! It certainly sounds like a special piece, especially with the unique design and its appeal among collectors. While I'm quite interested in adding it to my collection, I'm mindful of my budget constraints. I'm looking forward to discussing a fair price that works for both of us\u2014one that reflects its value while also fitting within my budget. Let's see what we can come up with!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Hello! I'm glad to hear you're interested in the mug and I appreciate your focus on finding a fair price. This mug is certainly a unique find, with its distinctive design and appeal among collectors, which adds to its value. While I understand budget constraints are important, I'm optimistic we can come up with an agreement that recognizes the special qualities of this piece. Looking forward to the bargaining phase where we can explore options that work for both of us!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer appreciates the Seller's enthusiasm about the mug and acknowledges its unique qualities. Buyer expresses a keen interest in reaching an agreeable price that reflects both the merits of the mug and their own budget considerations. Buyer suggests that while the mug's distinctiveness is exciting, finding a mutually beneficial price is essential. Buyer hints at a willingness to explore different pricing options, keen on a positive outcome for both parties. Buyer is optimistic that the impending negotiation rounds will allow for a satisfactory arrangement and looks forward to Seller's opening offer to understand their position better."
+      }
+    ],
+    "comm_value_signals": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "value_mentioned": 10.0
+      }
+    ],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.75
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.75
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 18,
+    "seed": 10019
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 11.0,
+    "seller_wta": 6.32,
+    "gains_from_trade": 4.68,
+    "feasible": true,
+    "deal": true,
+    "final_price": 9.75,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.7329,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.25,
+    "seller_earnings": 3.43,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller Seller: \"Hi there! I'm excited to chat about this beautiful coffee mug. You know, similar mugs have been selling for quite a bit lately, sometimes even around $12 or $13, due to their unique design and quality. It\u2019s a great piece to have in anyone\u2019s collection. I'm eager to see where we end up with this negotiation\u2014I think we can find a deal that makes both of us happy!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer Buyer: \"Hi there! It's great to be in touch about this coffee mug. I've seen some similar ones, and I agree, they can really make a collection stand out. I appreciate your passion for the mug and am eager to find a price that reflects its value while also being fair. I'm looking forward to our discussion and seeing where we can meet on this.\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Thank you for getting in touch! I completely understand the appeal of a remarkable coffee mug in a collection. This particular one holds a unique charm and has been quite special to me. I'm optimistic that we can agree on a price that truly reflects its value. I'd love to hear more about what draws you to this mug and how it fits into your collection vision.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Hi! Thank you for sharing the intriguing details about this coffee mug. I agree that it adds remarkable charm and character to any collection. I'm definitely interested in discussing more about it and seeing if we can agree on a price that reflects both its value and what it can bring to my collection. Looking forward to finding a fair deal for both of us!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Hello! Thank you for the enthusiastic messages. I'm thrilled to hear how much you value this unique coffee mug and the charm it brings to your collection. It's always a pleasure to meet someone who appreciates the finer details. I'm confident we can come to an agreement that reflects how special this piece truly is for both of us. Let's aim for a fair, mutually beneficial price that highlights its worth. Looking forward to a great discussion ahead!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer \"Hello! I completely appreciate your enthusiasm about the mug and its unique qualities. It certainly seems like a charming piece that would make a wonderful addition to anyone\u2019s collection. As I see it, arriving at a price that honors its uniqueness while being fair to both of us is key. I'm hopeful our discussion will lead us to a price point that reflects our mutual respect for its value. I'm looking forward to hearing your thoughts and working together to find that perfect balance!\""
+      }
+    ],
+    "comm_value_signals": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "value_mentioned": 12.0
+      },
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "value_mentioned": 13.0
+      }
+    ],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 10.25
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 9.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.75
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 9.75
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 19,
+    "seed": 10020
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 10.3,
+    "seller_wta": 9.08,
+    "gains_from_trade": 1.22,
+    "feasible": true,
+    "deal": true,
+    "final_price": 9.75,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.5492,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.55,
+    "seller_earnings": 0.67,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller The Seller begins the negotiation with a friendly and engaging message to set a positive tone. \n\n\"Hello there! I hope you're having a great day. I\u2019m excited to discuss this unique coffee mug. It\u2019s one of my favorites due to its excellent design and quality. I believe it could be a wonderful addition to any collection. Let's see if we can reach a deal that works well for both of us. What do you like most about coffee mugs?\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"Hi there! Thanks for reaching out with such a positive message. I must say, I do enjoy collecting coffee mugs, especially those with unique designs and a bit of character. I'm intrigued to hear more about what makes this particular mug one of your favorites. It sounds like it has a bit of a story or special qualities behind it. Let's see if we can find a mutually satisfying agreement on this mug.\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Hi there! I'm thrilled to hear about your interest in collecting unique coffee mugs. This particular mug has quite a charming design\u2014it features an intricate pattern that tells a story of its own. It's not just any mug; it's a piece with character that reflects quality craftsmanship. It has been a part of my collection for a while, and it's always drawn compliments for its distinctive look. I'm confident it would be a great addition to your collection as well. Let's work together to find a price that both respects its unique qualities and suits your collection beautifully!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Thank you for sharing such intriguing details about the coffee mug! I truly appreciate its distinct charm and craftsmanship\u2014exactly the kind of piece that I love to add to my collection. I'm thrilled about the idea of it bringing its unique story to my shelf. Of course, as an avid collector, I have to keep an eye on my budget to ensure I can continue expanding my collection. By the way, do you have any interesting stories or further details about the mug's history? I'd love to hear more as we work toward an agreement that feels right for both of us!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Hello again! I'm delighted that you appreciate the uniqueness and charm of this mug. It truly has a special story behind it. This particular mug comes from a small artisan market known for its skilled craftsmanship and distinctive designs. Created by a local artist, each mug has its own character, making it a one-of-a-kind piece. The vibrant glaze and intricate patterns are inspired by traditional motifs, adding a lovely touch of history and artistry to any collection. I'm confident this mug will be a striking addition to your eclectic collection. I'm eager to find a price that reflects its value while also being fair to both of us. Looking forward to our discussion!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer \"Hello! Thanks for sharing the interesting background about the mug. It's fascinating to think about how craftsmanship and unique designs can truly make everyday items special. I'm really looking forward to seeing if we can reach an agreement. I appreciate the details you've shared about the mug's origin and artistic value. I'm sure we can find a price that works well for both of us. Let's see where the numbers take us and hopefully arrive at a mutually beneficial deal!\""
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 10.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 9.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.75
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 9.75
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 20,
+    "seed": 10021
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 10.91,
+    "seller_wta": 7.83,
+    "gains_from_trade": 3.08,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.75,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.2987,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 2.16,
+    "seller_earnings": 0.92,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller crafted a message after considering the strategic advantage they hold. The goal was to subtly emphasize the value of the coffee mug and create a positive perception in the buyer's mind. The message read:\n\n\"Hello! I'm excited about possibly making a deal on this unique coffee mug. It's really a standout piece, with its quality and design being quite remarkable. I've noticed similar pieces going for higher prices lately because of their desirability. How do you feel about finding a price that reflects its special nature?\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"Thank you for highlighting the mug's unique qualities. It sounds like a piece with a lot of charm! I'm definitely interested and curious to find a fair price. I've come across similar mugs priced within the $6 to $10 range as well, which makes for some interesting options. I'm eager to hear your thoughts on how we might arrive at a fair price together.\" "
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Thank you for appreciating the unique charm this mug holds! It's indeed a distinctive piece, crafted with care, and has a timeless appeal thanks to its [mention unique feature, such as hand-painted design or vintage style]. While it's true that some mugs can be found in the $6 to $10 range, this particular piece stands out due to its quality and character. I'm looking forward to finding a fair price that reflects its exceptional attributes, and I believe we'll be able to arrive at something that resonates with both its value and your interest.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Hello! I appreciate the insight into the mug's unique features and your enthusiasm for finding a fair price. It definitely seems like a beautiful piece! While I do have some other options in mind that fit within my budget, I'm open and interested in exploring how we can make this work. Let's aim to find a reasonable price that reflects both its special attributes and my current budget considerations. Looking forward to our discussion!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Hello! I'm thrilled to see your interest in this unique mug. It's indeed a charming piece, and I believe its distinctive design adds great value. Considering the craftsmanship and appeal it holds, I would suggest a starting price of around $9. Of course, I'm open to discussions to ensure we find a price that works well for both of us. Looking forward to the negotiation ahead and finding a win-win solution!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer crafted a message with the intent to establish a foundation for fair negotiation while subtly reinforcing their valuation perspective. \"Hello! Thank you for sharing more about the unique aspects of the mug. I certainly value its distinctive style and craftsmanship. While I understand its special nature, I also need to balance that with a fair price reflective of both its worth to you and to me. I'm optimistic that we can find a price that satisfies us both, especially considering that we're aiming for a win-win outcome. I'm looking forward to starting the formal negotiation process and working towards a mutually favorable deal.\""
+      }
+    ],
+    "comm_value_signals": [
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "value_mentioned": 6.0
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "value_mentioned": 10.0
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "value_mentioned": 6.0
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "value_mentioned": 10.0
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "value_mentioned": 9.0
+      }
+    ],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 7.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.75
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.75
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 21,
+    "seed": 10022
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 10.51,
+    "seller_wta": 6.65,
+    "gains_from_trade": 3.86,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.5,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.4793,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 2.01,
+    "seller_earnings": 1.85,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller \n\"Selling this unique coffee mug, a favorite among collectors due to its distinctive design and quality. Considering its value and demand, I'm interested in entertaining offers above the average market price. Looking forward to our discussions to see how we can find common ground on this exceptional piece.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"Hello! I appreciate the opportunity to discuss the unique mug you have. I understand its appeal, but as a collector, I often find similar pieces available within a more modest budget range. I'm certainly open to considering its special features, though. I'm looking forward to finding a price that reflects both its value and aligns with current market realities, ensuring it's fair for both of us.\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Thank you for reaching out and expressing interest in this unique mug. I appreciate your perspective as a collector, and I understand the importance of balancing quality and budget. This particular mug has some exceptional features, such as [describe any distinguishing characteristics, like a rare design or limited edition]. Mugs of such quality and uniqueness tend to hold their value well. I'm confident we can find a price that respects both its special attributes and your budget considerations. Let me know if there are specific details you'd like to know more about, as I'd be happy to discuss them.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Thank you for highlighting the unique aspects of this coffee mug. I appreciate the opportunity to learn more about its distinctive design and what makes it a favorite among collectors. While I am intrigued by its special features, I also need to consider how it aligns with my budget. Could you elaborate on any specific attributes that contribute to its value? I'm hopeful we can find a price that reflects its exceptional qualities and works for both of us.\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Hello! Thank you for appreciating the mug's unique characteristics. This particular piece is crafted with an exclusive design that you won't easily find elsewhere, which is why it's a favorite among collectors. Its intricate detailing and the story behind its creation truly make it special. I understand your budget considerations, and I\u2019m confident that once we delve into the bargaining rounds, we'll find a price that reflects both its distinctive qualities and fairness for both of us. Looking forward to coming to an agreement.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer \"Thank you for providing such detailed information about the mug's unique qualities. I appreciate the time you've taken to highlight its distinctive design and value. I'm very interested in finding a price that works for both of us and respects our respective valuations. I believe, through our discussion in the upcoming rounds, we can reach a fair agreement that reflects the mug's worth to both parties. Looking forward to hearing your opening offer in the bargaining phase!\""
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 7.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.5
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 22,
+    "seed": 10023
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 8.61,
+    "seller_wta": 6.07,
+    "gains_from_trade": 2.54,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.0,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.7598,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.61,
+    "seller_earnings": 1.93,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller Seller: \"Hello there! I see you're interested in a really unique coffee mug we have. It's not just any mug \u2013 it's perfect for starting your day with a touch of style! I\u2019m looking forward to making a fair deal that satisfies us both. How does that sound to you?\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"Hi! Thanks for reaching out. I\u2019m definitely interested in the mug and love the idea of adding some style to my collection. I'm looking forward to hearing more about it, although I do have a few budget considerations to keep in mind. Excited to work towards a deal that works for both of us!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller Seller: \"Hi there! Thanks for expressing interest in the mug. I'm excited to potentially contribute to your stylish collection. This piece has a unique design that really stands out and could be a great addition. I understand that budget is important, so I'm curious if you have a particular range in mind or any specific considerations you can share? Looking forward to finding a perfect fit for both of us!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Hello! Thank you for sharing more about this unique mug. It certainly seems like a stylish addition to any collection. I'm looking forward to discussing a price that works well for both of us. While I'm still considering my options, I'm sure we'll find a mutually satisfying arrangement. What initial offer would you suggest?\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Hello! I'm really glad to hear that you find the mug stylish and a potential addition to your collection. It's truly a unique piece, with a design that's both classic and distinctive, which makes it stand out. I understand working within a budget is important, and I believe we can find a price that suits both of us. Generally, mugs like this often sell between $7.50 and $9.00, depending on their uniqueness and craftsmanship. I'm open to discussing any preferences or considerations you might have regarding your budget. Looking forward to reaching a great deal together!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer Buyer: \"Hello! Thank you for highlighting the uniqueness of the mug. It sounds like a great addition to my collection. While budget is indeed important, I tend to consider mugs like this within the $7.00 to $8.00 range, if that gives us a starting point. I'm excited to find a price that works for both of us and ensures we each get a good deal. Looking forward to your thoughts!\""
+      }
+    ],
+    "comm_value_signals": [
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "value_mentioned": 7.5
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "value_mentioned": 9.0
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "value_mentioned": 7.0
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "value_mentioned": 8.0
+      }
+    ],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 7.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.0
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 23,
+    "seed": 10024
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 9.87,
+    "seller_wta": 6.64,
+    "gains_from_trade": 3.23,
+    "feasible": true,
+    "deal": true,
+    "final_price": 9.0,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.7307,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.87,
+    "seller_earnings": 2.36,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller is excited to begin the negotiation and wants to highlight the distinctive qualities of the coffee mug. They craft a message to the Buyer that reads:\n\n\"Hello! I'm eager to discuss this unique coffee mug I have available. It's a favorite among collectors for its distinctive design and the premium quality of materials used. Many potential buyers have shown interest, so it's quite the sought-after piece. Looking forward to finding a great home for it\u2014let me know what you think!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"Thank you for sharing details about the mug's distinctive design and quality. It certainly seems appealing, though I'm aware there are several options out there. I'm interested in finding out more and seeing how it compares. Looking forward to understanding where we can find common ground on the price.\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Thank you for your interest and appreciation of the mug's unique design and quality. I'm confident you'll find that this mug offers exceptional value due to its distinctive features and craftsmanship. It's great to hear that you're considering your options, and I'm here to ensure we find a price point that reflects its worth and works for both of us. I'm looking forward to our discussions and am hopeful we can come to a mutually beneficial agreement.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Thank you for the detailed insights into the mug's unique design and craftsmanship. It's clear this piece holds a lot of value, and I'm genuinely interested in reaching a fair agreement that truly reflects its worth. I believe we can find a price that benefits both of us, and I'm looking forward to further discussing this. Let's aim for a great deal together!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Thank you for your interest in the mug. I'm glad to hear that you value its distinctive design and craftsmanship. This mug is truly unique, combining both aesthetics and quality that set it apart in the marketplace. I believe that this piece will not only serve a functional purpose but also stand out as a conversation starter in any setting.\n\nAs we continue to discuss, I'm optimistic that we can come to a price that acknowledges the mug's exceptional qualities and offers both of us a beneficial outcome. I'm very much looking forward to our negotiation and am committed to finding a fair and satisfying deal for us both.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer \"Thank you for highlighting the mug's unique qualities and the enthusiasm around its design and craftsmanship. I truly appreciate the opportunity to consider such a distinct piece. As we move into the negotiation phase, I'm eager to find a price that benefits both of us, reflecting the mug's value while keeping our interests aligned. I look forward to arriving at a fair and mutually satisfying agreement.\""
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.0
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 9.0
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 24,
+    "seed": 10025
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 10.25,
+    "seller_wta": 9.38,
+    "gains_from_trade": 0.87,
+    "feasible": true,
+    "deal": true,
+    "final_price": 9.75,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.4253,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.5,
+    "seller_earnings": 0.37,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller carefully considers the first move, knowing the importance of setting the tone and establishing a clear position. They craft their message with the intent to highlight the mug's appeal and to anchor a favorable price. \n\n\"Hello, I'm excited to discuss this unique coffee mug with you. It's a popular item, and I've seen considerable interest in it lately. Given its unique design and quality, I'm thinking a price around $11.00 could be a fair starting point for our discussions. I look forward to hearing your thoughts!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"Hello! Thanks for sharing your excitement about the mug with me. I\u2019m definitely interested, and it sounds like a special item. While I understand the appeal, I\u2019ve been considering similar mugs in the $7.00 to $8.00 range. I\u2019d be happy to explore where we might find a middle ground that works for both of us. Looking forward to your thoughts!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Hello! I appreciate your interest in the mug, and I'm glad to hear you're considering it. This particular mug has some unique qualities that really stand out, making it quite special compared to typical options. While I see you've mentioned a range of $7.00 to $8.00 for similar mugs, I believe its uniqueness justifies a bit higher consideration. That said, I'm eager to find a price that feels fair to both of us. I'm sure we can find that middle ground with a little more discussion!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Hello! I truly appreciate the enthusiasm and insights you've shared about the mug. It indeed sounds unique and appealing. While I understand the interest it has garnered, I've noticed that similar items typically settle around the $7.00 to $8.00 range. Given this context, I'm hopeful we can bridge the gap between our perspectives and land on a price that feels fair to us both. I'm really looking forward to working this out collaboratively and coming to a satisfying agreement!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Hi there! I'm thrilled to hear that you're as excited about the mug as I am. It's truly a unique piece, and I've found it to be one of those items that always sparks conversation and brings joy to any setting. While I understand you've seen similar items at a certain price range, I believe this mug stands out due to its exceptional craftsmanship and design. I\u2019m confident we can reach a fair agreement that reflects its special qualities. Looking forward to working together to find a satisfying arrangement!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer \u201cHi Seller! Thank you for all the information you\u2019ve shared. I\u2019ve certainly noticed that this mug has a charm that seems to capture people\u2019s interest. While I appreciate its unique attributes, I also have to consider similar market options. I'm optimistic we can come to a mutually beneficial agreement that reflects both its special qualities and fair market value. Looking forward to your thoughts as we proceed with our discussions!\u201d "
+      }
+    ],
+    "comm_value_signals": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "value_mentioned": 11.0
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "value_mentioned": 7.0
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "value_mentioned": 8.0
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "value_mentioned": 7.0
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "value_mentioned": 8.0
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "value_mentioned": 7.0
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "value_mentioned": 8.0
+      }
+    ],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 10.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.75
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 9.75
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 25,
+    "seed": 10026
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 8.87,
+    "seller_wta": 8.54,
+    "gains_from_trade": 0.33,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.75,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.6364,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.12,
+    "seller_earnings": 0.21,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller Hello Buyer,\n\nI'm excited to discuss the potential purchase of the coffee mug with you. It's a quality piece, and I'm sure you'll find it very valuable. I'm quite flexible and open to finding a price that works well for both of us. Looking forward to hearing your thoughts!\n\nBest,  \nSeller"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer Hello Seller,\n\nThank you for reaching out. I'm also looking forward to our conversation about the mug. I appreciate your openness and flexibility in finding a fair price. The mug certainly seems like a valuable addition, and I'm keen to work together to find a price that we both find agreeable. \n\nLet's see if we can strike the right balance!\n\nBest, Buyer"
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller Hello Buyer,\n\nThank you for your kind words. It's great to hear that you're interested in this mug. I've always thought of it as a special item due to its quality and unique design, so I\u2019m glad it's caught your eye as a valuable addition. I'm confident that we can find a price that reflects its worth well for both of us. Looking forward to an engaging and fruitful discussion as we work towards an agreeable outcome for both sides.\n\nBest regards,\n\nSeller"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer Hello Seller,\n\nThank you for your thoughtful messages. I appreciate your sentiment regarding the mug's uniqueness and quality, as those traits certainly caught my attention. I'm genuinely interested in adding this piece to my collection. However, like anyone, I have to consider my budget, and I'm sure you'll understand the need for a price that reflects both the mug's value and justifiable expenditure on my part.\n\nI\u2019m optimistic that we can arrive at a price that works well for both of us. Could you share more about what you find special in this mug compared to others? Looking forward to our discussion as we work towards a fair and agreeable outcome for both sides.\n\nBest regards,\n\nBuyer"
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller Hello Buyer,\n\nThank you for your continued interest and thoughtful messages. I'm glad to hear that you appreciate the mug's unique qualities, as I believe they truly set it apart. This mug is crafted from high-quality materials that not only ensure its durability but also add an elegant touch to your collection. The design, with its intricate detailing, is a nod to timeless craftsmanship and classic aesthetics, making it not just a mug, but a statement piece for any enthusiast.\n\nI understand the importance of finding a price that suits both our needs, and I'm confident that we can reach an agreement that reflects its true value. I'm looking forward to finding a balance that we both find satisfactory, and I am optimistic about the positive outcome of our negotiation.\n\nBest regards,  \nSeller"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer Hello Seller,\n\nThank you for sharing the details about the mug's unique qualities and craftsmanship. I appreciate the effort that has gone into making it such a unique piece. As a buyer, I am indeed interested in adding it to my collection, and I am hopeful that we can find common ground on the price that satisfies us both. I'm looking forward to entering the next phase of our discussion to see where our valuations align.\n\nBest regards,  \nBuyer"
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.8
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.65
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.75
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.75
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 26,
+    "seed": 10027
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 9.29,
+    "seller_wta": 6.86,
+    "gains_from_trade": 2.43,
+    "feasible": true,
+    "deal": true,
+    "final_price": 7.5,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.2634,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.79,
+    "seller_earnings": 0.64,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller crafts a thoughtful message to the Buyer, aiming to highlight the coffee mug's exceptional value and subtly set the stage for a fruitful negotiation:\n\n\"Hello! I\u2019m excited to discuss this unique coffee mug with you. This mug isn\u2019t just an ordinary piece; it\u2019s crafted with high-quality materials and exudes a certain charm that\u2019s hard to find. It's perfect for adding a touch of elegance to your daily coffee routine. Given its distinctive appeal, I believe it will make a wonderful addition to your collection. Let\u2019s find a price that reflects its true value.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer Buyer's message to the Seller: \"Hello! Thank you for reaching out and sharing more about the coffee mug. It certainly sounds like a beautiful and high-quality piece, and I can see how it would add a touch of elegance to anyone's daily routine. I do appreciate the craftsmanship and unique appeal you've described. As we move forward, I'm looking forward to working together to find a fair price that reflects its value and fits within my budget considerations. I'm sure we can come to an agreement that leaves us both satisfied!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Thank you for appreciating the elegance and craftsmanship of the coffee mug. It's always rewarding to find someone who truly recognizes the unique qualities it offers. I'm keen on working with you to establish a price that both honors its value and aligns with what suits your budget. I look forward to our discussions and am confident we'll find a satisfying agreement for us both.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Thank you for highlighting the unique value and craftsmanship of the coffee mug. I truly appreciate quality and can see why this piece stands out. Like you, I\u2019m looking forward to a fruitful discussion. I am optimistic that we can find a price that we both feel reflects the mug\u2019s special qualities while also being considerate of our respective needs. Let\u2019s work together toward a mutually satisfying agreement.\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"Hello! I appreciate your recognition of the mug's unique craftsmanship and quality\u2014it's a piece I'm truly proud to offer. As we move forward, I'm confident we can reach a price that honors the exceptional value of this mug while fitting within what you're comfortable with. I am eager to begin discussing the specifics with you and find a price that feels right for both of us. Looking forward to our negotiation ahead!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer \"Hello! I'm looking forward to our upcoming discussion about the mug. I appreciate the emphasis you've placed on its quality and uniqueness. I believe we can reach a fair deal that reflects both the mug's worth and my budget considerations. Let's aim for a price that ensures we both feel satisfied with this transaction. I'm optimistic about finding common ground together!\""
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 7.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 7.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 7.5
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 27,
+    "seed": 10028
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 8.72,
+    "seller_wta": 7.71,
+    "gains_from_trade": 1.01,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.25,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.5347,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.47,
+    "seller_earnings": 0.54,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller Seller's message: \n\n\"Hello! I'm glad to see there's interest in the mug. It's a unique piece, and I've seen similar items go for around $9 in the past, so I think it has great value. I'm open to a fair discussion, and I'm looking forward to seeing what you think. Let me know your thoughts!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer \"Thanks for sharing your thoughts on the mug's value. I've done a bit of market research myself, and I've seen similar items vary quite a bit in price. I'm really interested in finding a fair price that reflects both of our valuations. Looking forward to seeing where we can find some common ground!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller \"Thanks for your thoughtful message and for doing some market research on similar items. It's clear we both want to settle on a price that's fair for each of us. From my perspective, mugs like this one tend to hold a bit more value due to their craftsmanship and unique design. However, I\u2019m sure we can find a price point that reflects both our valuations and ensures we both walk away satisfied. I'm looking forward to continuing our discussions and finding that sweet spot together!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer \"Hello! I appreciate the insights you've shared about the mug's uniqueness and craftsmanship. I agree that finding a price that works for both of us is key. I\u2019m excited to continue our discussion and see how we can both benefit. Let's keep exploring to find that sweet spot where we both feel happy with the deal. Looking forward to hearing more of your thoughts!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller \"As we approach the bargaining phase, I appreciate your openness and shared enthusiasm for finding a mutually agreeable price. This mug truly stands out with its exquisite craftsmanship and unique design, which I believe enhances its inherent value. I'm confident that we'll find a price that reflects its worth to both of us. Looking forward to our continued discussion and finding that perfect price point that makes us both happy!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer \"I appreciate your messages and the thoughtful consideration you've shown for this negotiation. I'm equally keen to find a price that accurately reflects the mug\u2019s value to both of us, and I agree that its design and craftsmanship certainly add charm. As we move into the bargaining phase, I\u2019m optimistic that we can find a mutually beneficial agreement. Looking forward to hearing your thoughts as we proceed!\""
+      }
+    ],
+    "comm_value_signals": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "value_mentioned": 9.0
+      }
+    ],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 7.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.25
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.25
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 28,
+    "seed": 10029
+  },
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 10.39,
+    "seller_wta": 7.23,
+    "gains_from_trade": 3.16,
+    "feasible": true,
+    "deal": true,
+    "final_price": 8.5,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.4019,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 1.89,
+    "seller_earnings": 1.27,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller Hello! I'm looking forward to our negotiation over this coffee mug. It's a nice piece, and I'm sure we can come to a mutually beneficial agreement. How do you feel about the value it might bring to your collection?"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer Hello! I'm also looking forward to our negotiation. The mug does seem like a nice addition to my collection. I'm very interested in reaching an agreement that works for both of us. Of course, I have to keep a close eye on my budget, but I\u2019m excited to see how this unfolds. What about the mug do you find most valuable?"
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller Hello! I'm glad to hear you share an appreciation for the mug. It truly has a unique charm that's hard to find, and I've always thought it had an elegant design that stands out in any collection. It\u2019s exciting to think about it finding a good home with someone who values it just as much. I'm sure we can come to an agreement that benefits us both. How does this particular mug fit into your collection?"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer Buyer: \"Thank you for sharing your thoughts on the mug. I must say, its unique charm and elegant design truly make it a standout piece. I'm intrigued by how different perspectives can add value to collectibles. Could you tell me more about what features you think make this mug special? I'm always eager to learn more about what makes certain items resonate with other collectors.\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller Seller: \"It's great to hear that you appreciate the unique charm and design of the mug. What I find particularly special about this piece is its intricate hand-painted details, which add a certain elegance and make it truly one-of-a-kind. Such craftsmanship is rare to find in collectibles these days. I'm glad to see someone with a keen eye for beauty and value like yours take an interest. I'm looking forward to seeing how we can arrive at a mutually satisfying agreement.\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer Buyer's message: \"Hello! I appreciate your enthusiasm for the mug. It's definitely a charming piece with its unique hand-painted details. I'm optimistic that we'll find a price that reflects both its value to you and how special it would be to add to my collection. Looking forward to seeing your offer, and I\u2019m sure we can make something work for both of us!\""
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 7.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 8.5
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 29,
+    "seed": 10030
+  }
+]

@@ -1,0 +1,85 @@
+[
+  {
+    "communication": "extended_talk",
+    "value_gap": "wide",
+    "info_asymmetry": "two_sided_private",
+    "buyer_wtp": 11.39,
+    "seller_wta": 5.25,
+    "gains_from_trade": 6.14,
+    "feasible": true,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": 0.0,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller wants to initiate the conversation by expressing enthusiasm about the coffee mug. They decide to craft a friendly message:\n\n\"Hello there! I have a really nice coffee mug available that I think you might find interesting. It's perfect for your morning coffee or tea, and it has a unique design that makes it stand out. If you're looking for something special, this could be it. I'd love to hear your thoughts or any questions you might have about it!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer typed out their response, aiming for a balance of interest and inquiry. They thought carefully about how to engage the seller while keeping their goals in mind.\n\n\"Hello! Thank you for your enthusiastic introduction. The coffee mug sounds intriguing, and I love unique designs! Could you share a bit more about what makes this mug special? Is there a specific feature that stands out to you? I\u2019d love to hear what inspired its design. Looking forward to your thoughts!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller is excited to engage with the buyer and types out a thoughtful response:\n\n\"Hello! Thank you for your interest in the mug! I'm thrilled to share a bit more about it. This mug features a unique hand-painted design that captures the essence of nature with vibrant colors and intricate patterns. Each one is a little different, making it truly one of a kind. The inspiration behind the mug comes from my love for morning coffee rituals in serene outdoor settings\u2014there\u2019s something about sipping your favorite drink while surrounded by nature that brings a sense of calm. I really think this mug not only serves its purpose but also adds a touch of beauty to your daily routine. If you have any specific aspects you\u2019re curious about, feel free to ask! Looking forward to hearing your thoughts!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer Hello! Thank you for sharing more about the mug; it sounds like a beautiful piece! I really appreciate the unique design inspired by nature. I\u2019m curious about a few details\u2014what material is the mug made of, and how big is it? Also, is there any special care required to keep it looking nice? Looking forward to hearing back!"
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller responds warmly to the buyer's inquiries with enthusiasm:\n\n\"Hello! I'm so glad to hear you're interested in the mug! It truly is a special piece. The mug is crafted from high-quality ceramic, which not only gives it a lovely finish but also ensures durability for everyday use. It's designed to comfortably hold about 12 ounces of your favorite beverage\u2014perfect for morning coffee or evening tea!\n\nWhat's really unique about this mug is its intricate design, inspired by the beauty of nature. The artwork features vibrant colors that remind me of a serene forest, which I hope brings a tranquil touch to your daily routine. \n\nAs for care, it\u2019s quite easy to maintain! I recommend hand washing to keep the colors looking fresh, although it is microwave safe for convenience. \n\nI truly believe this mug will not only serve its purpose but also add a touch of inspiration to your day. If you have any more questions or would like to know about the design process, feel free to ask! I'm excited to hear your thoughts!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer Hello! Thank you so much for the detailed information about the mug. I really appreciate your enthusiasm and the thought you put into its design. I find the nature-inspired artwork particularly appealing, and I can imagine how it would enhance my morning coffee ritual. \n\nI have a couple of questions: could you share more about how the mug holds up in everyday use\u2014like does it chip easily or is it pretty sturdy? Also, you mentioned it's microwave safe; does that affect the design in any way? I'm excited to hear more!"
+      }
+    ],
+    "comm_value_signals": [
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "value_mentioned": 12.0
+      }
+    ],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 10.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 0,
+    "seed": 42
+  }
+]

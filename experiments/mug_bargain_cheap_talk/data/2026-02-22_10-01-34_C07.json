@@ -1,0 +1,174 @@
+[
+  {
+    "communication": "cheap_talk",
+    "value_gap": "wide",
+    "info_asymmetry": "two_sided_private",
+    "buyer_wtp": 11.39,
+    "seller_wta": 5.25,
+    "gains_from_trade": 6.14,
+    "feasible": true,
+    "deal": true,
+    "final_price": 11.0,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.9365,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.39,
+    "seller_earnings": 5.75,
+    "comm_messages": [
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer Dear Seller,\n\nI hope this message finds you well! I\u2019m really interested in the coffee mug you have for sale. I believe it has some unique charm, and I\u2019m looking forward to discussing a fair price that works for both of us. How do you feel about negotiating? \n\nBest,  \nBuyer"
+      },
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller is excited to begin this negotiation over the coffee mug. In their message to the buyer, they aim to establish a friendly and open tone. \n\n\"Hello! I\u2019m glad we\u2019re getting the chance to negotiate over this coffee mug. It\u2019s not just an ordinary mug \u2014 it\u2019s got a classic design and is great for enjoying your favorite coffee or tea. I'm sure it could fit perfectly into your collection. I\u2019m looking forward to hearing your thoughts and seeing what kind of offer you might have in mind! Let's make this a great deal for both of us!\" \n\nWith this message, Seller hopes to engage the buyer and create a positive atmosphere for the forthcoming negotiation rounds."
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 10.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 11.0
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 11.0
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 0,
+    "seed": 42
+  },
+  {
+    "communication": "cheap_talk",
+    "value_gap": "wide",
+    "info_asymmetry": "two_sided_private",
+    "buyer_wtp": 5.39,
+    "seller_wta": 11.96,
+    "gains_from_trade": -6.57,
+    "feasible": false,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": null,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer sends the following message to the seller:\n\n\"Hi there! I\u2019ve seen this coffee mug, and I think it has a really unique design. I appreciate well-crafted items like this and am interested in discussing a fair price for it. Looking forward to your thoughts!\" \n\nThis message conveys genuine interest in the mug while remaining non-committal, allowing for a positive start to the negotiation process."
+      },
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller is eager to establish a positive rapport with the buyer before the negotiation begins. They decide to send the following message:\n\n\"Hi there! I hope you\u2019re having a great day! I\u2019m excited to discuss this coffee mug with you. It\u2019s not just any mug; it's made of high-quality materials and designed for durability and style. I believe it makes a fantastic addition to any collection. I\u2019d love to hear what you think about it and see if we can come to a mutually beneficial agreement. Looking forward to your thoughts!\" \n\nThis message conveys enthusiasm for the product, emphasizes its quality, and invites engagement from the buyer, setting a positive tone for the upcoming negotiation."
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 14.95
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 5.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 12.95
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 1,
+    "seed": 43
+  },
+  {
+    "communication": "cheap_talk",
+    "value_gap": "wide",
+    "info_asymmetry": "two_sided_private",
+    "buyer_wtp": 9.09,
+    "seller_wta": 10.42,
+    "gains_from_trade": -1.33,
+    "feasible": false,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": null,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer sends the following non-binding message to the seller:\n\n\"Hello! I'm really intrigued by that coffee mug you have. I think it has a lot of potential, and I definitely want to find a price that works for both of us. I hope we can reach a deal that makes us both happy. Looking forward to hearing your thoughts!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller sends a confident and friendly message to the buyer: \n\n\"Hello! I'm excited to discuss the coffee mug with you. It's not just any mug; it has a unique design and is very functional! I believe it's worth a fair price considering its quality. I\u2019m looking forward to hearing what you think about it!\" \n\nThis message aims to set a positive tone for the negotiation while subtly emphasizing the value of the mug, encouraging engagement from the buyer."
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 12.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 8.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 10.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 2,
+    "seed": 44
+  }
+]

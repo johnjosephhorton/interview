@@ -1,0 +1,79 @@
+[
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "two_sided_private",
+    "buyer_wtp": 10.56,
+    "seller_wta": 6.1,
+    "gains_from_trade": 4.46,
+    "feasible": true,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": 0.0,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller Hello there! I have a lovely coffee mug that I'm looking to sell. It\u2019s a stylish piece that I think you'll really enjoy using. I\u2019d love to hear your thoughts on coffee mugs in general. What do you think makes a great mug? Are you interested in adding one to your collection?"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer responds to the seller with enthusiasm and curiosity:\n\n\"Hello! Thank you for reaching out. I really appreciate a good coffee mug. In my experience, a great mug has to be comfortable to hold, durable, and ideally have a fun design or color that makes my morning coffee a little brighter. I\u2019m always looking to add unique pieces to my collection. What features does your mug have that you think makes it special? I'm definitely interested to learn more!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller takes a moment to gather their thoughts, wanting to make an impact with this response. They decide to highlight the features of the mug while also connecting with the buyer\u2019s enthusiasm. \n\n\"Hello! I'm so glad to hear about your passion for coffee mugs! This particular mug is truly special. It's designed with comfort in mind, making it easy to hold even during those long mornings. The durability is a standout feature as well; it\u2019s made from high-quality ceramic that can withstand daily use without chipping. \n\nWhat's really fun about this mug is its unique design\u2014it's adorned with a vibrant pattern that adds a splash of color to your morning routine. I believe it's not just a mug; it's a little piece of joy for your coffee moments! \n\nIf you're always on the lookout for unique pieces, I think you'll really appreciate this one! Do you have a favorite style or color scheme that you typically go for? I\u2019d love to know more about your collection!\" \n\nWith this approach, Seller aims to create a connection and leave a positive impression while subtly encouraging further discussion about the mug."
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer smiles at the enthusiasm the Seller has shown for the mug. Taking a moment to compose their thoughts, they decide to respond with genuine interest. \n\n\"Hello! Thank you for sharing such wonderful details about the mug! I truly appreciate a well-designed coffee mug, especially one that combines both comfort and durability. The vibrant pattern sounds delightful; I love pieces that add character to my morning routine. \n\nI usually gravitate towards mugs with unique shapes or fun colors\u2014it makes my coffee breaks feel extra special! Do you have any other mugs in your collection that feature interesting designs? I'm really curious to see what other options you might have available!\" \n\nBuyer hopes this response will further engage the Seller and potentially lead to more insights regarding the mug and its pricing."
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller sends a warm and enthusiastic message in response to the Buyer's interest:\n\n\"Hello again! I'm thrilled to hear about your love for unique coffee mugs! The one I'm offering is indeed quite special. It has a vibrant pattern that not only makes it visually appealing, but it's also designed with a comfortable grip that makes sipping your favorite morning brew a delight. The ceramic material ensures that it's both durable and easy to clean, which I believe is essential for everyday use. \n\nI'm glad to hear that you appreciate pieces that bring a bit of character to your routine. If you're interested in other designs, I do have a couple of other mugs that feature interesting shapes and colors\u2014I\u2019d be happy to share those details if you'd like! \n\nI'm really looking forward to our upcoming negotiation about this mug. I think you'll be quite pleased with what I'm offering. Let me know your thoughts!\" \n\nThis message reinforces the value of the coffee mug while also inviting further conversation, preparing for the bargaining phase ahead."
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer takes a moment to craft a thoughtful response to the seller that balances curiosity and strategy. \n\n\"Hello! Thank you for sharing all those wonderful details about the coffee mug. I really appreciate the emphasis on comfort and its unique design\u2014those are definitely qualities that stand out to me! I can see how it would add a splash of joy to my mornings. \n\nI\u2019d love to hear more about what you believe makes this mug a great buy in terms of value. What price were you thinking for it? Also, you mentioned having other designs; I\u2019m always curious about unique mugs! Do you feel these other mugs have similar features or qualities? Looking forward to hearing more!\" \n\nThis message encourages open dialogue while subtly probing for information about the seller's pricing expectations and additional products."
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.5
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 9.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.75
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 0,
+    "seed": 42
+  }
+]

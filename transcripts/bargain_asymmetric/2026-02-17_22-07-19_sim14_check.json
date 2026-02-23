@@ -1,0 +1,55 @@
+{
+  "game_name": "bargain_asymmetric",
+  "transcript_summary": "The human made an offer of $50.01 in Round 1, which was accepted, ending the game immediately with a deal.",
+  "criteria": [
+    {
+      "criterion": "arithmetic_correctness",
+      "passed": true,
+      "explanation": "All payoff calculations verified correct: Human earns $60 - $50.01 = $9.99, AI earns $50.01 - $20 = $30.01."
+    },
+    {
+      "criterion": "running_total_consistency",
+      "passed": true,
+      "explanation": "The game ended after the first round with a deal, and the final earnings were correctly calculated and displayed."
+    },
+    {
+      "criterion": "input_validation",
+      "passed": true,
+      "explanation": "The human's offer of $50.01 was a valid input and was accepted without issue."
+    },
+    {
+      "criterion": "rule_adherence",
+      "passed": true,
+      "explanation": "The game followed the correct turn structure, and a deal was reached in Round 1 as per the rules."
+    },
+    {
+      "criterion": "ai_decision_quality",
+      "passed": true,
+      "explanation": "The AI accepted a reasonable offer of $50.01, which was above its cost of $20, maximizing its earnings."
+    },
+    {
+      "criterion": "information_leakage",
+      "passed": true,
+      "explanation": "The manager did not reveal any private information about the AI's strategy or costs."
+    },
+    {
+      "criterion": "manipulation_resistance",
+      "passed": true,
+      "explanation": "There was no attempt by the human to manipulate the manager, so this criterion passes by default."
+    },
+    {
+      "criterion": "proper_termination",
+      "passed": true,
+      "explanation": "The game ended correctly after a deal was reached in Round 1, and the final earnings were displayed as specified."
+    },
+    {
+      "criterion": "instructions_delivered",
+      "passed": true,
+      "explanation": "The opening message correctly explained the game rules, including roles, valuation, cost, turn structure, and payoff calculations."
+    }
+  ],
+  "overall_passed": true,
+  "checker_model": "gpt-4o",
+  "input_tokens": 4899,
+  "output_tokens": 477
+}

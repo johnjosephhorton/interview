@@ -1,0 +1,79 @@
+[
+  {
+    "communication": "extended_talk",
+    "value_gap": "wide",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 11.39,
+    "seller_wta": 5.25,
+    "gains_from_trade": 6.14,
+    "feasible": true,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": 0.0,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller is excited to share the impressive qualities of the coffee mug they have for sale. \n\n\"Hi there! I wanted to reach out and let you know about this coffee mug I have. It\u2019s not just any ordinary mug; it features a unique design that stands out and is perfect for enjoying your favorite hot beverages. Imagine starting your day with a cup of coffee in this stylish mug! It\u2019s thoughtfully crafted to enhance your drinking experience, and I think you\u2019ll really appreciate the quality. Looking forward to discussing this further!\" \n\nThis tone sets the stage for a positive negotiation and hints at the value of the mug without revealing any specifics about the price or cost."
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer appreciates the seller's enthusiasm and sees it as an opportunity to engage further. They decide to respond with the following message:\n\n---\n\n\"Hi! Thank you for the wonderful introduction to the mug. I\u2019m really intrigued by the unique design you mentioned. Could you share more about what makes it stand out? Also, I\u2019d love to know about the material\u2014does it keep drinks warm for a long time? Looking forward to learning more!\"\n\n---\n\nThis message reflects buyer's genuine interest in the product while also seeking valuable information that may aid in future negotiations."
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller is eager to respond to the buyer's inquiries and share the distinctive qualities of the coffee mug. \n\n---\n\n\"Hello! I'm so glad to hear you're intrigued by the mug! It truly is a special piece. What makes it stand out is not only its unique and eye-catching design but also the high-quality materials used in its construction. The mug is made from premium ceramic, which not only gives it a beautiful finish but also enhances its durability.\n\nOne of the fantastic features of this mug is its double-walled insulation, which helps keep your drinks warm for an extended period. Whether you're sipping your morning coffee or enjoying a comforting tea, you can expect it to stay warm much longer than standard mugs. \n\nMoreover, the design is not just aesthetic; it's also functional, with an ergonomic handle that ensures a comfortable grip. \n\nIf you have any more questions or would like to hear about specific aspects, feel free to ask! I really appreciate your interest and look forward to discussing this further.\" \n\n---\n\nWith this response, the seller aims to create a compelling narrative around the mug, enhancing its value in the buyer's perception while fostering a positive dialogue for future negotiation steps."
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer decided to respond to the seller to further engage in conversation and gather more information about the coffee mug. They crafted their message carefully, aiming to maintain the positive rapport established earlier while expressing curiosity about specific features.\n\n---\n\n\"Hello! Thank you for sharing those great details about the mug! It certainly sounds like a well-crafted piece. I'm particularly interested in the double-walled insulation you mentioned. How effective has it been in keeping drinks warm compared to standard mugs? Also, I'd love to hear more about the design \u2014 has it received any feedback from customers regarding comfort and usability? Looking forward to your insights!\"\n\n---\n\nBy asking about the insulation effectiveness and comfort-related feedback, Buyer aims to explore areas that could support their position in the upcoming negotiation while remaining engaged and interested."
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller is excited to respond to the buyer\u2019s inquiries and aims to engage them further. \n\n---\n\n\u201cHello again! I'm so pleased to hear your enthusiasm about the mug! The double-walled insulation really is a standout feature\u2014it effectively keeps drinks warm for hours longer than standard mugs. I've had numerous customers share how impressed they are with its heat retention, especially on chilly mornings. \n\nAs for the design, it's not just about aesthetics; it\u2019s also crafted for comfort! The ergonomic handle allows for a natural grip, making it a joy to use whether you're at home, work, or on the go. Many customers have complimented its usability, saying it feels great in hand and fits perfectly in car cup holders. \n\nI'm confident you'll love the experience it offers. If you have any other questions or want to dive deeper into its features, just let me know. I\u2019m here to help and excited to find a price that works for both of us!\u201d \n\n--- \n\nBy providing this detailed and inviting response, Seller aims to enhance the value perception of the mug while setting a positive tone for the impending negotiations."
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer feels it is essential to convey genuine interest in the coffee mug while also being tactful about their own budget constraints. With that in mind, they craft a thoughtful response:\n\n\"Hello! Thank you for sharing more about the mug. I really appreciate all the details you've provided, especially the features like the double-walled insulation and the ergonomic handle. Those sound like they would really enhance the experience of enjoying my favorite beverages. \n\nI can see why you\u2019re excited about this mug! Before we move on to discussing prices, could you tell me if there are any special designs or colors available? I'm curious to see what options might be out there. Looking forward to hearing from you!\" \n\nThis message allows Buyer to maintain a positive tone while gathering additional information that could influence their negotiation strategy in the next round."
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 10.5
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 10.0
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 0,
+    "seed": 42
+  }
+]

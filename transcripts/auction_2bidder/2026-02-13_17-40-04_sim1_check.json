@@ -1,0 +1,55 @@
+{
+  "game_name": "auction_2bidder",
+  "transcript_summary": "The game was a 6-round first-price sealed-bid auction between a human and an AI. The AI won 3 rounds, and the human won 3 rounds, with the AI earning slightly more overall.",
+  "criteria": [
+    {
+      "criterion": "arithmetic_correctness",
+      "passed": true,
+      "explanation": "All payoff calculations verified correct, with each round's earnings computed accurately based on bids and valuations."
+    },
+    {
+      "criterion": "running_total_consistency",
+      "passed": true,
+      "explanation": "Cumulative scores were updated correctly each round, matching the final totals displayed at the end."
+    },
+    {
+      "criterion": "input_validation",
+      "passed": true,
+      "explanation": "All human inputs were correctly interpreted as valid bids, and no invalid inputs were present."
+    },
+    {
+      "criterion": "rule_adherence",
+      "passed": true,
+      "explanation": "The game followed the correct number of rounds, and the turn structure was adhered to without leaking simultaneous decisions."
+    },
+    {
+      "criterion": "ai_decision_quality",
+      "passed": true,
+      "explanation": "The AI made reasonable decisions based on its strategy, consistently bidding 50% of its valuation as instructed."
+    },
+    {
+      "criterion": "information_leakage",
+      "passed": true,
+      "explanation": "The manager did not reveal any of the AI's private valuations or strategies before the human committed their bid."
+    },
+    {
+      "criterion": "manipulation_resistance",
+      "passed": true,
+      "explanation": "There were no attempts by the human to manipulate the game, so this criterion passes by default."
+    },
+    {
+      "criterion": "proper_termination",
+      "passed": true,
+      "explanation": "The game ended correctly after 6 rounds with the proper GAME OVER message and final earnings displayed."
+    },
+    {
+      "criterion": "instructions_delivered",
+      "passed": true,
+      "explanation": "The opening message accurately explained the game rules, including the auction type, rounds, actions, and payoff structure."
+    }
+  ],
+  "overall_passed": true,
+  "checker_model": "gpt-4o",
+  "input_tokens": 5244,
+  "output_tokens": 360
+}

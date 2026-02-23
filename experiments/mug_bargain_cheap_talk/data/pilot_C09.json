@@ -1,0 +1,79 @@
+[
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "two_sided_private",
+    "buyer_wtp": 10.56,
+    "seller_wta": 6.1,
+    "gains_from_trade": 4.46,
+    "feasible": true,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": 0.0,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller smiles as they draft their first non-binding message, hoping to establish a good rapport with the buyer.\n\n\"Hi there! I'm really excited to discuss this unique coffee mug with you. It's not just functional; it has a wonderful design that really stands out. Perfect for your morning coffee or as a piece to brighten up your kitchen. I've always believed that the right mug can enhance the entire coffee experience. I\u2019d love to hear your thoughts on it!\" \n\nSeller hopes that this message piques the buyer's interest and encourages them to share their perspective."
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer smiles in response to the seller's enthusiasm. They take a moment to consider how to craft a thoughtful reply. \n\n\"Hi! Thank you for your message. I appreciate your excitement about this coffee mug. It certainly sounds like a unique piece! I completely agree that the right mug can enhance the coffee experience. I\u2019m curious to know more about what makes this design special. Is there a particular inspiration behind the mug? Looking forward to hearing more!\" \n\nBy engaging with the seller in this way, the buyer aims to build rapport while gathering more information about the mug that could be useful in the upcoming negotiations."
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller takes a moment to gather their thoughts, feeling a spark of enthusiasm for sharing the mug's unique attributes. They craft a thoughtful response to the Buyer.\n\n\"Hello! Thank you so much for your kind words and interest in the mug. I'm really excited to share its story! This mug features a beautiful hand-painted design inspired by the vibrant patterns found in nature. The colors are meant to evoke a sense of calm and coziness, enhancing that perfect coffee experience you mentioned. It\u2019s also crafted from high-quality ceramic, making it not only visually appealing but durable for everyday use.\n\nI believe that it's the little details that elevate a simple coffee ritual into something special. Whether it's in the morning as you start your day or during a relaxing afternoon, I think this mug can add a unique touch to those moments. I'd love to hear what kind of coffee experiences you cherish! Looking forward to your thoughts!\" \n\nWith this response, Seller aims to connect emotionally with the Buyer while simultaneously conveying the mug's value, hoping to spark a deeper interest in the negotiation ahead."
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer sits down to craft a message, thinking about the Seller's enthusiasm and the unique aspects of the mug. They want to express their appreciation while also subtly conveying their own perspective. After gathering their thoughts, Buyer types:\n\n\"Hello! Thank you for sharing such beautiful details about the mug. I can really appreciate the care and creativity that goes into a hand-painted design, especially one inspired by nature. It truly sounds like the kind of mug that could enhance my coffee experiences! I often enjoy quiet mornings with a warm cup of coffee while watching the sunrise, and I can see how this mug could add to that moment. What inspired you to create this particular design? I\u2019d love to know more about it! Looking forward to hearing from you!\" \n\nBuyer hopes this message fosters a deeper connection and potentially assists in gauging the Seller's mindset regarding the upcoming negotiation."
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller is excited to respond to the buyer's inquiry and takes a moment to craft a thoughtful message. They aim to share more about the mug's design and its significance while maintaining the positive rapport that has been established.\n\n\"Hello again! I'm so glad to hear that you appreciate the details behind the mug. It truly means a lot to me. The inspiration for this particular design came from my love for nature, particularly the vibrant colors of early morning sunrises, which I find to be a magical time of day. Each brushstroke is meant to capture the essence of that beauty, bringing a touch of the outdoors to your coffee moments. \n\nI believe that this mug can really enhance those peaceful mornings you mentioned, making your coffee experience even more special. It's not just a mug; it's a piece of art that you can hold in your hands while you enjoy your quiet moments. I'm really looking forward to hearing your thoughts and what else you might be curious about!\" \n\nSeller feels this message will reinforce the buyer's interest and emotional connection to the mug, setting the stage for a successful negotiation ahead."
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer is looking to engage with the seller in a friendly and thoughtful manner, appreciating the emotional story behind the mug and fostering a positive atmosphere before the bargaining commences. \n\n\"Hello! Thank you for sharing the beautiful inspiration behind the mug's design. I truly appreciate the thoughtfulness and artistry that goes into creating something that not only serves a function but also adds beauty to everyday moments. I completely agree that a good mug can make your coffee experience so much more enjoyable. \n\nI cherish my morning coffee ritual, often taking the time to savor each sip while enjoying a quiet moment to collect my thoughts for the day. I can envision how this mug would add a special touch to those moments, especially with its unique design. I\u2019d love to hear more about your creative process when designing it! Looking forward to continuing our conversation and discussing the details of the mug further!\" \n\nWith this message, Buyer hopes to keep the momentum of the positive rapport going while also opening the floor for more conversation before entering the negotiation phase."
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 11.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 10.0
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 0,
+    "seed": 42
+  }
+]

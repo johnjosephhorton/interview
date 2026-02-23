@@ -1,0 +1,158 @@
+research_question: >
+  How does pre-play cheap talk affect bilateral bargaining efficiency
+  over a mug, and how does the effect depend on (a) the degree of
+  preference misalignment between buyer and seller and (b) the
+  information structure?
+
+theory_grounding:
+  - paper: Crawford & Sobel (1982) "Strategic Information Transmission"
+    key_result: >
+      Equilibrium signaling takes partition form. More similar preferences
+      (smaller bias b) → finer partitions → more information transmitted.
+      Perfect communication impossible when interests diverge.
+    parameter_mapped: value_gap → bias parameter b
+
+  - paper: Farrell & Gibbons (1989) "Cheap Talk with Two Audiences"
+    key_result: >
+      Public cheap talk to multiple audiences can enable "mutual discipline"
+      (separation that fails in private) or cause "subversion" (destroying
+      communication that works one-on-one). Credibility depends on alignment
+      of sender's incentives across audiences.
+    parameter_mapped: info_asymmetry → whether one party's value is revealed
+
+outcome_variables:
+  - name: deal_rate
+    description: Whether a transaction occurs (buyer and seller agree on price)
+    type: binary
+    direction: higher = more efficient market
+    unit: proportion
+
+  - name: surplus_captured
+    description: >
+      Fraction of available gains from trade realized:
+      (agreed_price - seller_WTA) + (buyer_WTP - agreed_price) divided by
+      (buyer_WTP - seller_WTA). Defined only when WTP > WTA.
+    type: continuous
+    direction: higher = more efficient
+    unit: proportion [0, 1]
+
+  - name: final_price
+    description: Agreed transaction price (if deal occurs)
+    type: continuous
+    direction: neutral (distributional)
+    unit: dollars
+
+  - name: price_split_ratio
+    description: >
+      (final_price - seller_WTA) / (buyer_WTP - seller_WTA).
+      Measures how surplus is divided: 0.5 = equal split.
+    type: continuous
+    direction: 0.5 = symmetric
+    unit: proportion [0, 1]
+
+  - name: rounds_to_agreement
+    description: Number of bargaining rounds before deal or breakdown
+    type: count
+    direction: lower = faster resolution
+    unit: rounds
+
+  - name: cheap_talk_informativeness
+    description: >
+      Correlation between communicated value signals and true private values.
+      Operationalizes Crawford-Sobel partition fineness.
+    type: continuous
+    direction: higher = more truthful communication
+    unit: correlation [-1, 1]
+
+dimensions:
+  - name: communication
+    role: core
+    levels:
+      - id: none
+        label: No communication
+        description: >
+          Buyer and seller alternate price offers with no pre-play messaging.
+          Pure bargaining baseline.
+      - id: cheap_talk
+        label: Cheap talk (1 round)
+        description: >
+          Before bargaining begins, each party sends one free-form message
+          to the other. Messages are costless and non-binding (cheap talk
+          per Crawford-Sobel). Then bargaining proceeds normally.
+      - id: extended_talk
+        label: Extended cheap talk (3 rounds)
+        description: >
+          Three rounds of alternating free-form messages before bargaining.
+          Tests whether more communication rounds enable finer partitioning
+          of private information (Crawford-Sobel Theorem 1).
+    evidence: >
+      Crawford & Sobel (1982) p.2: "equilibrium signaling always takes a
+      strikingly simple form, in which S partitions the support..."
+      More communication opportunities may enable finer partitions.
+
+  - name: value_gap
+    role: core
+    levels:
+      - id: narrow
+        label: Narrow value gap (b small)
+        description: >
+          Buyer WTP drawn from U[8, 12], Seller WTA drawn from U[6, 10].
+          Expected gap = $2. Maps to small Crawford-Sobel bias b.
+          Most trades are feasible; interests are relatively aligned.
+      - id: wide
+        label: Wide value gap (b large)
+        description: >
+          Buyer WTP drawn from U[5, 15], Seller WTA drawn from U[5, 15].
+          Expected gap = $0 (half the time WTA > WTP, trade is infeasible).
+          Maps to large Crawford-Sobel bias b; interests frequently misaligned.
+    evidence: >
+      Crawford & Sobel (1982) p.12: "the closer b approaches zero—the more
+      nearly agents' interests coincide—the finer partition equilibria there
+      can be." As b → ∞, only uninformative equilibrium remains.
+
+  - name: info_asymmetry
+    role: core
+    levels:
+      - id: two_sided_private
+        label: Two-sided private information
+        description: >
+          Neither party knows the other's valuation. Both buyer WTP and
+          seller WTA are private. Standard bilateral bargaining under
+          incomplete information.
+      - id: one_sided_buyer_known
+        label: Buyer WTP known to both
+        description: >
+          Seller's WTA is private but buyer's WTP is common knowledge.
+          Reduces to one-sided private info (Crawford-Sobel sender = seller).
+          Tests whether cheap talk helps when only one side has private info.
+    evidence: >
+      Crawford & Sobel (1982) p.2: model assumes one-sided private info
+      (S knows m, R does not). Farrell & Gibbons (1989) p.2: incentives
+      for truthful revelation depend on alignment of receiver's actions.
+
+  - name: endowment
+    role: held-constant
+    value: seller_owns_mug
+    rationale: >
+      Seller always starts with the mug. Endowment effect direction is
+      held constant; testing communication, not endowment effects.
+
+  - name: bargaining_protocol
+    role: held-constant
+    value: alternating_offers_3_rounds
+    rationale: >
+      Three rounds of alternating offers (seller proposes, buyer counter-offers,
+      seller final offer). Standard protocol; communication varies orthogonally.
+
+sampling_strategy: dense
+rationale: >
+  3 × 2 × 2 = 12 conditions. Small enough for exhaustive factorial.
+  Each condition run N=30 simulations for adequate power on deal_rate.
+  Total: 360 simulated bargaining sessions.
+
+holdout:
+  description: >
+    Reserve 2 conditions (extended_talk × wide × one_sided_buyer_known and
+    extended_talk × narrow × one_sided_buyer_known) as out-of-sample
+    validation. Fit models on remaining 10 conditions.
+  conditions: [ext_wide_onesided, ext_narrow_onesided]

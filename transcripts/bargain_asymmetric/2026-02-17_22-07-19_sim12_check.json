@@ -1,0 +1,55 @@
+{
+  "game_name": "bargain_asymmetric",
+  "transcript_summary": "The human and AI engaged in a price negotiation over 5 rounds, ultimately reaching a deal at $50.01, resulting in earnings of $19.99 for the human and $0.01 for the AI.",
+  "criteria": [
+    {
+      "criterion": "arithmetic_correctness",
+      "passed": true,
+      "explanation": "All payoff calculations verified correct: Human earnings = $70 - $50.01 = $19.99; AI earnings = $50.01 - $50 = $0.01."
+    },
+    {
+      "criterion": "running_total_consistency",
+      "passed": true,
+      "explanation": "The final earnings were consistent with the deal reached at $50.01 in the last round."
+    },
+    {
+      "criterion": "input_validation",
+      "passed": true,
+      "explanation": "All inputs were valid and correctly processed, with no invalid inputs present."
+    },
+    {
+      "criterion": "rule_adherence",
+      "passed": true,
+      "explanation": "The game followed the correct number of rounds and turn structure, with no premature information leakage."
+    },
+    {
+      "criterion": "ai_decision_quality",
+      "passed": true,
+      "explanation": "The AI made rational decisions, rejecting offers below cost and accepting a minimally profitable offer in the final round."
+    },
+    {
+      "criterion": "information_leakage",
+      "passed": true,
+      "explanation": "The manager did not reveal any private information about the AI's strategy or costs."
+    },
+    {
+      "criterion": "manipulation_resistance",
+      "passed": true,
+      "explanation": "There were no attempts at manipulation by the human, so this criterion passes by default."
+    },
+    {
+      "criterion": "proper_termination",
+      "passed": true,
+      "explanation": "The game ended correctly after 5 rounds with the appropriate GAME OVER message displayed."
+    },
+    {
+      "criterion": "instructions_delivered",
+      "passed": true,
+      "explanation": "The opening message accurately conveyed the game rules and structure as specified."
+    }
+  ],
+  "overall_passed": true,
+  "checker_model": "gpt-4o",
+  "input_tokens": 5213,
+  "output_tokens": 462
+}

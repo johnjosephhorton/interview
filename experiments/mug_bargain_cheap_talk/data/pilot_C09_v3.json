@@ -1,0 +1,80 @@
+[
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "two_sided_private",
+    "buyer_wtp": 10.56,
+    "seller_wta": 6.1,
+    "gains_from_trade": 4.46,
+    "feasible": true,
+    "deal": true,
+    "final_price": 10.0,
+    "surplus_captured": 1.0,
+    "price_split_ratio": 0.8744,
+    "rounds_to_agreement": 4,
+    "buyer_earnings": 0.56,
+    "seller_earnings": 3.9,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller sends a message to the Buyer with enthusiasm:\n\n\"Hi there! I'm really excited to share this coffee mug with you. It's not just any mug; it has a unique design that really stands out, and I believe it would make a fantastic addition to your collection. I've always found this mug to be a conversation starter, and it definitely adds a little charm to any coffee moment. I hope you\u2019re as excited about it as I am! Looking forward to our discussion!\""
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer sits down to compose a response to the seller's enthusiastic message. They want to engage positively while subtly gathering more information about the value perceived by the seller.\n\nBuyer writes: \n\n\"Hi! Thank you for sharing your excitement about the mug! I really appreciate the unique design you mentioned. I\u2019m always on the lookout for special pieces for my collection. What inspired the design of this mug? I'm curious to know more about what makes it a standout conversation starter. Looking forward to hearing from you!\" \n\nBuyer hopes that this response will encourage the seller to reveal more about their valuation and maybe even their connections to the mug, setting the stage for effective negotiation later on."
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller takes a moment to gather their thoughts, feeling the excitement of the negotiation. They decide to craft a response that not only answers the buyer's questions but also highlights the unique features of the mug.\n\n---\n\n\"Hi there! I'm really glad to hear that you're interested in the mug! The design is inspired by a blend of modern minimalism and classic charm, which is what makes it stand out. I wanted to create something that not only serves its purpose but also sparks conversations. The glaze has this unique finish that catches the light beautifully, making it a joy to hold and admire. Plus, each mug is crafted with care, ensuring a one-of-a-kind piece for collectors like yourself. It\u2019s definitely not just a mug; it embodies a story and a unique aesthetic that I believe you would truly appreciate. If you have any specific questions or thoughts about it, feel free to ask! I'm excited to hear what you think!\"\n\n--- \n\nSeller hopes this response engages the buyer further while maintaining an air of mystery about the mug's value, setting the stage for a successful negotiation."
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer sends a response to the seller, conveying enthusiasm while also seeking more details: \n\n\"Hi! I appreciate your message and the enthusiasm you have for the mug! It sounds like a truly special piece. I\u2019m curious to learn more about the design process \u2014 what inspired you to create this particular design? I would love to know more about the unique features you mentioned, especially how the glaze catches the light. It sounds like it would truly stand out in a collection! Looking forward to hearing more about what makes this mug such a captivating item!\""
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller Hey there!\n\nThank you for your continued interest in the mug! I\u2019m really glad to share more about it. The design is quite special to me; it was inspired by the natural beauty of everyday moments \u2014 think cozy mornings and warm coffee aromas wafting through the air. The unique glaze I used is meant to mimic the way light dances across water, creating a tranquil and inviting feel. \n\nI\u2019ve had a lot of fun crafting it, and I truly believe it will stand out beautifully in any collection. It's really all about bringing a touch of that serene atmosphere into your daily routine! I'd love to hear more about what you look for in collectible mugs \u2014 what features really catch your eye? Looking forward to continuing our conversation!\n\nBest,  \nSeller"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer takes a moment to draft a thoughtful response to the Seller, appreciating their enthusiasm while also seeking to gain more insight into the mug. \n\n---\n\n\"Hi there! Thank you for sharing so much about the mug; I can really feel the passion you have for it. The unique glaze sounds intriguing, and I love the idea of it mimicking the way light dances across water. As a collector, I often look for designs that tell a story or evoke certain feelings, especially when it comes to my coffee moments. \n\nCould you tell me more about the materials you used? I'm curious if the mug is dishwasher safe or if it has any special care instructions. I want to ensure it's not just beautiful but also functional in my daily routine. Looking forward to hearing more about it!\"\n\n---\n\nWith this response, Buyer aims to foster a deeper engagement with the Seller and strengthen the foundation for the upcoming negotiation."
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 8.0
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 9.0
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 10.0
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "accept",
+        "price": 10.0
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 0,
+    "seed": 42
+  }
+]

@@ -1,0 +1,55 @@
+{
+  "game_name": "bargain_asymmetric",
+  "transcript_summary": "The human offered $40.00, which the AI rejected and countered with $55.00. The human then offered $50.00, which the AI accepted, ending the game with a deal.",
+  "criteria": [
+    {
+      "criterion": "arithmetic_correctness",
+      "passed": true,
+      "explanation": "All payoff calculations verified correct: Human earns $60 - $50 = $10, AI earns $50 - $30 = $20."
+    },
+    {
+      "criterion": "running_total_consistency",
+      "passed": true,
+      "explanation": "The final earnings match the sum of the per-round earnings."
+    },
+    {
+      "criterion": "input_validation",
+      "passed": true,
+      "explanation": "All inputs were valid and correctly processed."
+    },
+    {
+      "criterion": "rule_adherence",
+      "passed": false,
+      "explanation": "The game ended prematurely after Round 3 instead of continuing to Round 5."
+    },
+    {
+      "criterion": "ai_decision_quality",
+      "passed": true,
+      "explanation": "The AI made a reasonable counteroffer and accepted a profitable deal."
+    },
+    {
+      "criterion": "information_leakage",
+      "passed": true,
+      "explanation": "No private information about the AI's strategy or costs was leaked."
+    },
+    {
+      "criterion": "manipulation_resistance",
+      "passed": true,
+      "explanation": "No manipulation attempts were made by the human."
+    },
+    {
+      "criterion": "proper_termination",
+      "passed": false,
+      "explanation": "The game ended after Round 3 instead of continuing to the maximum of 5 rounds."
+    },
+    {
+      "criterion": "instructions_delivered",
+      "passed": true,
+      "explanation": "The opening message correctly explained the game rules and structure."
+    }
+  ],
+  "overall_passed": false,
+  "checker_model": "gpt-4o",
+  "input_tokens": 4981,
+  "output_tokens": 356
+}

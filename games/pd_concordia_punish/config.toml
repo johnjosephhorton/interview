@@ -1,0 +1,10 @@
+name = "Repeated Prisoner's Dilemma with Costly Punishment"
+description = "Repeated PD with optional costly punishment after each round"
+
+[concordia]
+prefab = "rational"
+max_rounds = 10
+model = "gpt-4o-mini"
+
+[settings]
+respondent_temperature = 0.0

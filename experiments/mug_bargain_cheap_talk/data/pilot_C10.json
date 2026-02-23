@@ -1,0 +1,79 @@
+[
+  {
+    "communication": "extended_talk",
+    "value_gap": "narrow",
+    "info_asymmetry": "one_sided_buyer_known",
+    "buyer_wtp": 10.56,
+    "seller_wta": 6.1,
+    "gains_from_trade": 4.46,
+    "feasible": true,
+    "deal": false,
+    "final_price": null,
+    "surplus_captured": 0.0,
+    "price_split_ratio": null,
+    "rounds_to_agreement": null,
+    "buyer_earnings": 0.0,
+    "seller_earnings": 0.0,
+    "comm_messages": [
+      {
+        "speaker": "Seller",
+        "round": 1,
+        "message": "Seller Hello! I'm excited to share with you this wonderful coffee mug I've got. It's not just any ordinary mug; it\u2019s designed with an artistic flair that really stands out. The quality is excellent, and it feels great in your hand\u2014perfect for enjoying your favorite hot beverages. Whether you're at home or at the office, it adds a touch of style to your coffee routine. I'm sure you'll love it as much as I do! What kind of features do you usually look for in a coffee mug?"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 1,
+        "message": "Buyer is eager to engage with the seller and responds thoughtfully to their enthusiastic pitch. \n\n\"Hi there! Thank you for sharing your excitement about the coffee mug. I really appreciate that it has an artistic flair and excellent quality\u2014those are definitely important features for me. I tend to look for mugs that are not only stylish but also comfortable to hold and good for keeping beverages warm. Could you tell me a bit more about the design and how it feels in hand? I'm curious to know what makes this mug stand out from others!\" \n\nThis message allows Buyer to communicate interest while also gathering valuable information that could aid in negotiation later on."
+      },
+      {
+        "speaker": "Seller",
+        "round": 2,
+        "message": "Seller is excited to respond to the buyer. \n\n\"Hi there! Thank you for your enthusiasm about the coffee mug! I\u2019m thrilled to share that this mug is not just your average drinking vessel. The design showcases a beautiful artistic flair that makes it a true statement piece in any kitchen or office setting. It\u2019s crafted from high-quality materials that not only give it a luxurious feel but also ensure it\u2019s comfortable to hold\u2014even for extended periods.\n\nIn addition to its striking aesthetics, the mug has an insulated interior, designed specifically to keep your beverages warm for longer. You\u2019ll find that sips of your favorite coffee or tea will stay pleasantly hot, just the way you like! \n\nWhat really makes this mug stand out, in my opinion, is the way it balances style with functionality. It\u2019s perfect for those who value both beauty and practicality in their drinkware. I\u2019m confident that it will not only meet your needs but also bring a touch of elegance to your daily routine. Is there a particular color or style that you usually prefer in mugs? I\u2019d love to hear more about what catches your eye!\" \n\nSeller hopes this thoughtful engagement will keep the conversation flowing and help the buyer feel more connected to the product."
+      },
+      {
+        "speaker": "Buyer",
+        "round": 2,
+        "message": "Buyer is considering how to engage the seller further, drawing on their earlier messages about the coffee mug. They decide to express interest in the seller's description while also hinting at their own preferences, hoping to establish a friendly rapport and gather more information that could aid in negotiations.\n\nBuyer types out a response: \n\n\"Hello! Thank you for the detailed description of the mug. I really appreciate the emphasis on style and functionality\u2014it definitely sounds like a great addition to my mug collection! I tend to prefer mugs with vibrant colors or unique designs that express personality. Also, the insulated feature you mentioned caught my attention; it's a must-have for enjoying hot beverages. Could you tell me if there are different colors available or if the design allows for customization? That would be fantastic! Looking forward to hearing more!\" \n\nWith this reply, Buyer hopes to keep the conversation flowing and elicit more details about the product, which could aid in future negotiations."
+      },
+      {
+        "speaker": "Seller",
+        "round": 3,
+        "message": "Seller is excited to continue the conversation with the Buyer and aims to foster their interest in the coffee mug. \n\n\u201cHello again! I\u2019m thrilled to hear about your appreciation for style and functionality\u2014a mug should definitely reflect personality while also providing a great user experience! This particular mug boasts an exquisite design that combines artistic flair with practical features. It\u2019s ergonomically shaped, making it comfortable to hold, and its insulated nature keeps your beverages warm for longer, which is perfect for those cozy moments.\n\nAs for colors, we offer a vibrant array that can really pop in any setting! There are even customization options available, allowing you to add a personal touch if desired. Imagine sipping your morning coffee from a mug that truly expresses your unique style!\n\nI\u2019m here to make sure you get the perfect addition to your collection. Let me know if there's anything else you're curious about, or if you have specific ideas in mind for customization. I\u2019m looking forward to hearing your thoughts!\u201d"
+      },
+      {
+        "speaker": "Buyer",
+        "round": 3,
+        "message": "Buyer appreciates the excitement and detail the seller has shared about the coffee mug. They decide to craft a response that shows genuine interest while gathering more information. \n\n\"Hello! Thank you for sharing such wonderful details about the mug. I\u2019m really intrigued by its artistic design and the insulated interior features you mentioned. The combination of style and functionality is definitely important to me! I often prefer mugs that are not just beautiful but also practical for daily use. \n\nI\u2019m curious about the different colors and customization options you provide. Do you have any specific recommendations based on what you think would suit someone who enjoys both a vibrant look and a cozy feel? I\u2019m looking forward to hearing more! Thanks again for your help!\""
+      }
+    ],
+    "comm_value_signals": [],
+    "bargain_history": [
+      {
+        "round": 1,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.25
+      },
+      {
+        "round": 2,
+        "player": "Buyer",
+        "action": "offer",
+        "price": 9.75
+      },
+      {
+        "round": 3,
+        "player": "Seller",
+        "action": "offer",
+        "price": 9.5
+      },
+      {
+        "round": 4,
+        "player": "Buyer",
+        "action": "reject"
+      }
+    ],
+    "bargain_rounds_played": 4,
+    "sim_id": 0,
+    "seed": 42
+  }
+]

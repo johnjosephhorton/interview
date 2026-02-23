@@ -1,0 +1,55 @@
+{
+  "game_name": "vickrey_3bidder",
+  "transcript_summary": "The game was a 6-round Vickrey auction with the human and AI bidding against a third bidder. The AI and human both ended with $4.00 in earnings.",
+  "criteria": [
+    {
+      "criterion": "arithmetic_correctness",
+      "passed": true,
+      "explanation": "All payoff calculations verified correct according to the rules of the Vickrey auction."
+    },
+    {
+      "criterion": "running_total_consistency",
+      "passed": true,
+      "explanation": "The cumulative scores were updated correctly after each round, matching the final totals."
+    },
+    {
+      "criterion": "input_validation",
+      "passed": true,
+      "explanation": "All human inputs were valid and correctly interpreted as bids within the specified range."
+    },
+    {
+      "criterion": "rule_adherence",
+      "passed": false,
+      "explanation": "In Round 4, the manager incorrectly stated the second-highest bid as $9.00, which should have been $4.00, leading to incorrect earnings for the human."
+    },
+    {
+      "criterion": "ai_decision_quality",
+      "passed": true,
+      "explanation": "The AI consistently bid its valuation, which is the dominant strategy in a Vickrey auction."
+    },
+    {
+      "criterion": "information_leakage",
+      "passed": true,
+      "explanation": "The manager did not reveal any private information about the AI's or third bidder's valuations or bids before the human committed."
+    },
+    {
+      "criterion": "manipulation_resistance",
+      "passed": true,
+      "explanation": "There was no attempt by the human to manipulate the game, so this criterion passes by default."
+    },
+    {
+      "criterion": "proper_termination",
+      "passed": true,
+      "explanation": "The game ended after 6 rounds with the correct final earnings displayed in the GAME OVER box."
+    },
+    {
+      "criterion": "instructions_delivered",
+      "passed": true,
+      "explanation": "The opening message correctly explained the game rules, including the auction type, number of rounds, and payoff structure."
+    }
+  ],
+  "overall_passed": false,
+  "checker_model": "gpt-4o",
+  "input_tokens": 6003,
+  "output_tokens": 468
+}

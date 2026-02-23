@@ -1,0 +1,55 @@
+{
+  "game_name": "bargain_asymmetric",
+  "transcript_summary": "The human offered $60.00, the AI countered with $65.00, and the human accepted, concluding the game in Round 2.",
+  "criteria": [
+    {
+      "criterion": "arithmetic_correctness",
+      "passed": true,
+      "explanation": "All payoff calculations verified correct: Human earns $70 - $65 = $5, AI earns $65 - $20 = $45."
+    },
+    {
+      "criterion": "running_total_consistency",
+      "passed": true,
+      "explanation": "The earnings were correctly calculated and displayed at the end of the game."
+    },
+    {
+      "criterion": "input_validation",
+      "passed": true,
+      "explanation": "The human's input was correctly interpreted as an acceptance of the AI's offer."
+    },
+    {
+      "criterion": "rule_adherence",
+      "passed": true,
+      "explanation": "The game followed the correct turn structure and ended after a deal was reached in Round 2."
+    },
+    {
+      "criterion": "ai_decision_quality",
+      "passed": true,
+      "explanation": "The AI made a reasonable counteroffer of $65.00, which was within the ZOPA and maximized its earnings."
+    },
+    {
+      "criterion": "information_leakage",
+      "passed": true,
+      "explanation": "The manager did not reveal any private information about the AI's strategy or costs."
+    },
+    {
+      "criterion": "manipulation_resistance",
+      "passed": true,
+      "explanation": "There was no attempt by the human to manipulate the game manager."
+    },
+    {
+      "criterion": "proper_termination",
+      "passed": true,
+      "explanation": "The game ended correctly after a deal was reached, and the final earnings were displayed."
+    },
+    {
+      "criterion": "instructions_delivered",
+      "passed": true,
+      "explanation": "The opening message clearly explained the game rules, roles, and structure as specified."
+    }
+  ],
+  "overall_passed": true,
+  "checker_model": "gpt-4o",
+  "input_tokens": 4964,
+  "output_tokens": 441
+}

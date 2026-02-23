@@ -1,0 +1,21 @@
+name = "Bargain (Asymmetric Info)"
+description = "Price negotiation — neither player knows the other's private valuation"
+
+[canned]
+opening_instruction = """Explain the game rules from the Game Rules section clearly so someone with no prior knowledge could understand. Include: what the game is (a price negotiation over an item), that you are the buyer and the AI is the seller, that you value the item at ${{buyer_value}}, that the seller has a private cost you do not know (it is one of $20, $30, $40, or $50 with equal probability), that the seller does NOT know your exact valuation (they only know it is one of $60, $70, $80, or $90), the alternating offer structure (you offer on odd rounds 1/3/5, AI offers on even rounds 2/4), the maximum of 5 rounds, valid price range ($0.00–$100.00), that you can accept or counteroffer each round, what happens if no deal is reached (both earn $0), and how earnings are computed (deal: you earn your valuation minus agreed price; seller earns agreed price minus their cost).
+Do NOT reveal the seller's exact cost. Then immediately prompt: "Round 1 of 5: Please make your opening offer (any price from $0.00 to $100.00)."
+
+Do NOT ask if the human is ready. Do NOT add any preamble before the game. Your first message IS the game start."""
+last_question = "This is the final round. Make your last decision."
+end_of_session = "The bargaining session has ended. Thank you for participating."
+
+[settings]
+max_tokens = 4096
+opening_max_tokens = 8192
+respondent_temperature = 1
+
+[variables]
+buyer_value = { type = "choice", values = [60, 70, 80, 90] }
+seller_cost = { type = "choice", values = [20, 30, 40, 50] }
+zopa = { type = "derived", formula = "buyer_value - seller_cost" }
+fair_price = { type = "derived", formula = "seller_cost + (buyer_value - seller_cost) / 2", round_to = 0.5 }

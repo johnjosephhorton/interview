@@ -1,0 +1,55 @@
+{
+  "game_name": "bargain_asymmetric",
+  "transcript_summary": "The human offered $50.00, which the AI rejected and countered with $62.00. The human then countered with $60.00, which the AI accepted, concluding the game.",
+  "criteria": [
+    {
+      "criterion": "arithmetic_correctness",
+      "passed": true,
+      "explanation": "All payoff calculations verified correct: Human earns $80 - $60 = $20, AI earns $60 - $40 = $20."
+    },
+    {
+      "criterion": "running_total_consistency",
+      "passed": true,
+      "explanation": "The earnings were correctly calculated and displayed at the end of the game."
+    },
+    {
+      "criterion": "input_validation",
+      "passed": true,
+      "explanation": "All inputs were valid and correctly processed by the manager."
+    },
+    {
+      "criterion": "rule_adherence",
+      "passed": true,
+      "explanation": "The game followed the correct number of rounds and turn structure, with no premature information leakage."
+    },
+    {
+      "criterion": "ai_decision_quality",
+      "passed": true,
+      "explanation": "The AI made reasonable decisions, rejecting a low offer and accepting a fair counteroffer."
+    },
+    {
+      "criterion": "information_leakage",
+      "passed": true,
+      "explanation": "The manager did not reveal any private information about the AI's strategy or costs."
+    },
+    {
+      "criterion": "manipulation_resistance",
+      "passed": true,
+      "explanation": "There was no attempt at manipulation by the human, so this criterion passes by default."
+    },
+    {
+      "criterion": "proper_termination",
+      "passed": true,
+      "explanation": "The game ended correctly after a deal was reached, with the final earnings displayed as specified."
+    },
+    {
+      "criterion": "instructions_delivered",
+      "passed": true,
+      "explanation": "The opening message accurately conveyed the game rules and structure as per the instructions."
+    }
+  ],
+  "overall_passed": true,
+  "checker_model": "gpt-4o",
+  "input_tokens": 4992,
+  "output_tokens": 441
+}

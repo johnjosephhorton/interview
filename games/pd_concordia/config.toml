@@ -1,0 +1,10 @@
+name = "Repeated Prisoner's Dilemma"
+description = "Simultaneous cooperate/defect game with repeated rounds"
+
+[concordia]
+prefab = "rational"
+max_rounds = 10
+model = "gpt-4o-mini"
+
+[settings]
+respondent_temperature = 0.0
